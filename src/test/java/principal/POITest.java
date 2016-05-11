@@ -1,64 +1,114 @@
 package test.java.principal;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
-import main.java.poi.POI;
-import main.java.principal.*;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.uqbar.geodds.Point;
+import org.uqbar.geodds.Polygon;
+
+import main.java.poi.CGP;
+import main.java.poi.Comuna;
+import main.java.poi.LocalComercial;
+import main.java.poi.ParadaColectivo;
+import main.java.poi.Rubro;
+import main.java.poi.SucursalBanco;
+
+import org.junit.Assert;
 
 public class POITest {
-
-	private Coordenada coordenada_1, coordenada_2;
-	private POI poi_1, poi_2;
-	private Collection <POI> listaPOIs;
+	
+	private Comuna comuna8;
+	private ParadaColectivo paradaDel47;
+	private CGP cgp;
+	private SucursalBanco banco;
+	private LocalComercial libreriaEscolar;
+	private LocalComercial kioskoDeDiarios;
+	private Polygon	zonaComuna8;
+	private Point ubicacionCercana;
+	private Point ubicacionLejana;
 	
 	@Before
-	public void setUp() {
+	public void init(){
+		// Comuna 8
+		comuna8 = new Comuna();
+		zonaComuna8 = new Polygon();
+		zonaComuna8.add(new Point(-34.6744,-58.5025));
+		zonaComuna8.add(new Point(-34.6578,-58.4787));
+		zonaComuna8.add(new Point(-34.6648,-58.4697));
+		zonaComuna8.add(new Point(-34.6621,-58.4240));
+		zonaComuna8.add(new Point(-34.7048,-58.4612));
+		comuna8.setZona(zonaComuna8);
+		// UbicacionCercana en el Mapa - Sayos 4937 
+		ubicacionCercana = new Point(-34.6717, -58.4679);
 		
-		coordenada_1 = new Coordenada();
-		coordenada_1.setLatitud(90,0,0,'N');
-		coordenada_1.setLongitud(90,10,10,'W');
+		// UbicacionLejana en el mapa - Av. Juan B. Justo 4045
+		ubicacionLejana = new Point(-34.6048, -58.4591);
 		
-		coordenada_2 = new Coordenada();
-		coordenada_2.setLatitud(52,0,0,'N');
-		coordenada_2.setLongitud(0,0,0.18,'E');
+		// Parada del 47 -- Corvanalan 3691
+		paradaDel47 = new ParadaColectivo(new Point(-34.6715, -58.4676), comuna8);
 		
-		poi_1 = new POI();
-		poi_1.setNombre("POI 1");
-		poi_1.setCoordenada(coordenada_1);
+		// CGP -- Av Escalada 3100
+		cgp = new CGP(new Point(-34.6672, -58.4669), comuna8);	
 		
-		poi_2 = new POI();
-		poi_2.setCoordenada(coordenada_2);
+		// Banco -- Av Riestra 5002
+		banco = new SucursalBanco(new Point(-34.6719, -58.4695), comuna8);
 		
-		listaPOIs = new ArrayList<>();
-		listaPOIs.add(poi_2);
-	}
-	
-	
-	
-	@Test
-	public void poi_1esValido(){
-		assertTrue(poi_1.esValido());
-	}
-	
-	@Test
-	public void poi_2NOesValidoPorqueNoTieneNombre(){
-		assertFalse(poi_2.esValido());
-	}
-	
-	
-	@Test
-	public void poi_1seEncuentraAMenosDe4300000MetrosDepoi_2(){
-		assertTrue( poi_1.seEncuentraAMenosDe( 4300000, poi_2 ) );
+		// Libreria Escolar -- Av Argentina 4802
+		Rubro rubroLibreriaEscolar = new Rubro(500.0);
+		libreriaEscolar = new LocalComercial(new Point(-34.6720, -58.4678), comuna8, rubroLibreriaEscolar);
+		
+		// Kiosko de Diarios -- Albariño 3702
+		Rubro rubroKioskoDeDiarios = new Rubro(200.0);
+		kioskoDeDiarios = new LocalComercial(new Point(-34.6717, -58.4673), comuna8, rubroKioskoDeDiarios);
 	}
 	
 	@Test
-	public void poi_1seEncuentraAMenosDe4300000MetrosDeOtroPOI(){
-		assertTrue( poi_1.seEncuentraAMenosDeOtroPOI( 4300000, listaPOIs ) );
+	public void testParada47CercanoAMenosDe100Metros(){
+		Assert.assertTrue(paradaDel47.estaCercaDe(ubicacionCercana)); 
 	}
+	
+	@Test
+	public void testParada47Lejano(){
+		Assert.assertFalse(paradaDel47.estaCercaDe(ubicacionLejana)); 
+	}
+
+	@Test
+	public void testCGPDentroDeLaMismaComuna(){
+			Assert.assertTrue(cgp.estaCercaDe(ubicacionCercana)); 
+	}
+	
+	@Test
+	public void testCGPLejano(){
+			Assert.assertFalse(cgp.estaCercaDe(ubicacionLejana)); 
+	}
+
+	@Test 
+	public void testBancoCercanoAMenosDe500Metros(){
+		Assert.assertTrue(banco.estaCercaDe(ubicacionCercana)); 
+	}
+	
+	@Test 
+	public void testBancoLejano(){
+		Assert.assertFalse(banco.estaCercaDe(ubicacionLejana));  
+	}
+	
+	@Test 
+	public void testLibreriaDentroDelRadio(){
+		Assert.assertTrue(libreriaEscolar.estaCercaDe(ubicacionCercana));
+	}
+	
+	@Test
+	public void testLibreriaFueraDelRadio(){
+		Assert.assertFalse(libreriaEscolar.estaCercaDe(ubicacionLejana));
+	}
+	
+	@Test
+	public void testKioskoDeDiariosDentroDelRadio(){
+		Assert.assertTrue(kioskoDeDiarios.estaCercaDe(ubicacionCercana));
+	}
+	
+	@Test
+	public void testKioskoDeDiariosLejano(){
+		Assert.assertFalse(kioskoDeDiarios.estaCercaDe(ubicacionLejana));
+	}
+	
 }

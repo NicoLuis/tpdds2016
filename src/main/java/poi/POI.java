@@ -1,49 +1,103 @@
 package main.java.poi;
 import java.util.Collection;
-
-import main.java.principal.Coordenada;
-import main.java.principal.Direccion;
+import java.util.ArrayList;
+import java.lang.String;
+import org.uqbar.geodds.Point;
 
 public class POI {
-	private String nombre;
-	private Coordenada coordenada;
-	private Direccion direccion;
+	public POI(Point unaUbicacion, Comuna unaComuna) {
+		this.setUbicacion(unaUbicacion);
+		this.setTags(); //Para inicializar el Array
+		this.setComuna(unaComuna);
+	}
+	private Point 					ubicacion;
+	private String 					nombre;
+	private String 					direccion;
+	private Comuna	 				comuna;
+	private ArrayList<String> 		tags; //Array de String que contienen todos los tags de busqueda libre
+	private RangoDeAtencion		 	rangoDeAtencion; 
 	
-	public boolean seEncuentraAMenosDe(double metros, POI poi){ 
-		return this.coordenada.calcularDistancia(poi.getCoordenada().getDecimalLat(), poi.getCoordenada().getDecimalLon()) < metros;
+	
+	public boolean estaAMenosDeXMetrosDeOtroPOI(POI otroPOI,double metros){
+		return this.getUbicacion().distance(otroPOI.getUbicacion())*1000 < metros;	// Para pasarlo a metros
 	}
 	
 	public boolean seEncuentraAMenosDeOtroPOI(double metros, Collection<POI> listaPOIs){ 
-		return listaPOIs.stream().anyMatch(poi -> this.seEncuentraAMenosDe(4300000, poi) );
+		return listaPOIs.stream().anyMatch(poi -> this.estaAMenosDeXMetrosDeOtroPOI(poi, 340000) );
+	}
+	public boolean estaCercaDe(Point unaUbicacion){
+		return this.getUbicacion().distance(unaUbicacion) * 1000 < this.cercaniaRequerida();
+	}
+	public double cercaniaRequerida(){ // Defino la cercania requerida standar
+		return 500.0;
 	}
 	
+	public boolean estaCercaDeUnPOI(POI unPOI){
+		return this.estaAMenosDeXMetrosDeOtroPOI(unPOI, 500); //para pasar a metros
+	}
 	
-	public boolean esValido(){
-		return  getNombre()  != null && 
-				getCoordenada()  != null;
+	public boolean esPOIValido(){
+		return this.estaGeolocalizado() && this.tieneNombre();
+	}
+	
+	public boolean estaGeolocalizado(){
+		return this.getUbicacion() != null;
+	}
+	
+	public boolean tieneNombre(){
+		return this.getNombre() != null;
+	}
+	//getters y setters
+	public RangoDeAtencion getRangoDeAtencion() {
+		return rangoDeAtencion;
 	}
 
-	public Direccion getDireccion() {
+	public void setRangoDeAtencion(RangoDeAtencion rangoDeAtencion) {
+		this.rangoDeAtencion = rangoDeAtencion;
+	}
+	
+	public Comuna getComuna() {
+		return comuna;
+	}
+
+	public void setComuna(Comuna comuna) {
+		this.comuna = comuna;
+	}
+	
+	public Point getUbicacion(){
+		return ubicacion;
+	}
+	
+	public void setUbicacion(Point unaUbicacion){
+		ubicacion = unaUbicacion;
+	}
+	
+	public String getNombre(){
+		return nombre;
+	}
+	
+	public void setNombre(String unNombre){
+		nombre = unNombre;
+	}
+	
+	public String getDireccion() {
 		return direccion;
 	}
 
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
+	public void setDireccion(String unaDireccion) {
+		direccion = unaDireccion;
 	}
-
-	public Coordenada getCoordenada() {
-		return coordenada;
+	
+	public void setTags(){ //Inicializa el ArrayList
+		tags = new ArrayList<String>();
 	}
-
-	public void setCoordenada(Coordenada coordenada) {
-		this.coordenada = coordenada;
+	
+	public void addTag(String tag){//Agrega un tag al ArrayList
+		tags.add(tag);
 	}
-
-	public String getNombre() {
-		return nombre;
+	
+	public void removeTag(String tag){
+		tags.remove(tag);
 	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+	
 }

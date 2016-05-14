@@ -9,7 +9,6 @@ public class CGP extends POI{
 		public CGP(Point ubicacion, Comuna unaComuna) {
 			super(ubicacion, unaComuna);
 				
-		
 		}
 		
 		@Override

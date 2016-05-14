@@ -119,5 +119,4 @@ public class POI {
 		}
 		return null;
 	}
-	
 }

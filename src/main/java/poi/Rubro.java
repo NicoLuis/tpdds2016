@@ -22,8 +22,7 @@ public class Rubro {
 		
 		public void setRadioDeCercania(Double unRadioDeCercania){
 			radioDeCercania = unRadioDeCercania;
-		}
-		
+		}	
 		public void setRubrosALosQuePertence(){
 			rubrosALosQuePertence=  new ArrayList<String>();
 		}

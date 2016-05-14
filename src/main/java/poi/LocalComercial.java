@@ -35,5 +35,4 @@ public class LocalComercial extends POI{
 			return false;
 		}
 	}
-
 }

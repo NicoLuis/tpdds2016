@@ -92,6 +92,9 @@ public class POI {
 	public void setTags(){ //Inicializa el ArrayList
 		tags = new ArrayList<String>();
 	}
+	public ArrayList<String> getTags(){
+		return tags;
+	}
 	
 	public void addTag(String tag){//Agrega un tag al ArrayList
 		tags.add(tag);
@@ -100,5 +103,21 @@ public class POI {
 	public void removeTag(String tag){
 		tags.remove(tag);
 	}
-	
+	public boolean coincideConLaBusqueda(String textoBusqueda){
+		return true;
+	}
+	public boolean isInTagsList(String textoBusqueda){
+		if(this.getTags().contains(textoBusqueda)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	public Point resultadosDeBusquedaLibre(String textoBusqueda){
+		if(this.coincideConLaBusqueda(textoBusqueda)){
+			return this.ubicacion;
+		}
+		return null;
+	}
 }

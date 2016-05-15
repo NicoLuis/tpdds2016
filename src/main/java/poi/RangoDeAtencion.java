@@ -11,8 +11,7 @@ public class RangoDeAtencion {
 		}
 		
 		//ATRIBUTOS
-		
-		
+			
 		double			horarioDeApertura;	//HH.mm
 		double			horarioDeCierre;	//HH.mm
 		int				diaDeIncioDeAtencion;

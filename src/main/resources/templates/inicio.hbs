@@ -1,0 +1,88 @@
+{{# partial "titulo" }}	
+	<title>POIs - Inicio</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+
+<form action="/POIs/calcularDistancia" method="post">
+  <div class="row">
+
+	<div class="panel panel-info">
+	
+		<div class="panel-heading">
+		    <h3 class="panel-title">Origen</h3>
+		 </div>
+		 
+		<div class="panel-body">
+		    <div class="col-xs-12">
+		  		<td>Nombre</td>
+				<input type="text" class="form-control" name="nombre">
+				<td>Direccion</td>
+				<input type="text"  class="form-control" name="direccion">
+			</div>
+			<div class="col-xs-6">
+				<td>Ubicacion X</td>
+				<input type="text"  class="form-control" name="ubicacionX">
+			</div>
+			<div class="col-xs-6">
+				<td>Ubicacion Y</td>
+				<input type="text"  class="form-control" name="ubicacionY">
+			</div>
+			<div class="col-xs-10">
+				<div class="radio">
+					<label><input type="radio" name="parada"> Parada de colectivos  </label>
+					<label><input type="radio" name="cgp"> Centro de Gestión y Participación </label>
+					<label><input type="radio" name="sucursal"> Sucursal de Banco </label>
+					<label><input type="radio" name="local"> Local comercial </label>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+  
+	<div class="panel panel-info">
+		<div class="panel-heading">
+		    <h1 class="panel-title" >Destino </h1>
+		 </div>
+		 
+		 <div class="panel-body">
+		    <div class="col-xs-12">
+		  		<td>Nombre</td>
+				<input type="text"  class="form-control" name="nombre2">
+				<td>Direccion</td>
+				<input type="text"  class="form-control" name="direccion2">
+			</div>
+			
+			<div class="col-xs-6">
+				<td>Ubicacion X</td>
+				<input type="text"  class="form-control" name="ubicacionX2">
+			</div>
+			<div class="col-xs-6">
+				<td>Ubicacion Y</td>
+				<input type="text"  class="form-control" name="ubicacionY2">
+			</div>
+		</div>
+		  
+		  
+		
+	</div>	
+	
+	<div class="col-md-5">
+		<input type="submit" class="btn btn-primary" value="Calcular Distancia">
+	</div>
+	
+  </div>
+</form>
+{{/partial}}
+				
+{{> layout.hbs }}

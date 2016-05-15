@@ -1,0 +1,69 @@
+{{# partial "titulo" }}	
+	<title>POIs - Distancia</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+
+
+	<div class="panel panel-info">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Origen</h3>
+		  </div>
+		  <div class="panel-body">
+		    <Strong> Nombre: </Strong> 
+		    	<div id="nombre"></div>
+			<Strong> Direccion:  </Strong> 
+				<div id="direccion"></div>
+		  </div>
+	</div>
+	
+	
+		
+	<div class="panel panel-info">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Destino</h3>
+		  </div>
+		  <div class="panel-body">
+		    <Strong> Nombre: </Strong> 
+		    	<div id="nombre2"></div>
+			<Strong> Direccion:  </Strong> 
+				<div id="direccion2"></div>
+		  </div>
+	</div>
+	
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading"> Distancia en metros: </div>
+		 <div class="panel-body"> <div id="distancia"></div> </div> 
+	</div>
+
+
+<script language="JavaScript">
+  function processUser()
+  {
+    var parameters = location.search.substring(1).split("&");
+    var temp = parameters[0].split("=");
+    distancia = unescape(temp[1]);
+    var temp = parameters[1].split("=");
+    nombre = unescape(temp[1]);
+    var temp = parameters[2].split("=");
+    direccion = unescape(temp[1]);
+    var temp = parameters[3].split("=");
+    nombre2 = unescape(temp[1]);
+    var temp = parameters[4].split("=");
+    direccion2 = unescape(temp[1]);
+    
+    document.getElementById("distancia").innerHTML = distancia;
+    document.getElementById("nombre").innerHTML = nombre;
+    document.getElementById("direccion").innerHTML = direccion;
+    document.getElementById("nombre2").innerHTML = nombre2;
+    document.getElementById("direccion2").innerHTML = direccion2;
+  }
+  processUser();
+</script>
+
+
+
+{{/partial}}
+				
+{{> layout.hbs }}

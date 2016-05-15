@@ -10,6 +10,7 @@ public class POI {
 		this.setTags(); //Para inicializar el Array
 		this.setComuna(unaComuna);
 	}
+	public POI() {}
 	private Point 					ubicacion;
 	private String 					nombre;
 	private String 					direccion;
@@ -41,11 +42,11 @@ public class POI {
 	}
 	
 	public boolean estaGeolocalizado(){
-		return this.getUbicacion() != null;
+		return this.getUbicacion()!= null;
 	}
 	
 	public boolean tieneNombre(){
-		return this.getNombre() != null;
+		return this.getNombre() != null && this.getNombre() != "";
 	}
 	//getters y setters
 	public RangoDeAtencion getRangoDeAtencion() {

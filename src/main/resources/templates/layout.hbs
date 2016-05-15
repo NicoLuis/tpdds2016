@@ -1,0 +1,37 @@
+<html>
+  <head>
+    {{# block "titulo" }}
+    {{/block}}
+  </head>
+  <body>
+
+  <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet"  href="main.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="main.java.poi.CGP.java"></script>
+
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand"href="/">POI</a>
+      </div>
+      <div>
+        <ul class="nav navbar-nav">
+          <li><a href="/inicio">Calcular Distancia</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+  {{# block "contenido" }}
+  {{/block}}
+  </div>
+  
+  <footer class="footer">
+    <p class="text-center">
+      &copy; 2016  POI.com
+    </p>
+  </footer>
+  </body>
+</html>

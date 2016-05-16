@@ -10,7 +10,9 @@ import main.java.poi.Comuna;
 import main.java.poi.LocalComercial;
 import main.java.poi.ParadaColectivo;
 import main.java.poi.Rubro;
+import main.java.poi.Servicio;
 import main.java.poi.SucursalBanco;
+import java.time.LocalDateTime;
 
 import org.junit.Assert;
 
@@ -25,6 +27,10 @@ public class POITest {
 	private Polygon	zonaComuna8;
 	private Point ubicacionCercana;
 	private Point ubicacionLejana;
+	private LocalDateTime horarioFueraDeServicio;
+	private LocalDateTime horarioEnServicio;
+	private Servicio cajero;
+	private Servicio rentas;
 	
 	@Before
 	public void init(){
@@ -59,6 +65,9 @@ public class POITest {
 		// Kiosko de Diarios -- Albariño 3702
 		Rubro rubroKioskoDeDiarios = new Rubro(200.0);
 		kioskoDeDiarios = new LocalComercial(new Point(-34.6717, -58.4673), comuna8, rubroKioskoDeDiarios);
+		
+		//LocalDateTime(yyyy-MM-ddTHH:mm:ss)
+		//horarioEnServicio = new LocalDateTime(2016-05-05T15:30:00);		
 	}
 	
 	@Test
@@ -110,5 +119,45 @@ public class POITest {
 	public void testKioskoDeDiariosLejano(){
 		Assert.assertFalse(kioskoDeDiarios.estaCercaDe(ubicacionLejana));
 	}
+	
+	@Test
+	public void testParada47Disponible(){
+		Assert.assertTrue(paradaDel47.estaDisponible(horarioEnServicio));
+	}
+	
+	@Test
+	public void testBancoDisponible(){
+	Assert.assertTrue(banco.estaDisponible(horarioEnServicio,cajero));
+	}
+	
+	@Test
+	public void testBancoNoDisponible(){
+	Assert.assertFalse(banco.estaDisponible(horarioFueraDeServicio,cajero));
+	}	
+	
+	//public void testCGPalMenosUnoDisponible(){
+	//	Assert.assertTrue(cgp.estaDisponible(horarioEnServicio));	
+	//	}
+	
+	@Test
+	public void testCGPDisponible(){
+			Assert.assertTrue(cgp.estaDisponible(horarioEnServicio,rentas));	
+			}
+	
+	@Test
+	public void testCGPNODisponible(){
+		Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio,rentas));	
+		}
+	
+	@Test
+	public void testLibreriaDisponible(){
+		Assert.assertTrue(cgp.estaDisponible(horarioEnServicio,rentas));	
+		}
+	
+	@Test
+	public void testLibreriaNODisponible(){
+	Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio,rentas));	
+	}
+
 	
 }

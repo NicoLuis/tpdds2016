@@ -5,7 +5,7 @@ public class Comuna {
 	//ATRIBUTOS
 	
 		private Polygon zona;
-		private ArrayList<String> serviciosQueBrinda;
+		private ArrayList<Servicio> serviciosQueBrinda;
 		
 		//GETERS Y SETERS 
 		
@@ -18,12 +18,13 @@ public class Comuna {
 		}
 		
 		public void setServiciosQueBrinda(){
-			serviciosQueBrinda=  new ArrayList<String>();
+			serviciosQueBrinda=  new ArrayList<Servicio>();
 		}
-		public ArrayList<String> getServiciosQueBrinda(){
+		public ArrayList<Servicio> getServiciosQueBrinda(){
 			return serviciosQueBrinda;
 		}
-		public void addServiciosQueBrinda(String unServicio){
+	
+		public void addServiciosQueBrinda(Servicio unServicio){
 			serviciosQueBrinda.add(unServicio);
 		}
 }

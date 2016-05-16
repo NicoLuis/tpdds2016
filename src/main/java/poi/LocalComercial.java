@@ -2,6 +2,7 @@ package main.java.poi;
 
 import org.uqbar.geodds.Point;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 public class LocalComercial extends POI{
 	public LocalComercial(Point unaUbicacion, Comuna comuna8, Rubro unRubro){
@@ -34,5 +35,12 @@ public class LocalComercial extends POI{
 		else{
 			return false;
 		}
+	}
+	
+	public boolean estaDisponible (LocalDateTime unTiempo){
+		
+		RangoDeAtencion rangoLocal = super.getRangoDeAtencion();
+		return ( rangoLocal.disponible(unTiempo));
+		
 	}
 }

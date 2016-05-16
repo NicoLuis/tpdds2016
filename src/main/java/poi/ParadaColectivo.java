@@ -15,6 +15,7 @@ public class ParadaColectivo extends POI {
 	public double cercaniaRequerida(){
 		return 100.0;
 	}
+	
 	public boolean estaDisponible(LocalDateTime unTiempo){
 		return true;
 	}

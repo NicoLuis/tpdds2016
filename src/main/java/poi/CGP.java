@@ -12,6 +12,7 @@ public class CGP extends POI{
 			super(ubicacion, unaComuna);
 				
 		}
+		public CGP(){}
 		
 		    
 		

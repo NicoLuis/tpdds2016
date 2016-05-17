@@ -89,6 +89,9 @@ public class POI {
 		direccion = unaDireccion;
 	}
 	
+	public void setTags(ArrayList<String> list){
+		tags = list;
+	}
 	public void setTags(){ //Inicializa el ArrayList
 		tags = new ArrayList<String>();
 	}

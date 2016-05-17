@@ -2,9 +2,14 @@ package main.java.poi;
 import java.time.LocalDateTime;
 
 import org.uqbar.geodds.Point;
+
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class CGP extends POI{
+	
+		private ArrayList<Servicio> servicios;
+	
 	//CONSTRUCTOR
 	
 	
@@ -12,7 +17,9 @@ public class CGP extends POI{
 			super(ubicacion, unaComuna);
 				
 		}
-		public CGP(){}
+		public CGP(){
+			this.servicios = new ArrayList<Servicio>();
+		}
 		
 		    
 		
@@ -32,16 +39,29 @@ public class CGP extends POI{
 			}
 		}
 		
-		public boolean estaDisponible (LocalDateTime unTiempo, Servicio Valor){
-			ArrayList<Servicio> servicioDisponible = this.getComuna().getServiciosQueBrinda();
-			if (servicioDisponible.contains(Valor)){
-				RangoDeAtencion rangoServicio = Valor.getRangoDeAtencion();
-				return (rangoServicio.disponible(unTiempo));
+		public boolean estaDisponible (LocalDateTime unTiempo, String valor){
+			if (getServicios().stream().anyMatch( serv -> serv.getNombre() == valor )){
+				return	getServicios().stream().
+							filter( serv -> serv.getNombre() == valor ).
+							allMatch( serv -> serv.getRangoDeAtencion().disponible(unTiempo));
 			}
-			else{
-				return true;
-			}
-			
-			
+			return false;
 		}
+		
+		public boolean estaDisponible (LocalDateTime unTiempo){
+			return	getServicios().stream().
+						anyMatch( serv -> serv.getRangoDeAtencion().disponible(unTiempo));
+		}
+		
+		public ArrayList<Servicio> getServicios() {
+			return servicios;
+		}
+		public void setServicios(ArrayList<Servicio> servicios) {
+			this.servicios = servicios;
+		}
+		public void addServicio(Servicio servicio) {
+			this.servicios.add(servicio);
+		}
+		
+		
 }

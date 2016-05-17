@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.uqbar.geodds.Point;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 
 import main.java.poi.*;
 import main.java.bases.*;
@@ -23,10 +22,6 @@ public class POITest {
 	private Point ubicacionLejana;
 	private LocalDateTime horarioFueraDeServicio;
 	private LocalDateTime horarioEnServicio;
-	private Servicio cajero;
-	private Servicio rentas;
-		//LocalDateTime(yyyy-MM-ddTHH:mm:ss)
-		//horarioEnServicio = new LocalDateTime(2016-05-05T15:30:00);		
 	private BasePOIs basePois;
 	
 	@Before
@@ -39,10 +34,8 @@ public class POITest {
 		banco = basePois.crear_SucursalBanco_1();
 		libreriaEscolar = basePois.crear_libreriaEscolar_1();
 		kioskoDeDiarios = basePois.crear_kioskoDeDiarios_1();
-		rentas = new Servicio("Rentas", new RangoDeAtencion(7.30,19.30,1,5));
-		cajero = new Servicio("Cajero", new RangoDeAtencion(10,15.30,1,5));
-		horarioEnServicio = LocalDateTime.of(2016, 5, 5, 15, 30, 00, 00);	
-		horarioFueraDeServicio = LocalDateTime.of(2016, 5, 5, 15, 30, 00, 00);	
+		horarioEnServicio = LocalDateTime.of(2016, 5, 5, 12, 30, 00, 00);
+		horarioFueraDeServicio = LocalDateTime.of(2016, 5, 5, 20, 30, 00, 00);
 	}
 	
 	@Test
@@ -102,36 +95,42 @@ public class POITest {
 	
 	@Test
 	public void testBancoDisponible(){
-	Assert.assertTrue(banco.estaDisponible(horarioEnServicio,cajero));
+		Assert.assertTrue(banco.estaDisponible(horarioEnServicio));
 	}
 	
 	@Test
 	public void testBancoNoDisponible(){
-	Assert.assertFalse(banco.estaDisponible(horarioFueraDeServicio,cajero));
-	}	
-	
-	//public void testCGPalMenosUnoDisponible(){
-	//	Assert.assertTrue(cgp.estaDisponible(horarioEnServicio));	
-	//	}
+		Assert.assertFalse(banco.estaDisponible(horarioFueraDeServicio));
+	}
 	
 	@Test
 	public void testCGPDisponible(){
-			Assert.assertTrue(cgp.estaDisponible(horarioEnServicio,rentas));	
-			}
+		Assert.assertTrue(cgp.estaDisponible(horarioEnServicio,"Rentas"));	
+	}
 	
 	@Test
 	public void testCGPNODisponible(){
-		Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio,rentas));	
-		}
+		Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio,"Rentas"));	
+	}
 	
 	@Test
-	public void testLibreriaDisponible(){
-		Assert.assertTrue(cgp.estaDisponible(horarioEnServicio,rentas));	
-		}
+	public void testCGPalMenosUnoDisponible(){
+		Assert.assertTrue(cgp.estaDisponible(horarioEnServicio));	
+	}
 	
 	@Test
-	public void testLibreriaNODisponible(){
-	Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio,rentas));	
+	public void testCGNingunoDisponible(){
+		Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio));	
+	}
+	
+	@Test
+	public void testLibreriaDisponible(){		// Libreria con RangoDeAtencion(10, 18, 1, 5)
+		Assert.assertTrue(libreriaEscolar.estaDisponible(horarioEnServicio));	
+	}
+	
+	@Test
+	public void testLibreriaNODisponible(){		// Libreria con RangoDeAtencion(10, 18, 1, 5)
+		Assert.assertFalse(libreriaEscolar.estaDisponible(horarioFueraDeServicio));	
 	}
 
 	

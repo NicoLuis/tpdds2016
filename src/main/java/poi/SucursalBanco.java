@@ -15,16 +15,9 @@ public class SucursalBanco extends POI{
 	public double cercaniaRequerida(){
 		return 500.0;
 	}
-	public boolean estaDisponible (LocalDateTime unTiempo, Servicio Valor){
-		ArrayList<Servicio> servicioDisponible = this.getComuna().getServiciosQueBrinda();
-		RangoDeAtencion rangoBanco = super.getRangoDeAtencion();		
-		if (servicioDisponible.contains(Valor) && rangoBanco.disponible(unTiempo)){
-			RangoDeAtencion rangoServicio = Valor.getRangoDeAtencion();
-			return (rangoServicio.disponible(unTiempo));
-		}
-		else{
-			
-			return false;
-		}
+	
+	public boolean estaDisponible (LocalDateTime unTiempo){	
+		RangoDeAtencion rangoLocal = new RangoDeAtencion(10, 15, 1, 5);
+		return (rangoLocal.disponible(unTiempo));
 	}
 }

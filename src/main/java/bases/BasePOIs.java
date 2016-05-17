@@ -1,6 +1,7 @@
 package main.java.bases;
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
+
 import main.java.poi.*;
 
 public class BasePOIs{
@@ -14,10 +15,13 @@ public class BasePOIs{
 	private LocalComercial kioskoDeDiarios;
 	private Rubro rubroLibreriaEscolar;
 	private Rubro rubroKioskoDeDiarios;
+	private Servicio rentas;
+	private Servicio cajero;
 	
 	public BasePOIs(){
 		crearComuna8();
 		crear_Rubros();
+		crearServicios();
 		crear_ubicacionCercana();
 		crear_ubicacionLejana();
 		crear_CGP_1();
@@ -37,6 +41,11 @@ public class BasePOIs{
 		zonaComuna8.add(new Point(-34.7048,-58.4612));
 		comuna8.setZona(zonaComuna8);
 		return comuna8;
+	}
+	
+	public void crearServicios(){
+		rentas = new Servicio("Rentas", new RangoDeAtencion(7.30,19.30,1,5));
+		cajero = new Servicio("Cajero", new RangoDeAtencion(10,15.30,1,5));
 	}
 
 	
@@ -64,6 +73,7 @@ public class BasePOIs{
 		cgp.setDireccion("Av Escalada 3100");
 		cgp.setComuna(comuna8);
 		cgp.setUbicacion(new Point(-34.6672, -58.4669));
+		cgp.addServicio(rentas);
 		return cgp;
 	}
 	
@@ -97,6 +107,7 @@ public class BasePOIs{
 		libreriaEscolar.setComuna(comuna8);
 		libreriaEscolar.setUbicacion(new Point(-34.6720, -58.4678));
 		libreriaEscolar.setRubro(rubroLibreriaEscolar);
+		libreriaEscolar.setRangoDeAtencion(new RangoDeAtencion(10, 18, 1, 5));	
 		return libreriaEscolar;
 	}
 	

@@ -3,7 +3,10 @@ package test.java.principal;
 import org.junit.Before;
 import org.junit.Test;
 import org.uqbar.geodds.Point;
+
 import java.time.LocalDateTime;
+import java.time.Month;
+
 import main.java.poi.*;
 import main.java.bases.*;
 
@@ -36,6 +39,10 @@ public class POITest {
 		banco = basePois.crear_SucursalBanco_1();
 		libreriaEscolar = basePois.crear_libreriaEscolar_1();
 		kioskoDeDiarios = basePois.crear_kioskoDeDiarios_1();
+		rentas = new Servicio("Rentas", new RangoDeAtencion(7.30,19.30,1,5));
+		cajero = new Servicio("Cajero", new RangoDeAtencion(10,15.30,1,5));
+		horarioEnServicio = LocalDateTime.of(2016, 5, 5, 15, 30, 00, 00);	
+		horarioFueraDeServicio = LocalDateTime.of(2016, 5, 5, 15, 30, 00, 00);	
 	}
 	
 	@Test

@@ -6,7 +6,7 @@ public class RangoDeAtencion {
 		public RangoDeAtencion(double unHorarioDeApertura, double unHorarioDeCierre, int unDiaDeInicioDeAtencion, int unDiaDeFinDeAtencion){
 			this.setHorarioDeApertura(unHorarioDeApertura);
 			this.setHorarioDeCierre(unHorarioDeCierre);
-			this.setDiaDeIncioDeAtencion(unDiaDeInicioDeAtencion);
+			this.setDiaDeInicioDeAtencion(unDiaDeInicioDeAtencion);
 			this.setDiaDeFinDeAtencion(unDiaDeFinDeAtencion);
 		}
 		
@@ -14,7 +14,7 @@ public class RangoDeAtencion {
 			
 		double			horarioDeApertura;	//HH.mm
 		double			horarioDeCierre;	//HH.mm
-		int				diaDeIncioDeAtencion;
+		int				diaDeInicioDeAtencion;	//1 lunes - 6 domingo
 		int				diaDeFinDeAtencion;
 		
 		//GETERS Y SETERS
@@ -35,12 +35,12 @@ public class RangoDeAtencion {
 			this.horarioDeCierre = horarioDeCierre;
 		}
 
-		public int getDiaDeIncioDeAtencion() {
-			return diaDeIncioDeAtencion;
+		public int getDiaDeInicioDeAtencion() {
+			return diaDeInicioDeAtencion;
 		}
 
-		public void setDiaDeIncioDeAtencion(int diaDeIncioDeAtencion) {
-			this.diaDeIncioDeAtencion = diaDeIncioDeAtencion;
+		public void setDiaDeInicioDeAtencion(int diaDeIncioDeAtencion) {
+			this.diaDeInicioDeAtencion = diaDeIncioDeAtencion;
 		}
 
 		public int getDiaDeFinDeAtencion() {
@@ -68,7 +68,7 @@ public class RangoDeAtencion {
 		}
 		public boolean diaDisponible(LocalDateTime unTiempo){
 			int unDiaDeLaSemana = unTiempo.getDayOfWeek().getValue();
-			int diaDeInicioDeAtencion = this.getDiaDeIncioDeAtencion() ;
+			int diaDeInicioDeAtencion = this.getDiaDeInicioDeAtencion() ;
 			int diaDeFinDeAtencion = this.getDiaDeFinDeAtencion();
 			return (diaDeInicioDeAtencion <= unDiaDeLaSemana) 
 					&& (unDiaDeLaSemana <= diaDeFinDeAtencion);

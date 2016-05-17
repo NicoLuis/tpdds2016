@@ -9,6 +9,9 @@ public class ParadaColectivo extends POI {
 	public ParadaColectivo(Point miUbicacion, Comuna comuna8) {
 		super(miUbicacion, comuna8);
 	}
+
+	public ParadaColectivo(){}
+	
 	//METODOS
 	
 	@Override

@@ -6,6 +6,7 @@ public class SucursalBanco extends POI{
 	public SucursalBanco(Point ubicacion, Comuna comuna8) {
 		super(ubicacion, comuna8);		
 	}
+	public SucursalBanco(){}
 
 	public double cercaniaRequerida(){
 		return 500.0;

@@ -10,6 +10,7 @@ public class CGP extends POI{
 			super(ubicacion, unaComuna);
 				
 		}
+		public CGP(){}
 		
 		@Override
 		public boolean estaCercaDe(Point unaUbicacion){

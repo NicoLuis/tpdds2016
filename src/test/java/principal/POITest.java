@@ -126,12 +126,12 @@ public class POITest {
 	
 	@Test
 	public void testLibreriaDisponible(){
-		Assert.assertTrue(cgp.estaDisponible(horarioEnServicio,rentas));	
+		Assert.assertTrue(libreriaEscolar.estaDisponible(horarioEnServicio,rentas));	
 		}
 	
 	@Test
 	public void testLibreriaNODisponible(){
-	Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio,rentas));	
+	Assert.assertFalse(libreriaEscolar.estaDisponible(horarioFueraDeServicio,rentas));	
 	}
 
 	

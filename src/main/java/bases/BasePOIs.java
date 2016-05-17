@@ -1,4 +1,6 @@
 package main.java.bases;
+import java.util.ArrayList;
+
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
 
@@ -8,7 +10,7 @@ public class BasePOIs{
 	private Comuna comuna8;
 	private POI ubicacionCercana;
 	private POI ubicacionLejana;
-	private CGP cgp;
+	private CGP cgp_1;
 	private ParadaColectivo paradaColectivo_1;
 	private SucursalBanco sucursalBanco_1;
 	private LocalComercial libreriaEscolar;
@@ -17,6 +19,7 @@ public class BasePOIs{
 	private Rubro rubroKioskoDeDiarios;
 	private Servicio rentas;
 	private Servicio cajero;
+	private ArrayList<POI> listaPois;
 	
 	public BasePOIs(){
 		crearComuna8();
@@ -29,6 +32,7 @@ public class BasePOIs{
 		crear_SucursalBanco_1();
 		crear_libreriaEscolar_1();
 		crear_kioskoDeDiarios_1();
+		crear_arrayPOIs();
 	}
 	
 	public Comuna crearComuna8(){
@@ -68,13 +72,13 @@ public class BasePOIs{
 	}
 	
 	public CGP crear_CGP_1() {
-		cgp = new CGP();
-		cgp.setNombre("CGP_1");
-		cgp.setDireccion("Av Escalada 3100");
-		cgp.setComuna(comuna8);
-		cgp.setUbicacion(new Point(-34.6672, -58.4669));
-		cgp.addServicio(rentas);
-		return cgp;
+		cgp_1 = new CGP();
+		cgp_1.setNombre("CGP_1");
+		cgp_1.setDireccion("Av Escalada 3100");
+		cgp_1.setComuna(comuna8);
+		cgp_1.setUbicacion(new Point(-34.6672, -58.4669));
+		cgp_1.addServicio(rentas);
+		return cgp_1;
 	}
 	
 	public ParadaColectivo crear_ParadaColectivo_1() {
@@ -88,7 +92,7 @@ public class BasePOIs{
 	
 	public SucursalBanco crear_SucursalBanco_1() {
 		sucursalBanco_1 = new SucursalBanco();
-		sucursalBanco_1.setNombre("Parada del 47");
+		sucursalBanco_1.setNombre("Sucursal Banco");
 		sucursalBanco_1.setDireccion("Av Riestra 5002");
 		sucursalBanco_1.setComuna(comuna8);
 		sucursalBanco_1.setUbicacion(new Point(-34.6719, -58.4695));
@@ -119,5 +123,18 @@ public class BasePOIs{
 		kioskoDeDiarios.setUbicacion(new Point(-34.6717, -58.4673));
 		kioskoDeDiarios.setRubro(rubroKioskoDeDiarios);
 		return kioskoDeDiarios;
+	}
+	
+	
+	public ArrayList<POI> crear_arrayPOIs(){
+		listaPois = new ArrayList<POI>();
+		listaPois.add(ubicacionCercana);
+		listaPois.add(ubicacionLejana);
+		listaPois.add(cgp_1);
+		listaPois.add(paradaColectivo_1);
+		listaPois.add(sucursalBanco_1);
+		listaPois.add(libreriaEscolar);
+		listaPois.add(kioskoDeDiarios);
+		return listaPois;
 	}
 }

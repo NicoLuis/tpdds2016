@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.uqbar.geodds.Point;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import main.java.poi.*;
 import main.java.bases.*;
@@ -23,6 +24,7 @@ public class POITest {
 	private LocalDateTime horarioFueraDeServicio;
 	private LocalDateTime horarioEnServicio;
 	private BasePOIs basePois;
+	private ArrayList<POI> listaPois;
 	
 	@Before
 	public void init(){
@@ -34,9 +36,15 @@ public class POITest {
 		banco = basePois.crear_SucursalBanco_1();
 		libreriaEscolar = basePois.crear_libreriaEscolar_1();
 		kioskoDeDiarios = basePois.crear_kioskoDeDiarios_1();
+		listaPois = basePois.crear_arrayPOIs();
 		horarioEnServicio = LocalDateTime.of(2016, 5, 5, 12, 30, 00, 00);
 		horarioFueraDeServicio = LocalDateTime.of(2016, 5, 5, 20, 30, 00, 00);
 	}
+	
+	
+	
+	///////----------------------     CERCANIA     ----------------------///////
+	
 	
 	@Test
 	public void testParada47CercanoAMenosDe100Metros(){
@@ -45,7 +53,7 @@ public class POITest {
 	
 	@Test
 	public void testParada47Lejano(){
-		Assert.assertFalse(paradaDel47.estaCercaDe(ubicacionLejana)); 
+		Assert.assertFalse(paradaDel47.estaCercaDe(ubicacionLejana));
 	}
 
 	@Test
@@ -88,9 +96,15 @@ public class POITest {
 		Assert.assertFalse(kioskoDeDiarios.estaCercaDe(ubicacionLejana));
 	}
 	
+	
+	
+	
+	///////----------------------     DISPONIBILIDAD     ----------------------///////
+	
 	@Test
 	public void testParada47Disponible(){
 		Assert.assertTrue(paradaDel47.estaDisponible(horarioEnServicio));
+		Assert.assertTrue(paradaDel47.estaDisponible(horarioFueraDeServicio));
 	}
 	
 	@Test
@@ -104,22 +118,22 @@ public class POITest {
 	}
 	
 	@Test
-	public void testCGPDisponible(){
+	public void testCGPDisponibleBuscandoPorNombre(){
 		Assert.assertTrue(cgp.estaDisponible(horarioEnServicio,"Rentas"));	
 	}
 	
 	@Test
-	public void testCGPNODisponible(){
+	public void testCGPNODisponibleBuscandoPorNombre(){
 		Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio,"Rentas"));	
 	}
 	
 	@Test
-	public void testCGPalMenosUnoDisponible(){
+	public void testCGPalMenosUnoDisponibleSinBuscarNombre(){
 		Assert.assertTrue(cgp.estaDisponible(horarioEnServicio));	
 	}
 	
 	@Test
-	public void testCGNingunoDisponible(){
+	public void testCGNingunoDisponibleSinBuscarNombre(){
 		Assert.assertFalse(cgp.estaDisponible(horarioFueraDeServicio));	
 	}
 	

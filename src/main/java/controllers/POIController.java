@@ -1,13 +1,22 @@
 package main.java.controllers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+
 import org.uqbar.geodds.Point;
+
 import main.java.poi.*;
+import main.java.bases.*;
 
 public class POIController {
+	
+	
 
 	public ModelAndView nuevo(Request request, Response response) {
 	  return new ModelAndView(null, "POIs.hbs");
@@ -18,8 +27,6 @@ public class POIController {
 	}
 	
 	public ModelAndView calcularDistancia(Request request, Response response) {
-		
-		
 		try {
 	
 		POI poi_1 = new POI();
@@ -74,5 +81,5 @@ public class POIController {
 		System.out.println("POI NO VALIDO");
 		return new ModelAndView(null, "error.hbs");
 	}
- 
+
 }

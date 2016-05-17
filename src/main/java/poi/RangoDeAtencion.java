@@ -14,7 +14,7 @@ public class RangoDeAtencion {
 			
 		double			horarioDeApertura;	//HH.mm
 		double			horarioDeCierre;	//HH.mm
-		int				diaDeInicioDeAtencion;	//1 lunes - 6 domingo
+		int				diaDeInicioDeAtencion;	//1 lunes - 7 domingo
 		int				diaDeFinDeAtencion;
 		
 		//GETERS Y SETERS

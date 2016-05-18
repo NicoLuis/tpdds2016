@@ -1,0 +1,49 @@
+{{# partial "titulo" }}	
+	<title>POIs - Disponibilidad</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+
+
+	<div class="panel panel-info">
+		  <div class="panel-heading">
+		    <h3 class="panel-title"> POI </h3>
+		  </div>
+		  <div class="panel-body">
+		    <Strong> Nombre: </Strong> 
+		    	<div id="nombre"></div>
+			<Strong> Direccion:  </Strong> 
+				<div id="direccion"></div>
+		  </div>
+	</div>
+	
+	
+	<div class="panel panel-primary"> 
+		 <div class="panel-heading"> Esta Disponible? </div>
+		 <div class="panel-body"> <div id="estaDisponible"></div> </div> 
+	</div>
+
+
+<script language="JavaScript">
+  function processUser()
+  {
+    var parameters = location.search.substring(1).split("&");
+    var temp = parameters[0].split("=");
+    estaDisponible = unescape(temp[1]);
+    var temp = parameters[1].split("=");
+    nombre = unescape(temp[1]);
+    var temp = parameters[2].split("=");
+    direccion = unescape(temp[1]);
+    
+    document.getElementById("estaDisponible").innerHTML = estaDisponible;
+    document.getElementById("nombre").innerHTML = nombre;
+    document.getElementById("direccion").innerHTML = direccion;
+  }
+  processUser();
+</script>
+
+
+
+{{/partial}}
+				
+{{> layout.hbs }}

@@ -35,6 +35,9 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading"> Distancia en metros: </div>
 		 <div class="panel-body"> <div id="distancia"></div> </div> 
+		 
+		 <div class="panel-heading"> Esta Cerca? </div>
+		 <div class="panel-body"> <div id="estaCerca"></div> </div> 
 	</div>
 
 
@@ -52,12 +55,15 @@
     nombre2 = unescape(temp[1]);
     var temp = parameters[4].split("=");
     direccion2 = unescape(temp[1]);
+    var temp = parameters[5].split("=");
+    estaCerca = unescape(temp[1]);
     
     document.getElementById("distancia").innerHTML = distancia;
     document.getElementById("nombre").innerHTML = nombre;
     document.getElementById("direccion").innerHTML = direccion;
     document.getElementById("nombre2").innerHTML = nombre2;
     document.getElementById("direccion2").innerHTML = direccion2;
+    document.getElementById("estaCerca").innerHTML = estaCerca;
   }
   processUser();
 </script>

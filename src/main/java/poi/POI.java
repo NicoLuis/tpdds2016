@@ -1,7 +1,9 @@
 package main.java.poi;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.lang.String;
+
 import org.uqbar.geodds.Point;
 
 public class POI {
@@ -36,7 +38,7 @@ public class POI {
 	}
 	
 	public boolean estaCercaDeUnPOI(POI unPOI){
-		return this.estaAMenosDeXMetrosDeOtroPOI(unPOI, 500); //para pasar a metros
+		return this.estaAMenosDeXMetrosDeOtroPOI(unPOI, cercaniaRequerida()); //para pasar a metros
 	}
 	
 	public boolean esPOIValido(){
@@ -125,4 +127,16 @@ public class POI {
 		}
 		return null;
 	}
+	
+	
+	
+	public boolean estaDisponible(LocalDateTime unTiempo, String valor){
+		return false;
+	}
+	
+	public boolean estaDisponible(LocalDateTime unTiempo){
+		return false;
+	}
+	
+	
 }

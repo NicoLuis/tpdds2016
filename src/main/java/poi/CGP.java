@@ -18,6 +18,7 @@ public class CGP extends POI{
 				
 		}
 		public CGP(){
+			super();
 			this.servicios = new ArrayList<Servicio>();
 		}
 		

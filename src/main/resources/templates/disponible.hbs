@@ -1,0 +1,77 @@
+{{# partial "titulo" }}	
+	<title>POIs - Verificar Disponibilidad</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+
+<form action="/POIs/calcularDisponibilidad" method="post">
+  <div class="row">
+
+	<div class="panel panel-info">
+	
+		<div class="panel-heading">
+		    <h3 class="panel-title"> Fecha </h3>
+		 </div>
+		 
+		<div class="panel-body">
+		    <div class="col-xs-4">
+		  		<td>Año</td>
+				<input type="text" class="form-control" name="año">
+			</div>	
+			<div class="col-xs-4">
+				<td>Mes</td>
+				<input type="text"  class="form-control" name="mes">
+			</div>
+			<div class="col-xs-4">
+				<td>Dia</td>
+				<input type="text"  class="form-control" name="dia">
+			</div>
+			<div class="col-xs-6">
+				<td>Hora</td>
+				<input type="text"  class="form-control" name="hora">
+			</div>
+			<div class="col-xs-6">
+				<td>Minutos</td>
+				<input type="text"  class="form-control" name="minutos">
+			</div>
+		</div>
+	</div>
+	
+  
+	<div class="panel panel-info">
+		<div class="panel-heading">
+		    <h1 class="panel-title" > POI </h1>
+		 </div>
+		 <div class="panel-body">
+		    <div class="form-group">
+			  <label for="poi2"></label>
+			  <select class="form-control" name="poi2">
+			  
+					<option> ubicacionCercana </option>
+					<option> ubicacionLejana </option>
+					<option> CGP_1 </option>
+					<option> CGP_2 </option>
+					<option> Parada del 47 </option>
+					<option> Parada del 107</option>
+					<option> Parada del 114</option>
+					<option> Sucursal Banco </option>
+					<option> Libreria Escolar </option>
+					<option> Kiosko de Diarios </option>    
+			    
+			 </select>
+			</div>
+		</div>
+	</div>
+  
+
+	
+	<div class="col-md-5">
+		<input type="submit" class="btn btn-primary" value="Verificar Disponibilidad">
+	</div>
+	
+  </div>
+</form>
+
+{{/partial}}
+				
+{{> layout.hbs }}

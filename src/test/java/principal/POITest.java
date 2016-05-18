@@ -32,7 +32,7 @@ public class POITest {
 		ubicacionCercana = basePois.crear_ubicacionCercana().getUbicacion();
 		ubicacionLejana = basePois.crear_ubicacionLejana().getUbicacion();
 		cgp = basePois.crear_CGP_1();
-		paradaDel47 = basePois.crear_ParadaColectivo_1();
+		paradaDel47 = basePois.crear_paradaDel47();
 		banco = basePois.crear_SucursalBanco_1();
 		libreriaEscolar = basePois.crear_libreriaEscolar_1();
 		kioskoDeDiarios = basePois.crear_kioskoDeDiarios_1();

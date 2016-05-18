@@ -9,6 +9,8 @@ public class Servicio {
 		this.rangoDeAtencion = rangoDeAtencion;
 	}
 	
+	public Servicio(){}
+	
 	public String getNombre(){
 		return nombre;
 	}

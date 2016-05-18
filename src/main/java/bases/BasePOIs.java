@@ -1,5 +1,6 @@
 package main.java.bases;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
@@ -11,14 +12,24 @@ public class BasePOIs{
 	private POI ubicacionCercana;
 	private POI ubicacionLejana;
 	private CGP cgp_1;
-	private ParadaColectivo paradaColectivo_1;
+	private CGP cgp_2;
+	private ParadaColectivo paradaDel47;
+	private ParadaColectivo paradaDel107;
+	private ParadaColectivo paradaDel114;
 	private SucursalBanco sucursalBanco_1;
 	private LocalComercial libreriaEscolar;
 	private LocalComercial kioskoDeDiarios;
 	private Rubro rubroLibreriaEscolar;
 	private Rubro rubroKioskoDeDiarios;
+	private Rubro rubrosSupermercado;
 	private Servicio rentas;
 	private Servicio cajero;
+	private LocalComercial supermercado;
+	private POI localDeRopa;
+	private POI casaDeComida;
+	private Servicio atencionAlCliente;
+	private Servicio asesoramiento;
+	
 	private ArrayList<POI> listaPois;
 	
 	public BasePOIs(){
@@ -28,12 +39,20 @@ public class BasePOIs{
 		crear_ubicacionCercana();
 		crear_ubicacionLejana();
 		crear_CGP_1();
-		crear_ParadaColectivo_1();
+		crear_CGP_2();
+		crear_paradaDel47();
+		crear_paradaDel107();
+		crear_paradaDel114();
 		crear_SucursalBanco_1();
 		crear_libreriaEscolar_1();
-		crear_kioskoDeDiarios_1();
+		crear_kioskoDeDiarios_1();	
+		crear_supermercado_1();
+		crear_localDeRopa_1();
+		crear_casaDeComida_1();
 		crear_arrayPOIs();
 	}
+	
+//////////////////////////////				CONSTRUCTORES				//////////////////////////////
 	
 	public Comuna crearComuna8(){
 		Polygon zonaComuna8 = new Polygon();
@@ -50,6 +69,8 @@ public class BasePOIs{
 	public void crearServicios(){
 		rentas = new Servicio("Rentas", new RangoDeAtencion(7.30,19.30,1,5));
 		cajero = new Servicio("Cajero", new RangoDeAtencion(10,15.30,1,5));
+		asesoramiento = new Servicio("Asesoramiento", new RangoDeAtencion(10,15.30,1,5));
+		atencionAlCliente = new Servicio("AtencionAlCliente", new RangoDeAtencion(10,15.30,1,5));
 	}
 
 	
@@ -81,13 +102,42 @@ public class BasePOIs{
 		return cgp_1;
 	}
 	
-	public ParadaColectivo crear_ParadaColectivo_1() {
-		paradaColectivo_1 = new ParadaColectivo();
-		paradaColectivo_1.setNombre("Parada del 47");
-		paradaColectivo_1.setDireccion("Corvanalan 3691");
-		paradaColectivo_1.setComuna(comuna8);
-		paradaColectivo_1.setUbicacion(new Point(-34.6715, -58.4676));
-		return paradaColectivo_1;
+	public CGP crear_CGP_2() {
+		cgp_2 = new CGP();
+		cgp_2.setNombre("CGP_2");
+		cgp_2.setDireccion("Murguiondo 3457");
+		cgp_2.setComuna(comuna8);
+		cgp_2.setUbicacion(new Point(-34.6705, -58.4841));
+		cgp_2.addServicio(asesoramiento);
+		cgp_2.addServicio(atencionAlCliente);
+		return cgp_2;
+	}
+	
+	public ParadaColectivo crear_paradaDel47() {
+		paradaDel47 = new ParadaColectivo();
+		paradaDel47.setNombre("Parada del 47");
+		paradaDel47.setDireccion("Corvanalan 3691");
+		paradaDel47.setComuna(comuna8);
+		paradaDel47.setUbicacion(new Point(-34.6715, -58.4676));
+		return paradaDel47;
+	}
+	
+	public ParadaColectivo crear_paradaDel107() {
+		paradaDel107 = new ParadaColectivo();
+		paradaDel107.setNombre("Parada del 107");
+		paradaDel107.setDireccion("Av. Eva Peron 4900");
+		paradaDel107.setComuna(comuna8);
+		paradaDel107.setUbicacion(new Point(-34.6578,-58.4787));
+		return paradaDel107;
+	}
+	
+	public ParadaColectivo crear_paradaDel114() {
+		paradaDel114 = new ParadaColectivo();
+		paradaDel114.setNombre("Parada del 114");
+		paradaDel114.setDireccion("Corvanalan 3691");
+		paradaDel114.setComuna(comuna8);
+		paradaDel114.setUbicacion(new Point(-34.6715, -58.4676));
+		return paradaDel114;
 	}
 	
 	public SucursalBanco crear_SucursalBanco_1() {
@@ -102,6 +152,13 @@ public class BasePOIs{
 	public void crear_Rubros(){
 		rubroKioskoDeDiarios = new Rubro(200.0);
 		rubroLibreriaEscolar = new Rubro(500.0);
+		rubroLibreriaEscolar.addRubrosALosQuePertenece("libreria");
+		rubroLibreriaEscolar.addRubrosALosQuePertenece("papelera");
+		rubrosSupermercado = new Rubro(-34.6621);
+		rubrosSupermercado.addRubrosALosQuePertenece("libreria");
+		rubrosSupermercado.addRubrosALosQuePertenece("verduleria");
+		rubrosSupermercado.addRubrosALosQuePertenece("carniceria");
+		rubrosSupermercado.addRubrosALosQuePertenece("kiosko");
 	}
 	
 	public LocalComercial crear_libreriaEscolar_1() {
@@ -131,10 +188,59 @@ public class BasePOIs{
 		listaPois.add(ubicacionCercana);
 		listaPois.add(ubicacionLejana);
 		listaPois.add(cgp_1);
-		listaPois.add(paradaColectivo_1);
+		listaPois.add(cgp_2);
+		listaPois.add(paradaDel47);
+		listaPois.add(paradaDel107);
+		listaPois.add(paradaDel114);
 		listaPois.add(sucursalBanco_1);
 		listaPois.add(libreriaEscolar);
 		listaPois.add(kioskoDeDiarios);
+		listaPois.add(supermercado);
+		listaPois.add(localDeRopa);
+		listaPois.add(casaDeComida);
 		return listaPois;
 	}
+	
+	public LocalComercial crear_supermercado_1(){
+		supermercado = new LocalComercial();
+		supermercado.setNombre("Supermercado");
+		supermercado.setRubro(rubrosSupermercado);
+		return supermercado;
+	}
+	
+	public POI crear_localDeRopa_1(){
+		localDeRopa = new POI();
+		localDeRopa.setNombre("Local de Ropa");
+		ArrayList<String> tagsDeLocalDeRopa = new ArrayList<String>();
+		tagsDeLocalDeRopa.add("casual");
+		tagsDeLocalDeRopa.add("deportiva");
+		tagsDeLocalDeRopa.add("elegante");
+		localDeRopa.setTags(tagsDeLocalDeRopa);;
+		return localDeRopa;
+	}
+	
+	public POI crear_casaDeComida_1(){
+		casaDeComida = new POI();
+		casaDeComida.setNombre("Casa de Comida");
+		ArrayList<String> tagsDeCasaDeComida = new ArrayList<String>();
+		tagsDeCasaDeComida.add("almuerzo");
+		tagsDeCasaDeComida.add("desayuno");
+		tagsDeCasaDeComida.add("cena");
+		casaDeComida.setTags(tagsDeCasaDeComida);
+		return casaDeComida;
+	}
+	
+	
+	//////////////////////////////				FUNCIONES				//////////////////////////////
+	
+	
+	public Stream<POI> coincideConLaBusqueda(ArrayList<POI> listapois, String string){
+		Stream<POI> listaFiltrada = 
+				listapois.stream().filter(poi -> poi.coincideConLaBusqueda(string));
+		return listaFiltrada;
+	}
+	
+	
+	
+	
 }

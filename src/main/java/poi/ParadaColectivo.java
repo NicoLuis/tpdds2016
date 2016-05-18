@@ -25,8 +25,7 @@ public class ParadaColectivo extends POI {
 	
 	@Override
 	public boolean coincideConLaBusqueda(String textoBusqueda){
-		String nombre= this.getNombre();
-		if(textoBusqueda== nombre || this.isInTagsList(textoBusqueda)){
+		if(getNombre().contains(textoBusqueda) || this.isInTagsList(textoBusqueda)){
 			return true;
 		}
 		else{

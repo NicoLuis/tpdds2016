@@ -10,7 +10,9 @@ public class LocalComercial extends POI{
 		super(unaUbicacion,comuna8);
 		this.setRubro(unRubro);
 	}
-	public LocalComercial(){}
+	public LocalComercial(){
+		super();
+	}
 	private Rubro rubro;
 	
 	//GETTERS Y SETTERS
@@ -30,7 +32,7 @@ public class LocalComercial extends POI{
 	@Override
 	public boolean coincideConLaBusqueda(String textoBusqueda){
 		ArrayList<String> rubros= this.getRubro().getRubrosALosQuePertence();
-		if(rubros.contains(textoBusqueda) || this.isInTagsList(textoBusqueda)){
+		if(getNombre().contains(textoBusqueda) || rubros.contains(textoBusqueda) || this.isInTagsList(textoBusqueda)){
 			return true;
 		}
 		else{

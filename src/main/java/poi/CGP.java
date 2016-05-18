@@ -30,17 +30,12 @@ public class CGP extends POI{
 		
 		@Override
 		public boolean coincideConLaBusqueda(String textoBusqueda){
-			ArrayList<Servicio> serviciosQueBrinda= this.getComuna().getServiciosQueBrinda();
-			boolean coincide=false;
-			for(Servicio servicio: serviciosQueBrinda){
-				if(servicio.getNombre() == textoBusqueda || this.isInTagsList(textoBusqueda)){
-					coincide=true;
-				}
-				else{
+			for(Servicio servicio: getServicios()){
+				if(servicio.getNombre().contains(textoBusqueda) || this.isInTagsList(textoBusqueda)){
+					return true;
 				}
 			}
-			
-			return coincide;
+			return false;
 		}
 		
 		public boolean estaDisponible (LocalDateTime unTiempo, String valor){

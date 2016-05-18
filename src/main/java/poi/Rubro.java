@@ -7,6 +7,7 @@ public class Rubro {
 	
 		public Rubro(Double unRadioDeCercania){
 			this.setRadioDeCercania(unRadioDeCercania);
+			setRubrosALosQuePertence();
 		}	
 		
 		//ATRIBUTOS

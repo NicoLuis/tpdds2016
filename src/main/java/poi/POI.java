@@ -10,7 +10,9 @@ public class POI {
 		this.setTags(); //Para inicializar el Array
 		this.setComuna(unaComuna);
 	}
-	public POI() {}
+	public POI() {
+		this.setTags(); //Para inicializar el Array
+	}
 	private Point 					ubicacion;
 	private String 					nombre;
 	private String 					direccion;
@@ -107,7 +109,7 @@ public class POI {
 		tags.remove(tag);
 	}
 	public boolean coincideConLaBusqueda(String textoBusqueda){
-		return true;
+		return getNombre().contains(textoBusqueda);
 	}
 	public boolean isInTagsList(String textoBusqueda){
 		if(this.getTags().contains(textoBusqueda)){

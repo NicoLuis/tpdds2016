@@ -1,8 +1,7 @@
-package main.java.controllers;
+package controllers;
 
 import static spark.Spark.*;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import main.java.poi.*;
 
 public class Routes {
 

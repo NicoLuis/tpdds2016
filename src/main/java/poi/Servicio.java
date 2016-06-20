@@ -1,4 +1,4 @@
-package main.java.poi;
+package poi;
 
 public class Servicio {
 	private String 					nombre;

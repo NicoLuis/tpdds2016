@@ -1,4 +1,4 @@
-package main.java.controllers;
+package controllers;
 
 import spark.ModelAndView;
 import spark.Request;

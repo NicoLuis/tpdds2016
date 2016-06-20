@@ -1,4 +1,4 @@
-package test.java.principal;
+package principal;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,8 +7,8 @@ import org.uqbar.geodds.Point;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import main.java.poi.*;
-import main.java.bases.*;
+import poi.*;
+import bases.*;
 
 import org.junit.Assert;
 

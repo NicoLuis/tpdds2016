@@ -1,4 +1,4 @@
-package main.java.poi;
+package poi;
 
 import org.uqbar.geodds.Point;
 import java.util.ArrayList;
@@ -42,8 +42,8 @@ public class LocalComercial extends POI{
 	
 	public boolean estaDisponible (LocalDateTime unTiempo){
 		
-		RangoDeAtencion rangoLocal = super.getRangoDeAtencion();
-		return ( rangoLocal.disponible(unTiempo));
+		ArrayList<RangoDeAtencion> rangoLocal = super.getRangoDeAtencion();
+		return rangoLocal.stream().anyMatch(rango -> rango.disponible(unTiempo));
 		
 	}
 }

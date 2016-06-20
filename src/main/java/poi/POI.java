@@ -1,4 +1,4 @@
-package main.java.poi;
+package poi;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.ArrayList;
@@ -15,12 +15,12 @@ public class POI {
 	public POI() {
 		this.setTags(); //Para inicializar el Array
 	}
-	private Point 					ubicacion;
-	private String 					nombre;
-	private String 					direccion;
-	private Comuna	 				comuna;
-	private ArrayList<String> 		tags; //Array de String que contienen todos los tags de busqueda libre
-	private RangoDeAtencion		 	rangoDeAtencion; 
+	private Point 						ubicacion;
+	private String 						nombre;
+	private String 						direccion;
+	private Comuna	 					comuna;
+	private ArrayList<String> 			tags; //Array de String que contienen todos los tags de busqueda libre
+	private ArrayList<RangoDeAtencion>	rangoDeAtencion; 
 	
 	
 	public boolean estaAMenosDeXMetrosDeOtroPOI(POI otroPOI,double metros){
@@ -53,12 +53,16 @@ public class POI {
 		return this.getNombre() != null && this.getNombre() != "";
 	}
 	//getters y setters
-	public RangoDeAtencion getRangoDeAtencion() {
+	public ArrayList<RangoDeAtencion> getRangoDeAtencion() {
 		return rangoDeAtencion;
 	}
 
-	public void setRangoDeAtencion(RangoDeAtencion rangoDeAtencion) {
+	public void setRangoDeAtencion( ArrayList<RangoDeAtencion> rangoDeAtencion) {
 		this.rangoDeAtencion = rangoDeAtencion;
+	}
+	
+	public void addRangoDeAtencion(RangoDeAtencion rangoDeAtencion) {
+		this.rangoDeAtencion.add(rangoDeAtencion);
 	}
 	
 	public Comuna getComuna() {

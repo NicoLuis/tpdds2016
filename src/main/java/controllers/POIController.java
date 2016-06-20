@@ -1,4 +1,4 @@
-package main.java.controllers;
+package controllers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -9,8 +9,8 @@ import spark.Response;
 
 import org.uqbar.geodds.Point;
 
-import main.java.poi.*;
-import main.java.bases.*;
+import poi.*;
+import bases.*;
 
 public class POIController {
 	

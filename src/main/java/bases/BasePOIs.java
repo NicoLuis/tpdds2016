@@ -1,11 +1,11 @@
-package main.java.bases;
+package bases;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
 
-import main.java.poi.*;
+import poi.*;
 
 public class BasePOIs{
 	private Comuna comuna8;
@@ -30,6 +30,7 @@ public class BasePOIs{
 	private Servicio atencionAlCliente;
 	private Servicio asesoramiento;
 	
+	private ArrayList<Comuna> listaComunas;
 	private ArrayList<POI> listaPois;
 	
 	public BasePOIs(){
@@ -49,6 +50,7 @@ public class BasePOIs{
 		crear_supermercado_1();
 		crear_localDeRopa_1();
 		crear_casaDeComida_1();
+		crear_arrayComunas();
 		crear_arrayPOIs();
 	}
 	
@@ -62,6 +64,7 @@ public class BasePOIs{
 		zonaComuna8.add(new Point(-34.6648,-58.4697));
 		zonaComuna8.add(new Point(-34.6621,-58.4240));
 		zonaComuna8.add(new Point(-34.7048,-58.4612));
+		comuna8.setNombre("Comuna 8");
 		comuna8.setZona(zonaComuna8);
 		return comuna8;
 	}
@@ -168,7 +171,8 @@ public class BasePOIs{
 		libreriaEscolar.setComuna(comuna8);
 		libreriaEscolar.setUbicacion(new Point(-34.6720, -58.4678));
 		libreriaEscolar.setRubro(rubroLibreriaEscolar);
-		libreriaEscolar.setRangoDeAtencion(new RangoDeAtencion(10, 18, 1, 5));	
+		libreriaEscolar.setRangoDeAtencion( new ArrayList<RangoDeAtencion>() );
+		libreriaEscolar.addRangoDeAtencion( new RangoDeAtencion(10, 18, 1, 5) );
 		return libreriaEscolar;
 	}
 	
@@ -184,21 +188,27 @@ public class BasePOIs{
 	
 	
 	public ArrayList<POI> crear_arrayPOIs(){
-		listaPois = new ArrayList<POI>();
-		listaPois.add(ubicacionCercana);
-		listaPois.add(ubicacionLejana);
-		listaPois.add(cgp_1);
-		listaPois.add(cgp_2);
-		listaPois.add(paradaDel47);
-		listaPois.add(paradaDel107);
-		listaPois.add(paradaDel114);
-		listaPois.add(sucursalBanco_1);
-		listaPois.add(libreriaEscolar);
-		listaPois.add(kioskoDeDiarios);
-		listaPois.add(supermercado);
-		listaPois.add(localDeRopa);
-		listaPois.add(casaDeComida);
-		return listaPois;
+		setListaPois(new ArrayList<POI>());
+		getListaPois().add(ubicacionCercana);
+		getListaPois().add(ubicacionLejana);
+		getListaPois().add(cgp_1);
+		getListaPois().add(cgp_2);
+		getListaPois().add(paradaDel47);
+		getListaPois().add(paradaDel107);
+		getListaPois().add(paradaDel114);
+		getListaPois().add(sucursalBanco_1);
+		getListaPois().add(libreriaEscolar);
+		getListaPois().add(kioskoDeDiarios);
+		getListaPois().add(supermercado);
+		getListaPois().add(localDeRopa);
+		getListaPois().add(casaDeComida);
+		return getListaPois();
+	}
+	
+	public ArrayList<Comuna> crear_arrayComunas(){
+		setListaComunas(new ArrayList<Comuna>());
+		getListaComunas().add(crearComuna8());
+		return getListaComunas();
 	}
 	
 	public LocalComercial crear_supermercado_1(){
@@ -238,6 +248,22 @@ public class BasePOIs{
 		Stream<POI> listaFiltrada = 
 				listapois.stream().filter(poi -> poi.coincideConLaBusqueda(string));
 		return listaFiltrada;
+	}
+
+	public ArrayList<POI> getListaPois() {
+		return listaPois;
+	}
+
+	public void setListaPois(ArrayList<POI> listaPois) {
+		this.listaPois = listaPois;
+	}
+
+	public ArrayList<Comuna> getListaComunas() {
+		return listaComunas;
+	}
+
+	public void setListaComunas(ArrayList<Comuna> listaComunas) {
+		this.listaComunas = listaComunas;
 	}
 	
 	

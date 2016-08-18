@@ -1,14 +1,137 @@
 package bases;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
 
 import poi.*;
+import sistExternos.IntegracionBancos;
+import sistExternos.IntegracionCgp;
+import sistExternos.InterfazExterna;
 
-public class BasePOIs{
-	private Comuna comuna8;
+public class HomePois{
+	
+	private ArrayList<POI> listaPois;
+	private Collection<InterfazExterna> integraciones;
+
+	//Singleton ////////////////////////////////////////////////////////////////////////////////
+	static HomePois instancia;
+	
+	private HomePois(){
+		listaPois = new ArrayList<POI>();
+		integraciones = new HashSet<InterfazExterna>();
+		
+		integraciones.add(IntegracionBancos.GetInstance());
+		integraciones.add(IntegracionCgp.GetInstance());
+		crearPOIs();
+	}
+	
+	public static HomePois GetInstancia(){
+		
+		if(instancia == null){
+			instancia = new HomePois();
+		}
+		return instancia;
+	}
+	public static void reset(){
+		instancia = new HomePois();
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//Manejo de ListaPois/////////////////////////////////////////////////////////////////////////////
+	public void agregarPoi(POI poi){
+		this.listaPois.add(poi);
+	}
+	
+	public void quitarPoi(POI poi){
+		this.listaPois.remove(poi);
+	}
+	
+	public void removerPoiPorNumero(int num){
+		this.listaPois.removeIf(p -> p.getNumeroPOI()== num);
+	}
+	public void removerPoiPorBusqueda(String textoBusqueda){
+		this.listaPois.removeIf(p -> p.coincideConLaBusqueda(textoBusqueda));	
+	}
+	
+	public void modificarNombre(int posicion, String nuevoNombre){
+		this.listaPois.get(posicion).setNombre(nuevoNombre);
+	}
+	
+	public void modificarPosicion(int posicion, int nuevoX, int nuevoY){
+		this.listaPois.get(posicion).setCoordenadas(nuevoX, nuevoY);
+	}
+	
+	public void modificarDirecion(int posicion, Direccion nuevaDir){
+		this.listaPois.get(posicion).setDireccion(nuevaDir);
+	}
+	
+	public int cantidadPois(){
+		return listaPois.size();
+	}
+	//Fin manejo listaPoi/////////////////////////////////////////////////////////////////////////////
+	
+	
+	//Manejo integraciones ///////////////////////////////////////////////////////////////////////////
+	public void agregarIntegracion(InterfazExterna integracion){
+		integraciones.add(integracion);
+	}
+	public void quitarIntegracion(InterfazExterna integracion){
+		integraciones.remove(integracion);
+	}
+	public int cantidadIntegraciones(){
+		return integraciones.size();
+	}
+	//Fin manejo integraciones ///////////////////////////////////////////////////////////////////////
+	
+	
+	//Busquedas //////////////////////////////////////////////////////////////////////////////////////
+	public List<POI> buscar(String busqueda, Point coordenada){
+		List<POI> listaLocal = new ArrayList<POI>();
+		listaLocal = listaPois.stream()
+					.filter(p -> p.coincideConLaBusqueda(busqueda) )
+					.filter(p -> p.estaCerca(coordenada) )
+					.filter(p -> p.estaDisponible() )
+					.collect(Collectors.toList());
+		for(InterfazExterna integracion: integraciones){
+			listaLocal.addAll(integracion.buscar(busqueda));
+		}
+		return listaLocal;
+	}
+	
+	public POI buscarNombre(String busqueda){
+		List<POI> listaLocal = new ArrayList<POI>();
+		listaLocal = listaPois.stream()
+					.filter(p -> p.getNombre().equals(busqueda ))
+					.collect(Collectors.toList());
+		return listaLocal.get(0);
+	}
+	
+	public List<POI> puntosCercanos(Point coordenada){
+		return listaPois.stream().filter(p -> p.estaCerca(coordenada)).collect(Collectors.toList());
+	}
+	
+	public List<POI> puntosAceptados(String busqueda){
+		return listaPois.stream().filter(p -> p.coincideConLaBusqueda(busqueda)).collect(Collectors.toList());
+	}
+	
+	public List<POI> puntosDisponibles(){
+		return listaPois.stream().filter(p -> p.estaDisponible()).collect(Collectors.toList());
+	}
+	
+	//Devuelvo la lista solo de locales
+	public List<POI> getLocales(){
+		
+		return listaPois.stream().filter(p -> p.getClass() == LocalComercial.class).collect(Collectors.toList());
+	}
+	//Fin busquedas //////////////////////////////////////////////////////////////////////////////////
+
+	
+	private Polygon zonaComuna8;
 	private POI ubicacionCercana;
 	private POI ubicacionLejana;
 	private CGP cgp_1;
@@ -16,7 +139,7 @@ public class BasePOIs{
 	private ParadaColectivo paradaDel47;
 	private ParadaColectivo paradaDel107;
 	private ParadaColectivo paradaDel114;
-	private SucursalBanco sucursalBanco_1;
+	private Banco sucursalBanco_1;
 	private LocalComercial libreriaEscolar;
 	private LocalComercial kioskoDeDiarios;
 	private Rubro rubroLibreriaEscolar;
@@ -29,11 +152,9 @@ public class BasePOIs{
 	private POI casaDeComida;
 	private Servicio atencionAlCliente;
 	private Servicio asesoramiento;
+
 	
-	private ArrayList<Comuna> listaComunas;
-	private ArrayList<POI> listaPois;
-	
-	public BasePOIs(){
+	public void crearPOIs(){
 		crearComuna8();
 		crear_Rubros();
 		crearServicios();
@@ -50,47 +171,43 @@ public class BasePOIs{
 		crear_supermercado_1();
 		crear_localDeRopa_1();
 		crear_casaDeComida_1();
-		crear_arrayComunas();
 		crear_arrayPOIs();
 	}
 	
 //////////////////////////////				CONSTRUCTORES				//////////////////////////////
 	
-	public Comuna crearComuna8(){
-		Polygon zonaComuna8 = new Polygon();
-		comuna8 = new Comuna();
+	public Polygon crearComuna8(){
+		zonaComuna8 = new Polygon();
+		
 		zonaComuna8.add(new Point(-34.6744,-58.5025));
 		zonaComuna8.add(new Point(-34.6578,-58.4787));
 		zonaComuna8.add(new Point(-34.6648,-58.4697));
 		zonaComuna8.add(new Point(-34.6621,-58.4240));
 		zonaComuna8.add(new Point(-34.7048,-58.4612));
-		comuna8.setNombre("Comuna 8");
-		comuna8.setZona(zonaComuna8);
-		return comuna8;
+		
+		return zonaComuna8;
 	}
 	
 	public void crearServicios(){
-		rentas = new Servicio("Rentas", new RangoDeAtencion(7.30,19.30,1,5));
-		cajero = new Servicio("Cajero", new RangoDeAtencion(10,15.30,1,5));
-		asesoramiento = new Servicio("Asesoramiento", new RangoDeAtencion(10,15.30,1,5));
-		atencionAlCliente = new Servicio("AtencionAlCliente", new RangoDeAtencion(10,15.30,1,5));
+		rentas = new Servicio("Rentas", new Franja(7,30,19,30,1,5) );
+		cajero = new Servicio("Cajero", new Franja(10,0,15,30,1,5));
+		asesoramiento = new Servicio("Asesoramiento", new Franja(10,0,15,30,1,5));
+		atencionAlCliente = new Servicio("AtencionAlCliente", new Franja(10,0,15,30,1,5));
 	}
 
 	
 	public POI crear_ubicacionCercana() {
-		ubicacionCercana = new POI();
+		ubicacionCercana = new CGP();
 		ubicacionCercana.setNombre("ubicacionCercana");
-		ubicacionCercana.setDireccion("Sayos 4937");
-		ubicacionCercana.setComuna(comuna8);
+		ubicacionCercana.setComuna(zonaComuna8);
 		ubicacionCercana.setUbicacion (new Point(-34.6717, -58.4679));
 		return ubicacionCercana;
 	}
 	
 	public POI crear_ubicacionLejana() {
-		ubicacionLejana = new POI();
+		ubicacionLejana = new CGP();
 		ubicacionLejana.setNombre("ubicacionLejana");
-		ubicacionLejana.setDireccion("Av. Juan B. Justo 4045 ");
-		ubicacionLejana.setComuna(comuna8);
+		ubicacionLejana.setComuna(zonaComuna8);
 		ubicacionLejana.setUbicacion(new Point(-34.6048, -58.4591));
 		return ubicacionLejana;
 	}
@@ -98,9 +215,8 @@ public class BasePOIs{
 	public CGP crear_CGP_1() {
 		cgp_1 = new CGP();
 		cgp_1.setNombre("CGP_1");
-		cgp_1.setDireccion("Av Escalada 3100");
-		cgp_1.setComuna(comuna8);
 		cgp_1.setUbicacion(new Point(-34.6672, -58.4669));
+		cgp_1.setComuna(zonaComuna8);
 		cgp_1.addServicio(rentas);
 		return cgp_1;
 	}
@@ -108,9 +224,8 @@ public class BasePOIs{
 	public CGP crear_CGP_2() {
 		cgp_2 = new CGP();
 		cgp_2.setNombre("CGP_2");
-		cgp_2.setDireccion("Murguiondo 3457");
-		cgp_2.setComuna(comuna8);
 		cgp_2.setUbicacion(new Point(-34.6705, -58.4841));
+		cgp_2.setComuna(zonaComuna8);
 		cgp_2.addServicio(asesoramiento);
 		cgp_2.addServicio(atencionAlCliente);
 		return cgp_2;
@@ -119,8 +234,6 @@ public class BasePOIs{
 	public ParadaColectivo crear_paradaDel47() {
 		paradaDel47 = new ParadaColectivo();
 		paradaDel47.setNombre("Parada del 47");
-		paradaDel47.setDireccion("Corvanalan 3691");
-		paradaDel47.setComuna(comuna8);
 		paradaDel47.setUbicacion(new Point(-34.6715, -58.4676));
 		return paradaDel47;
 	}
@@ -128,8 +241,6 @@ public class BasePOIs{
 	public ParadaColectivo crear_paradaDel107() {
 		paradaDel107 = new ParadaColectivo();
 		paradaDel107.setNombre("Parada del 107");
-		paradaDel107.setDireccion("Av. Eva Peron 4900");
-		paradaDel107.setComuna(comuna8);
 		paradaDel107.setUbicacion(new Point(-34.6578,-58.4787));
 		return paradaDel107;
 	}
@@ -137,17 +248,13 @@ public class BasePOIs{
 	public ParadaColectivo crear_paradaDel114() {
 		paradaDel114 = new ParadaColectivo();
 		paradaDel114.setNombre("Parada del 114");
-		paradaDel114.setDireccion("Corvanalan 3691");
-		paradaDel114.setComuna(comuna8);
 		paradaDel114.setUbicacion(new Point(-34.6715, -58.4676));
 		return paradaDel114;
 	}
 	
-	public SucursalBanco crear_SucursalBanco_1() {
-		sucursalBanco_1 = new SucursalBanco();
+	public Banco crear_SucursalBanco_1() {
+		sucursalBanco_1 = new Banco();
 		sucursalBanco_1.setNombre("Sucursal Banco");
-		sucursalBanco_1.setDireccion("Av Riestra 5002");
-		sucursalBanco_1.setComuna(comuna8);
 		sucursalBanco_1.setUbicacion(new Point(-34.6719, -58.4695));
 		return sucursalBanco_1;
 	}
@@ -167,20 +274,16 @@ public class BasePOIs{
 	public LocalComercial crear_libreriaEscolar_1() {
 		libreriaEscolar = new LocalComercial();
 		libreriaEscolar.setNombre("Libreria Escolar");
-		libreriaEscolar.setDireccion("Av Argentina 4802");
-		libreriaEscolar.setComuna(comuna8);
 		libreriaEscolar.setUbicacion(new Point(-34.6720, -58.4678));
 		libreriaEscolar.setRubro(rubroLibreriaEscolar);
-		libreriaEscolar.setRangoDeAtencion( new ArrayList<RangoDeAtencion>() );
-		libreriaEscolar.addRangoDeAtencion( new RangoDeAtencion(10, 18, 1, 5) );
+		libreriaEscolar.setFranjaHoraria( new ArrayList<Franja>() );
+		libreriaEscolar.addFranjaHoraria( new Franja(10, 18, 1, 5) );
 		return libreriaEscolar;
 	}
 	
 	public LocalComercial crear_kioskoDeDiarios_1() {
 		kioskoDeDiarios = new LocalComercial();
 		kioskoDeDiarios.setNombre("Kiosko de Diarios");
-		kioskoDeDiarios.setDireccion("Albariño 3702");
-		kioskoDeDiarios.setComuna(comuna8);
 		kioskoDeDiarios.setUbicacion(new Point(-34.6717, -58.4673));
 		kioskoDeDiarios.setRubro(rubroKioskoDeDiarios);
 		return kioskoDeDiarios;
@@ -198,17 +301,11 @@ public class BasePOIs{
 		getListaPois().add(paradaDel114);
 		getListaPois().add(sucursalBanco_1);
 		getListaPois().add(libreriaEscolar);
-		getListaPois().add(kioskoDeDiarios);
+		//getListaPois().add(kioskoDeDiarios);
 		getListaPois().add(supermercado);
-		getListaPois().add(localDeRopa);
-		getListaPois().add(casaDeComida);
+		//getListaPois().add(localDeRopa);
+		//getListaPois().add(casaDeComida);
 		return getListaPois();
-	}
-	
-	public ArrayList<Comuna> crear_arrayComunas(){
-		setListaComunas(new ArrayList<Comuna>());
-		getListaComunas().add(crearComuna8());
-		return getListaComunas();
 	}
 	
 	public LocalComercial crear_supermercado_1(){
@@ -219,7 +316,7 @@ public class BasePOIs{
 	}
 	
 	public POI crear_localDeRopa_1(){
-		localDeRopa = new POI();
+		localDeRopa = new LocalComercial();
 		localDeRopa.setNombre("Local de Ropa");
 		ArrayList<String> tagsDeLocalDeRopa = new ArrayList<String>();
 		tagsDeLocalDeRopa.add("casual");
@@ -230,7 +327,7 @@ public class BasePOIs{
 	}
 	
 	public POI crear_casaDeComida_1(){
-		casaDeComida = new POI();
+		casaDeComida = new LocalComercial();
 		casaDeComida.setNombre("Casa de Comida");
 		ArrayList<String> tagsDeCasaDeComida = new ArrayList<String>();
 		tagsDeCasaDeComida.add("almuerzo");
@@ -254,16 +351,12 @@ public class BasePOIs{
 		return listaPois;
 	}
 
-	public void setListaPois(ArrayList<POI> listaPois) {
-		this.listaPois = listaPois;
+	public void setListaPois(ArrayList<POI> listaPoisNueva) {
+		listaPois = listaPoisNueva;
 	}
-
-	public ArrayList<Comuna> getListaComunas() {
-		return listaComunas;
-	}
-
-	public void setListaComunas(ArrayList<Comuna> listaComunas) {
-		this.listaComunas = listaComunas;
+	
+	public void addListaPois(POI poi) {
+		listaPois.add(poi);
 	}
 	
 	

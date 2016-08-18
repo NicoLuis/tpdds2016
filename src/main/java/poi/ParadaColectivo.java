@@ -1,13 +1,22 @@
 package poi;
 import java.time.LocalDateTime;
+
 import org.uqbar.geodds.Point;
+import org.uqbar.geodds.Polygon;
 
 public class ParadaColectivo extends POI {
 
 	//CONSTRUCTOR
 	
-	public ParadaColectivo(Point miUbicacion, Comuna comuna8) {
-		super(miUbicacion, comuna8);
+	public ParadaColectivo(Point miUbicacion, Polygon area) {
+		super();
+		this.setUbicacion(miUbicacion);
+		this.setComuna(area);
+	}
+	
+	public ParadaColectivo(String nombre) {
+		super();
+		this.setNombre(nombre);
 	}
 
 	public ParadaColectivo(){}
@@ -31,5 +40,9 @@ public class ParadaColectivo extends POI {
 		else{
 			return false;
 		}
+	}
+	
+	public String tipo(){
+		return "Parada de Colectivo";
 	}
 }

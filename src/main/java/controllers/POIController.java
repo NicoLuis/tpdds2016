@@ -14,7 +14,7 @@ import bases.*;
 
 public class POIController {
 	
-	BasePOIs basepoi = new BasePOIs();
+	HomePois basepoi = HomePois.GetInstancia();
 
 	public ModelAndView nuevo(Request request, Response response) {
 		return new ModelAndView(null, "POIs.hbs");
@@ -35,7 +35,7 @@ public class POIController {
 		POI poi_2 = tomarDatos(request, "nombre2", "direccion2", "ubicacionX2", "ubicacionY2", true);
 		
 		BigDecimal distanciaRedondeada = redondear(poi_1, poi_2);
-		boolean estaCerca = poi_2.estaCercaDe(poi_1.getUbicacion());
+		boolean estaCerca = poi_2.estaCerca(poi_1.getCoordenadas());
 		
 		enviar(distanciaRedondeada, poi_1, poi_2, estaCerca, response);
 		
@@ -67,7 +67,7 @@ public class POIController {
 			POI poi_2 = tomarDatosConocidos(request);
 			
 			BigDecimal distanciaRedondeada = redondear(poi_1, poi_2);
-			boolean estaCerca = poi_2.estaCercaDe(poi_1.getUbicacion());
+			boolean estaCerca = poi_2.estaCerca(poi_1.getCoordenadas());
 			
 			enviar(distanciaRedondeada, poi_1, poi_2, estaCerca, response);
 			
@@ -87,51 +87,57 @@ public class POIController {
 	
 	public POI tomarDatos(Request request, String nombre, String direccion, String ubicacionX, String ubicacionY, boolean tieneTipoDos){
 		String nom = request.queryParams(nombre);
-		String drc = request.queryParams(direccion);
 		Point unaUbicacion = 
 				new Point(	Float.parseFloat(request.queryParams(ubicacionX)), 
 							Float.parseFloat(request.queryParams(ubicacionY)));
 		
-		POI poi = new POI();	
+		POI poi;	
 		if(tieneTipoDos == true){
 		switch(request.queryParams("tipo2")){
 			case "Parada de colectivos": 
-				poi = new ParadaColectivo(); break;
+				poi = new ParadaColectivo(); 
+				poi.setNombre(nom);
+				poi.setUbicacion(unaUbicacion);
+				return poi;
 			case "Centro de Gestión y Participación": 
-				poi = new CGP();			 break;
+				poi = new CGP();
+				poi.setNombre(nom);
+				poi.setUbicacion(unaUbicacion);
+				return poi;
 			case "Sucursal de Banco": 
-				poi = new SucursalBanco(); 	 break;
+				poi = new Banco();
+				poi.setNombre(nom);
+				poi.setUbicacion(unaUbicacion);
+				return poi;
 			case "Local comercial": 
-				poi = new LocalComercial();  break;
+				poi = new LocalComercial();
+				poi.setNombre(nom);
+				poi.setUbicacion(unaUbicacion);
+				return poi;
 		}}
-	
-		
-		poi.setNombre(nom);
-		poi.setDireccion(drc);
-		poi.setUbicacion(unaUbicacion);
-		return poi;
+
+		return null;
 	}
 	
 	public POI tomarDatosConocidos(Request request){
-		POI poi = new POI();
 		switch(request.queryParams("poi2")){
-			case "ubicacionCercana": poi = basepoi.crear_ubicacionCercana() ; break;
-			case "ubicacionLejana": poi = basepoi.crear_ubicacionLejana() ; break;
-			case "CGP_1": poi = basepoi.crear_CGP_1() ; break;
-			case "CGP_2": poi = basepoi.crear_CGP_2() ; break;
-			case "Parada del 47": poi = basepoi.crear_paradaDel47() ; break;
-			case "Parada del 107": poi = basepoi.crear_paradaDel107() ; break;
-			case "Parada del 114": poi = basepoi.crear_paradaDel114() ; break;
-			case "Sucursal Banco": poi = basepoi.crear_SucursalBanco_1() ; break;
-			case "Libreria Escolar": poi = basepoi.crear_libreriaEscolar_1() ; break;
-			case "Kiosko de Diarios": poi = basepoi.crear_kioskoDeDiarios_1() ; break;
+			case "ubicacionCercana": return basepoi.crear_ubicacionCercana() ; 
+			case "ubicacionLejana": return basepoi.crear_ubicacionLejana() ; 
+			case "CGP_1": return basepoi.crear_CGP_1() ; 
+			case "CGP_2": return basepoi.crear_CGP_2() ; 
+			case "Parada del 47": return basepoi.crear_paradaDel47() ;
+			case "Parada del 107": return basepoi.crear_paradaDel107() ; 
+			case "Parada del 114": return basepoi.crear_paradaDel114() ; 
+			case "Sucursal Banco": return basepoi.crear_SucursalBanco_1() ; 
+			case "Libreria Escolar": return basepoi.crear_libreriaEscolar_1() ; 
+			case "Kiosko de Diarios": return basepoi.crear_kioskoDeDiarios_1() ; 
+			default: return null;
 		}
-		return poi;
 	}
 	
 	
 	public BigDecimal redondear(POI poi_1, POI poi_2){
-		BigDecimal bigDecimal = new BigDecimal( poi_1.getUbicacion().distance(poi_2.getUbicacion())*1000 );
+		BigDecimal bigDecimal = new BigDecimal( poi_1.getCoordenadas().distance(poi_2.getCoordenadas())*1000 );
 		return bigDecimal.setScale(0, RoundingMode.HALF_UP);
 	}
 	

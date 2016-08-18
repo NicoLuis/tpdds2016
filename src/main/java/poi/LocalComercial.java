@@ -1,19 +1,25 @@
 package poi;
 
 import org.uqbar.geodds.Point;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDateTime;
 
 public class LocalComercial extends POI{
-	public LocalComercial(Point unaUbicacion, Comuna comuna8, Rubro unRubro){
-		
-		super(unaUbicacion,comuna8);
+	
+	private Rubro rubro;
+	private List<String> palabrasClave = new ArrayList<String>();
+	
+	public LocalComercial(String nombre, Point unaUbicacion, Rubro unRubro){
+		super();
+		this.setNombre(nombre);
+		this.setUbicacion(unaUbicacion);
 		this.setRubro(unRubro);
 	}
 	public LocalComercial(){
 		super();
 	}
-	private Rubro rubro;
 	
 	//GETTERS Y SETTERS
 	
@@ -24,6 +30,12 @@ public class LocalComercial extends POI{
 	public void setRubro(Rubro unRubro){
 		rubro = unRubro;
 	}
+	public List<String> getPalabrasClave(){
+		return this.palabrasClave;
+	}
+	public void setPalabrasClave(List<String> palabrasClave){
+		this.palabrasClave = palabrasClave;
+	}
 	//METODOS
 	
 	public double cercaniaRequerida(){
@@ -31,19 +43,21 @@ public class LocalComercial extends POI{
 	}
 	@Override
 	public boolean coincideConLaBusqueda(String textoBusqueda){
-		ArrayList<String> rubros= this.getRubro().getRubrosALosQuePertence();
-		if(getNombre().contains(textoBusqueda) || rubros.contains(textoBusqueda) || this.isInTagsList(textoBusqueda)){
+		if(nombre.contains(textoBusqueda) || rubro.getRubrosALosQuePertence().contains(textoBusqueda) 
+				|| this.isInTagsList(textoBusqueda) || rubro.getNombre().contains(textoBusqueda) )
 			return true;
-		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	public boolean estaDisponible (LocalDateTime unTiempo){
 		
-		ArrayList<RangoDeAtencion> rangoLocal = super.getRangoDeAtencion();
-		return rangoLocal.stream().anyMatch(rango -> rango.disponible(unTiempo));
+		List<Franja> rangoLocal = super.getFranjaHoraria();
+		return rangoLocal.stream().anyMatch(rango -> rango.estaDisponible(unTiempo));
 		
 	}
+	
+	public String tipo(){
+		return "Local Comercial";
+	}
+
 }

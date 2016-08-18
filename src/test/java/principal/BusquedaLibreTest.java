@@ -1,7 +1,9 @@
 package principal;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.ArrayList;
 
 import poi.*;
@@ -18,13 +20,13 @@ public class BusquedaLibreTest {
 	private LocalComercial supermercado;
 	private POI localDeRopa;
 	private POI casaDeComida;
-	private BasePOIs basePois;
+	private HomePois basePois;
 	private ArrayList<POI> listaPois;
 	
 
 	@Before
 	public void init(){
-		basePois = new BasePOIs();
+		basePois = HomePois.GetInstancia();
 		paradaDel107 = basePois.crear_paradaDel107();
 		paradaDel114 = basePois.crear_paradaDel114();
 		paradaDel47 =basePois.crear_paradaDel47();
@@ -112,6 +114,11 @@ public class BusquedaLibreTest {
 		Assert.assertTrue(supermercado.coincideConLaBusqueda("libreria"));
 		Assert.assertFalse(basePois.coincideConLaBusqueda(listaPois, "libreria").count() == 10);
 		Assert.assertEquals(basePois.coincideConLaBusqueda(listaPois, "libreria").count(), 2);
+	}
+	
+	@After
+	public void despues(){
+		HomePois.reset();
 	}
 	
 	

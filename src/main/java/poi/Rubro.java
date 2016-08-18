@@ -1,27 +1,44 @@
 package poi;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class Rubro {
 	//CONSTRUCTOR 
 	
-		public Rubro(Double unRadioDeCercania){
+		public Rubro(double unRadioDeCercania){
 			this.setRadioDeCercania(unRadioDeCercania);
+			setRubrosALosQuePertence();
+			this.setNombre("");
+		}	
+		
+		public Rubro(String nombre, double unRadioDeCercania){
+			this.setRadioDeCercania(unRadioDeCercania);
+			this.setNombre(nombre);
 			setRubrosALosQuePertence();
 		}	
 		
 		//ATRIBUTOS
 		
-		private Double radioDeCercania;
+		private double radioDeCercania;
 		private ArrayList<String> rubrosALosQuePertence;//Array de String que contienen los tipos de rubro a los que pertenece la clase que lo llama
+		String nombre;
+		List<LocalComercial> listaLocales;
 		
 		//GETTERS Y SETTERS
 		
-		public Double getRadioDeCercania(){
+		public double getRadioDeCercania(){
 			return radioDeCercania;
 		}
+		public String getNombre(){
+			return nombre;
+		}
+		public void setNombre(String nombre){
+			this.nombre = nombre;
+		}	
 		
-		public void setRadioDeCercania(Double unRadioDeCercania){
+		public void setRadioDeCercania(double unRadioDeCercania){
 			radioDeCercania = unRadioDeCercania;
 		}	
 		public void setRubrosALosQuePertence(){

@@ -66,6 +66,7 @@ public class POIController {
 			POI poi_1 = tomarDatos(request, "nombre", "direccion", "ubicacionX", "ubicacionY", false);
 			POI poi_2 = tomarDatosConocidos(request);
 			
+
 			BigDecimal distanciaRedondeada = redondear(poi_1, poi_2);
 			boolean estaCerca = poi_2.estaCerca(poi_1.getCoordenadas());
 			
@@ -85,37 +86,49 @@ public class POIController {
 	
 	
 	
-	public POI tomarDatos(Request request, String nombre, String direccion, String ubicacionX, String ubicacionY, boolean tieneTipoDos){
+	public POI tomarDatos(Request request, String nombre, String direcc, String ubicacionX, String ubicacionY, boolean tieneTipoDos){
 		String nom = request.queryParams(nombre);
+		String direccion = request.queryParams(direcc);
+
 		Point unaUbicacion = 
 				new Point(	Float.parseFloat(request.queryParams(ubicacionX)), 
 							Float.parseFloat(request.queryParams(ubicacionY)));
-		
+				
 		POI poi;	
 		if(tieneTipoDos == true){
 		switch(request.queryParams("tipo2")){
 			case "Parada de colectivos": 
 				poi = new ParadaColectivo(); 
 				poi.setNombre(nom);
-				poi.setUbicacion(unaUbicacion);
+				poi.setDireccion(new Direccion(direccion));
+				poi.setUbicacion(unaUbicacion);				
 				return poi;
 			case "Centro de Gestión y Participación": 
 				poi = new CGP();
 				poi.setNombre(nom);
+				poi.setDireccion(new Direccion(direccion));
 				poi.setUbicacion(unaUbicacion);
 				return poi;
 			case "Sucursal de Banco": 
 				poi = new Banco();
 				poi.setNombre(nom);
+				poi.setDireccion(new Direccion(direccion));
 				poi.setUbicacion(unaUbicacion);
 				return poi;
 			case "Local comercial": 
 				poi = new LocalComercial();
 				poi.setNombre(nom);
+				poi.setDireccion(new Direccion(direccion));
 				poi.setUbicacion(unaUbicacion);
 				return poi;
-		}}
-
+		}}else{
+			poi = new ParadaColectivo(); 
+			poi.setNombre(nom);
+			poi.setDireccion(new Direccion(direccion));
+			poi.setUbicacion(unaUbicacion);	
+			return poi;
+		}
+		
 		return null;
 	}
 	
@@ -144,7 +157,7 @@ public class POIController {
 	public void enviar(BigDecimal distanciaRedondeada, POI poi_1, POI poi_2, boolean estaCerca, Response response){
 		String str = "/POIs/Distancia?distancia=" + distanciaRedondeada + 
 				"&nom=" + poi_1.getNombre() +
-				"&drc=" + poi_1.getDireccion() +
+				"&drc=" + poi_1.getDireccion().getCalle() +
 				"&nom2=" + poi_2.getNombre() +
 				"&drc2=" + poi_2.getDireccion() +
 				"&c=" + estaCerca;
@@ -154,7 +167,7 @@ public class POIController {
 	public void enviar(POI poi, boolean disponible, Response response){
 		String str = "/POIs/Disponible?disp=" + disponible +
 				"&nom2=" + poi.getNombre() +
-				"&drc2=" + poi.getDireccion();
+				"&drc2=" + poi.getDireccion().getCalle();
 		if( poi.esPOIValido() )	response.redirect(str);
 	}
 	

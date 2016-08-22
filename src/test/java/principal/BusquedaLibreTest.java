@@ -4,8 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import poi.*;
 import bases.*;
 
@@ -21,7 +19,6 @@ public class BusquedaLibreTest {
 	private POI localDeRopa;
 	private POI casaDeComida;
 	private HomePois basePois;
-	private ArrayList<POI> listaPois;
 	
 
 	@Before
@@ -35,7 +32,6 @@ public class BusquedaLibreTest {
 		supermercado = basePois.crear_supermercado_1();
 		localDeRopa = basePois.crear_localDeRopa_1();
 		casaDeComida = basePois.crear_casaDeComida_1();
-		listaPois = basePois.crear_arrayPOIs();
 	}
 
 	@Test
@@ -84,7 +80,7 @@ public class BusquedaLibreTest {
 	@Test
 	public void testUnSoloPOIContieneAsesoramiento(){
 		Assert.assertTrue(cgp.coincideConLaBusqueda("Asesoramiento"));
-		Assert.assertEquals(basePois.coincideConLaBusqueda(listaPois, "Asesoramiento").count(), 1);
+		Assert.assertEquals(basePois.coincideConLaBusqueda("Asesoramiento").count(), 1);
 	}
 	
 	@Test
@@ -92,7 +88,7 @@ public class BusquedaLibreTest {
 		Assert.assertTrue(paradaDel107.coincideConLaBusqueda("Parada"));
 		Assert.assertTrue(paradaDel114.coincideConLaBusqueda("Parada"));
 		Assert.assertTrue(paradaDel47.coincideConLaBusqueda("Parada"));
-		Assert.assertEquals(basePois.coincideConLaBusqueda(listaPois, "Parada").count(), 3);
+		Assert.assertEquals(basePois.coincideConLaBusqueda("Parada").count(), 3);
 	}
 	
 	@Test
@@ -100,20 +96,20 @@ public class BusquedaLibreTest {
 		Assert.assertTrue(libreriaEscolar.coincideConLaBusqueda("papelera"));
 		Assert.assertFalse(supermercado.coincideConLaBusqueda("papelera"));
 		Assert.assertFalse(paradaDel114.coincideConLaBusqueda("papelera"));
-		Assert.assertTrue(basePois.coincideConLaBusqueda(listaPois, "papelera").allMatch(poi -> poi.getNombre() == "Libreria Escolar"));		
+		Assert.assertTrue(basePois.coincideConLaBusqueda("papelera").allMatch(poi -> poi.getNombre() == "Libreria Escolar"));		
 	}
 	
 	@Test
 	public void testUnRubroCualquieraNOPerteneceANadie(){	
-		Assert.assertEquals(basePois.coincideConLaBusqueda(listaPois, "cualquiera").count(), 0);		
+		Assert.assertEquals(basePois.coincideConLaBusqueda("cualquiera").count(), 0);		
 	}
 	
 	@Test
 	public void testCantidadRubrosLibreria(){
 		Assert.assertTrue(libreriaEscolar.coincideConLaBusqueda("libreria"));
 		Assert.assertTrue(supermercado.coincideConLaBusqueda("libreria"));
-		Assert.assertFalse(basePois.coincideConLaBusqueda(listaPois, "libreria").count() == 10);
-		Assert.assertEquals(basePois.coincideConLaBusqueda(listaPois, "libreria").count(), 2);
+		Assert.assertFalse(basePois.coincideConLaBusqueda("libreria").count() == 10);
+		Assert.assertEquals(basePois.coincideConLaBusqueda("libreria").count(), 2);
 	}
 	
 	@After

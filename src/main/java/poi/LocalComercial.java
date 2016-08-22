@@ -19,6 +19,7 @@ public class LocalComercial extends POI{
 	}
 	public LocalComercial(){
 		super();
+		this.setRubro(new Rubro(0));
 	}
 	
 	//GETTERS Y SETTERS

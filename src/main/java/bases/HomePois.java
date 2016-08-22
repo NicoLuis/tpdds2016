@@ -58,16 +58,10 @@ public class HomePois{
 		this.listaPois.removeIf(p -> p.coincideConLaBusqueda(textoBusqueda));	
 	}
 	
-	public void modificarNombre(int posicion, String nuevoNombre){
-		this.listaPois.get(posicion).setNombre(nuevoNombre);
-	}
-	
-	public void modificarPosicion(int posicion, int nuevoX, int nuevoY){
-		this.listaPois.get(posicion).setCoordenadas(nuevoX, nuevoY);
-	}
-	
-	public void modificarDirecion(int posicion, Direccion nuevaDir){
-		this.listaPois.get(posicion).setDireccion(nuevaDir);
+	public void modificar(POI poi){
+		POI poiAModificar = buscarNombre(poi.getNombre());
+		listaPois.remove(poiAModificar);
+		listaPois.add(poi);
 	}
 	
 	public int cantidadPois(){
@@ -103,12 +97,8 @@ public class HomePois{
 		return listaLocal;
 	}
 	
-	public POI buscarNombre(String busqueda){
-		List<POI> listaLocal = new ArrayList<POI>();
-		listaLocal = listaPois.stream()
-					.filter(p -> p.getNombre().equals(busqueda ))
-					.collect(Collectors.toList());
-		return listaLocal.get(0);
+	public POI buscarNombre(String busqueda){	
+		return listaPois.stream().filter(u -> (u.getNombre()).equals(busqueda)).findFirst().get();
 	}
 	
 	public List<POI> puntosCercanos(Point coordenada){
@@ -123,13 +113,37 @@ public class HomePois{
 		return listaPois.stream().filter(p -> p.estaDisponible()).collect(Collectors.toList());
 	}
 	
-	//Devuelvo la lista solo de locales
+	//Devuelvo la lista solo de locales comerciales
 	public List<POI> getLocales(){
-		
 		return listaPois.stream().filter(p -> p.getClass() == LocalComercial.class).collect(Collectors.toList());
 	}
 	//Fin busquedas //////////////////////////////////////////////////////////////////////////////////
+	
+	//////////////////////////////				FUNCIONES				//////////////////////////////
+	
+	
+	public Stream<POI> coincideConLaBusqueda(String string){
+		return listaPois.stream().filter(poi -> poi.coincideConLaBusqueda(string));
+	}
 
+	public ArrayList<POI> getListaPois() {
+		return listaPois;
+	}
+
+	public void setListaPois(ArrayList<POI> listaPoisNueva) {
+		listaPois = listaPoisNueva;
+	}
+	
+	public void addListaPois(POI poi) {
+		listaPois.add(poi);
+	}
+	
+
+	
+	
+	
+	
+	//////////////////////////////				REPO POIS				//////////////////////////////
 	
 	private Polygon zonaComuna8;
 	private POI ubicacionCercana;
@@ -301,10 +315,10 @@ public class HomePois{
 		getListaPois().add(paradaDel114);
 		getListaPois().add(sucursalBanco_1);
 		getListaPois().add(libreriaEscolar);
-		//getListaPois().add(kioskoDeDiarios);
 		getListaPois().add(supermercado);
-		//getListaPois().add(localDeRopa);
-		//getListaPois().add(casaDeComida);
+		getListaPois().add(kioskoDeDiarios);
+		getListaPois().add(localDeRopa);
+		getListaPois().add(casaDeComida);
 		return getListaPois();
 	}
 	
@@ -336,29 +350,6 @@ public class HomePois{
 		casaDeComida.setTags(tagsDeCasaDeComida);
 		return casaDeComida;
 	}
-	
-	
-	//////////////////////////////				FUNCIONES				//////////////////////////////
-	
-	
-	public Stream<POI> coincideConLaBusqueda(ArrayList<POI> listapois, String string){
-		Stream<POI> listaFiltrada = 
-				listapois.stream().filter(poi -> poi.coincideConLaBusqueda(string));
-		return listaFiltrada;
-	}
-
-	public ArrayList<POI> getListaPois() {
-		return listaPois;
-	}
-
-	public void setListaPois(ArrayList<POI> listaPoisNueva) {
-		listaPois = listaPoisNueva;
-	}
-	
-	public void addListaPois(POI poi) {
-		listaPois.add(poi);
-	}
-	
 	
 	
 	

@@ -19,6 +19,14 @@ public class POIController {
 	public ModelAndView nuevo(Request request, Response response) {
 		return new ModelAndView(null, "POIs.hbs");
 	}
+	
+	public ModelAndView historial(Request request, Response response) {
+		return new ModelAndView(null, "historialBusqueda.hbs");
+	}
+	
+	public ModelAndView resultadoHistorial(Request request, Response response) {
+		return new ModelAndView(null, "resultadoHistorial.hbs");
+	}
   
 	public ModelAndView calcularDistancia(Request request, Response response) {
 		return new ModelAndView(null, "calcularDistancia.hbs");
@@ -50,8 +58,8 @@ public class POIController {
 		return null;
 	}
 	
-	public ModelAndView distancia(Request request, Response response) {
-		return new ModelAndView(null, "distancia.hbs");
+	public ModelAndView resultadoDistancia(Request request, Response response) {
+		return new ModelAndView(null, "resultadoDistancia.hbs");
 	}
   
 	public ModelAndView invalido(Request request, Response response) {

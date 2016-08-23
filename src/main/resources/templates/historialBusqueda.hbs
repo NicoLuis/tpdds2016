@@ -1,0 +1,35 @@
+{{# partial "titulo" }}	
+	<title>POI</title>
+{{/partial}}
+
+		
+{{# partial "contenido" }}
+
+<h1>Historial de Busquedas Realizadas</h1>
+
+<br/><br/>
+<h3>Criterio de búusqueda</h3>
+
+<div class="col-xs-3">
+<Strong> Usuario:  </Strong>
+	<input type="text"  class="form-control" name="usuario">
+</div>
+
+<div class="col-xs-3">
+<Strong> Fecha:  </Strong>
+	<input type="text"  class="form-control" name="fecha1">
+</div>
+<div class="col-xs-3">
+	<br/>
+	<input type="text"  class="form-control" name="fecha2">
+</div>
+<div class="col-xs-3">
+	<br/>
+	<input type="submit" class="btn btn-primary" value="Buscar">
+</div>
+
+
+{{/partial}}
+				
+{{> layout.hbs }}
+

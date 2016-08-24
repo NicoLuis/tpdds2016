@@ -2,6 +2,7 @@ package controllers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import spark.ModelAndView;
 import spark.Request;
@@ -25,7 +26,20 @@ public class POIController {
 	}
 	
 	public ModelAndView resultadoHistorial(Request request, Response response) {
-		return new ModelAndView(null, "resultadoHistorial.hbs");
+		
+		
+		ArrayList<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
+		String str = "/resultadoHistorial?cantidadFilas=" + lista.size();
+		for (Busqueda busqueda : lista) {
+			str = str + "&" + "fecha="  + busqueda.getFechaYhora()   + "&"
+			+ "usuario=" + busqueda.getUsuario() + "&"
+			+ "parametros="  + busqueda.getParametros()  + "&"
+			+ "pois=" + busqueda.getCantResultados();
+		}
+		
+		System.out.println(str);
+		response.redirect(str);
+		return null;
 	}
   
 	public ModelAndView calcularDistancia(Request request, Response response) {
@@ -34,6 +48,7 @@ public class POIController {
 	public ModelAndView calcularDistanciaAPOI(Request request, Response response) {
 		return new ModelAndView(null, "calcularDistanciaAPOI.hbs");
 	}
+	
 
 	
 	public ModelAndView calculoDeDistancia(Request request, Response response) {
@@ -163,14 +178,19 @@ public class POIController {
 	}
 	
 	public void enviar(BigDecimal distanciaRedondeada, POI poi_1, POI poi_2, boolean estaCerca, Response response){
-		String str = "/POIs/Distancia?distancia=" + distanciaRedondeada + 
+		String str = "/POIs/resultadoDistancia?distancia=" + distanciaRedondeada + 
 				"&nom=" + poi_1.getNombre() +
 				"&drc=" + poi_1.getDireccion().getCalle() +
 				"&nom2=" + poi_2.getNombre() +
 				"&drc2=" + poi_2.getDireccion() +
 				"&c=" + estaCerca;
 		if( poi_1.esPOIValido() && poi_2.esPOIValido() )	response.redirect(str);
+	
 	}
+	
+	
+	
+	
 	
 	public void enviar(POI poi, boolean disponible, Response response){
 		String str = "/POIs/Disponible?disp=" + disponible +

@@ -61,7 +61,50 @@
       </tr>
     </tbody>
   </table>
+<script>function genera_tabla() {
+var parameters = location.search.substring(1).split("&");
+  
+    var temp = parameters[0].split("=");
+    var cantidadFilas = unescape(temp[1]);
+   
+    
+  // Obtener la referencia del elemento body
+  var body = document.getElementsByTagName("body")[0];
+  // Crea un elemento <table> y un elemento <tbody>
+  var tabla   = document.createElement("table");
+  var tblBody = document.createElement("tbody");
+  
+ 
+  // Crea las celdas
+  for (var i = 0; i < cantidadFilas; i++) {
+    // Crea las hileras de la tabla
+    var hilera = document.createElement("tr");
+ 	
+    
+    for (var j = 1; j < 5; j++) {
+    var temp = parameters[j+i].split("=");
+    var parametro = unescape(temp[1]);
+    
 
+      var celda = document.createElement("td");
+      var textoCelda = document.createTextNode(nombre);
+      celda.appendChild(textoCelda);
+      hilera.appendChild(celda);
+    }
+ 
+    // agrega la hilera al final de la tabla (al final del elemento tblbody)
+    tblBody.appendChild(hilera);
+  }
+ 
+  // posiciona el <tbody> debajo del elemento <table>
+  tabla.appendChild(tblBody);
+  // appends <table> into <body>
+  body.appendChild(tabla);
+  // modifica el atributo "border" de la tabla y lo fija a "2";
+  tabla.setAttribute("border", "2");
+}
+genera_tabla();
+</script>
 {{/partial}}
 				
 {{> layout.hbs }}

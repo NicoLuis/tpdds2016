@@ -24,6 +24,7 @@ public class RepoBusquedas {
 
 		if (instancia == null) {
 			instancia = new RepoBusquedas();
+			RepoBusquedas.GetInstancia().crearBusquedas();
 		}
 		return instancia;
 	}
@@ -40,12 +41,12 @@ public class RepoBusquedas {
 	public void addBusqueda(Busqueda busq){
 		listaBusquedas.add(busq);
 	}
-	
+	//new DateTime().withDate(LocalDate.now()
 	public void crearBusquedas(){
-		addBusqueda(new Busqueda("jperez", "nombre='lalala'", new DateTime().withDate(LocalDate.now()), 2));
-		addBusqueda(new Busqueda("jperez", "nombre='lalala2'", new DateTime().withDate(LocalDate.now()), 5));
-		addBusqueda(new Busqueda("papa", "nombre='papa'", new DateTime().withDate(LocalDate.now()), 1));
-		addBusqueda(new Busqueda("usuario134", "nombre='carlitos'", new DateTime().withDate(LocalDate.now()), 4));
+		addBusqueda(new Busqueda("jperez", "'lalala2", "1", 2));
+		addBusqueda(new Busqueda("jperez", "'lalala2'", "1", 5));
+		addBusqueda(new Busqueda("papa", "'lalala2'",  "1", 1));
+		addBusqueda(new Busqueda("usuario134", "'lalala2'",  "1", 4));
 	}
 	
 }

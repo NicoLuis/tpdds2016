@@ -41,12 +41,12 @@ public class RepoBusquedas {
 	public void addBusqueda(Busqueda busq){
 		listaBusquedas.add(busq);
 	}
-	//new DateTime().withDate(LocalDate.now()
+	//
 	public void crearBusquedas(){
-		addBusqueda(new Busqueda("jperez", "'lalala2", "1", 2));
-		addBusqueda(new Busqueda("jperez", "'lalala2'", "1", 5));
-		addBusqueda(new Busqueda("papa", "'lalala2'",  "1", 1));
-		addBusqueda(new Busqueda("usuario134", "'lalala2'",  "1", 4));
+		addBusqueda(new Busqueda(new DateTime().withDate(LocalDate.now()), " usuario1 ", " nombre = pepe1 ", 1));
+		addBusqueda(new Busqueda(new DateTime().withDate(LocalDate.now()), " usuario2 ", " nombre = pepe2 ", 2));
+		addBusqueda(new Busqueda(new DateTime().withDate(LocalDate.now()), " usuario3 ", " nombre = pepe3 ", 3));
+		addBusqueda(new Busqueda(new DateTime().withDate(LocalDate.now()), " usuario4 ", " nombre = pepe4 ", 4));
 	}
 	
 }

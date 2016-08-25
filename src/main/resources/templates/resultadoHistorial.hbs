@@ -61,50 +61,54 @@
       </tr>
     </tbody>
   </table>
-<script>function genera_tabla() {
-var parameters = location.search.substring(1).split("&");
   
-    var temp = parameters[0].split("=");
-    var cantidadFilas = unescape(temp[1]);
-   
+  
+<script>
+function genera_tabla() {
+  var parameters = location.search.substring(1).split("&");
+  
+  var temp = parameters[0].split("=");
+  var cantidadFilas = unescape(temp[1]);
     
-  // Obtener la referencia del elemento body
   var body = document.getElementsByTagName("body")[0];
-  // Crea un elemento <table> y un elemento <tbody>
   var tabla   = document.createElement("table");
   var tblBody = document.createElement("tbody");
   
+  var numeroParametro = 1;
  
-  // Crea las celdas
   for (var i = 0; i < cantidadFilas; i++) {
-    // Crea las hileras de la tabla
     var hilera = document.createElement("tr");
- 	
     
-    for (var j = 1; j < 5; j++) {
-    var temp = parameters[j+i].split("=");
-    var parametro = unescape(temp[1]);
-    
+    for (var j = 0; j < 4; j++) {
+	
+		if(i==0 && j==0){var parametro = "Fecha";}
+		if(i==0 && j==1){var parametro = "Usuario";}
+		if(i==0 && j==2){var parametro = "Parametros";}
+		if(i==0 && j==3){var parametro = "POIs";}
+		
+		if(i>0){
+			var temp = parameters[numeroParametro].split("=");
+			var parametro = unescape(temp[1]);
+			numeroParametro++;
+		}
 
-      var celda = document.createElement("td");
-      var textoCelda = document.createTextNode(nombre);
-      celda.appendChild(textoCelda);
-      hilera.appendChild(celda);
-    }
+		var celda = document.createElement("td");
+		var textoCelda = document.createTextNode(parametro);
+		celda.appendChild(textoCelda);
+		hilera.appendChild(celda);
+	}
  
-    // agrega la hilera al final de la tabla (al final del elemento tblbody)
     tblBody.appendChild(hilera);
   }
  
-  // posiciona el <tbody> debajo del elemento <table>
   tabla.appendChild(tblBody);
-  // appends <table> into <body>
   body.appendChild(tabla);
-  // modifica el atributo "border" de la tabla y lo fija a "2";
-  tabla.setAttribute("border", "2");
+  tabla.setAttribute("class", "table");
 }
 genera_tabla();
 </script>
+
+
 {{/partial}}
 				
 {{> layout.hbs }}

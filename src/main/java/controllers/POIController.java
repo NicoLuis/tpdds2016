@@ -22,10 +22,10 @@ public class POIController {
 	}
 	
 	public ModelAndView historial(Request request, Response response) {
-		return new ModelAndView(null, "historialBusqueda.hbs");
+		return new ModelAndView(null, "resultadoHistorial.hbs");
 	}
 	
-	public ModelAndView resultadoHistorial(Request request, Response response) {
+	public ModelAndView generarHistorial(Request request, Response response) {
 		
 		
 		ArrayList<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();

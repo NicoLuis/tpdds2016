@@ -23,8 +23,8 @@ public static void main(String[] args) {
     });
     
     get("/POIs", poi::nuevo, engine);
-    get("/Historial", poi::historial, engine);
-    get("/resultadoHistorial", poi::resultadoHistorial, engine);
+    get("/resultadoHistorial", poi::historial, engine);
+    get("/gh", poi::generarHistorial, engine);
     get("/calcularDistancia", poi::calcularDistancia , engine);
     get("/calcularDistanciaAPOI", poi::calcularDistanciaAPOI , engine);
     post("/POIs/calcularDistancia", poi::calculoDeDistancia , engine);

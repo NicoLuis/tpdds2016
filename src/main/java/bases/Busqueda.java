@@ -5,9 +5,9 @@ import org.joda.time.DateTime;
 public class Busqueda {
 
 	public Busqueda(){}
-	public Busqueda(String u, String p, String fechaYhora, int cant){
-		setUsuario(u);
-		setParametros(p);
+	public Busqueda(DateTime fechaYhora, String usuario, String parametros, int cant){
+		setUsuario(usuario);
+		setParametros(parametros);
 		setCantResultados(cant);
 		setFechaYhora(fechaYhora);
 	}
@@ -16,7 +16,7 @@ public class Busqueda {
 	private String usuario;
 	private String parametros;
 	private int cantResultados;
-	private  String fechaYhora;
+	private  DateTime fechaYhora;
 	
 	
 	public int getCantResultados() {
@@ -41,10 +41,10 @@ public class Busqueda {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-	public String getFechaYhora() {
+	public DateTime getFechaYhora() {
 		return fechaYhora;
 	}
-	public void setFechaYhora(String fechaYhora) {
+	public void setFechaYhora(DateTime fechaYhora) {
 		this.fechaYhora = fechaYhora;
 	}
 	

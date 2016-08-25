@@ -17,7 +17,8 @@ import poi.*;
 import bases.*;
 
 public class POIController {
-
+	String usuarioLogueado;
+	ArrayList<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 	public ModelAndView nuevo(Request request, Response response) {
 		return new ModelAndView(null, "POIs.hbs");
 	}
@@ -57,7 +58,7 @@ public class POIController {
 	}
 	
 	public ModelAndView generarHistorial(Request request, Response response) {
-		ArrayList<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
+		lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 		String str = construirStringLista(lista);
 		response.redirect(str);
 		return null;
@@ -92,20 +93,12 @@ public class POIController {
 			else horaString = horaString + ":" + fechaYHora.getMinuteOfHour();
 		return fechaString + " " + horaString;
 	}
-	
-	
-	
-	
-  
 	public ModelAndView calcularDistancia(Request request, Response response) {
 		return new ModelAndView(null, "calcularDistancia.hbs");
 	}
 	public ModelAndView calcularDistanciaAPOI(Request request, Response response) {
 		return new ModelAndView(null, "calcularDistanciaAPOI.hbs");
 	}
-	
-
-	
 	public ModelAndView calcularDistanciaEntre2PoisDados(Request request, Response response) {
 		try {
 		
@@ -143,6 +136,7 @@ public class POIController {
 			String pass = request.queryParams("contrasenia");
 			for(int i = 0; i < lista.size(); i++){
 				if((lista.get(i).getusuario().equals(usuario))&& lista.get(i).getpass().equals(pass)){
+					this.usuarioLogueado = usuario;
 					if(lista.get(i).getAdmin() == true){
 						System.out.println("Ingreso Sesion VALIDO Administrador");
 						return new ModelAndView(null, "layoutSesion.hbs");
@@ -150,6 +144,7 @@ public class POIController {
 						System.out.println("Ingreso Sesion Usuario");
 						return new ModelAndView(null, "layoutSesionUsuario.hbs");
 					}
+					
 				}
 			}
 		}catch (IllegalStateException e){
@@ -266,12 +261,7 @@ public class POIController {
 				"&c=" + estaCerca;
 		if( poi_1.esPOIValido() && poi_2.esPOIValido() )	response.redirect(str);
 	
-	}
-	
-	
-	
-	
-	
+	}	
 	public void dirigirAResultadoDisponibilidad(POI poi, boolean disponible, Response response){
 		String str = "/POIs/resultadoDisponibilidad?disp=" + disponible +
 				"&nom2=" + poi.getNombre() +
@@ -311,29 +301,41 @@ public class POIController {
 	public ModelAndView busqueda(Request request, Response response) {
 		return new ModelAndView(null, "busquedaPOI.hbs");
 	}
-	public ModelAndView buscar(Request request, Response response) {
+	public ModelAndView buscar(Request request, Response response) { 
 		String nombre = request.queryParams("nombre");
-		ArrayList<POI> listaFiltrada = new ArrayList<POI>();
-		HomePois basepoi = HomePois.GetInstancia();
-		basepoi.crear_arrayPOIs();
-		ArrayList<POI> lista = basepoi.getListaPois();
-		for(int i = 0; i < lista.size(); i++){
-			POI nuevo = lista.get(i);
-			if(nuevo.resultadosDeBusquedaLibre(nombre) != null){
-				listaFiltrada.add(nuevo);
+		if(nombre != null && nombre != ""){
+			ArrayList<POI> listaFiltrada = new ArrayList<POI>();
+			HomePois basepoi = HomePois.GetInstancia();
+			basepoi.crear_arrayPOIs();
+			ArrayList<POI> lista = basepoi.getListaPois();
+			for(int i = 0; i < lista.size(); i++){
+				POI nuevo = lista.get(i);
+				if(nuevo.resultadosDeBusquedaLibre(nombre) != null){
+					listaFiltrada.add(nuevo);
+				}
 			}
-		}
-		if(listaFiltrada.size()> 0){
-			String str = "/paginaBusqueda?cantidadFilas=" + listaFiltrada.size();
-			for(int i = 0; i< listaFiltrada.size(); i++){
-					str = str + "&nombre=" + listaFiltrada.get(i).getNombre() +
-					"&direccion=" + listaFiltrada.get(i).getDireccion().getCalle() +" "+ listaFiltrada.get(i).getDireccion().getNumero();
+			if(listaFiltrada.size()> 0){
+				String str = "/paginaBusqueda?cantidadFilas=" + listaFiltrada.size();
+				for(int i = 0; i< listaFiltrada.size(); i++){
+						str = str + "&nombre=" + listaFiltrada.get(i).getNombre() +
+						"&direccion=" + listaFiltrada.get(i).getDireccion().getCalle() +" "+ listaFiltrada.get(i).getDireccion().getNumero();
+				}
+				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, listaFiltrada.size());
+				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
+				this.lista.add(busque);
+				response.redirect(str);
+				return null;
 			}
-			response.redirect(str);
-			return null;
-		}
-		else{
-			System.out.println("No se encontro ningun poi");
+			else{
+				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, 0);
+				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
+				this.lista.add(busque);
+				System.out.println("No se encontro ningun poi");
+				response.redirect("paginaBusqueda?cantidadFilas=0");
+				return null;
+			}
+		}else{
+			System.out.println("Ingrese un nombre correcto");
 			response.redirect("/POIs/Invalido");
 			return null;
 		}

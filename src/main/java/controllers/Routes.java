@@ -11,17 +11,13 @@ public static void main(String[] args) {
     POIController poi = new POIController();
     HomeController home = new HomeController();
     HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
-
     port(8081);
-
     staticFileLocation("/public");
-
     get("/", home::mostrar, engine);
     get("/index.html", (request, response) -> {
       response.redirect("/");
       return null;
     });
-    
     get("/POIs", poi::nuevo, engine);
     get("/historialBusquedas", poi::historial, engine);
     post("/buscarEnHistorial", poi::buscarEnHistorial, engine);
@@ -30,7 +26,7 @@ public static void main(String[] args) {
     get("/calcularDistanciaAPOI", poi::calcularDistanciaAPOI , engine);
     post("/POIs/calcularDistancia", poi::calcularDistanciaEntre2PoisDados , engine);
     post("/POIs/calcularDistanciaAPOI", poi::calculoDeDistanciaAPOI , engine);
-    get("/Valido", poi::valido, engine);
+    post("/Valido", poi::valido, engine);
     get("/POIs/resultadoDistancia", poi::resultadoDistancia, engine);
     get("/POIs/Invalido", poi::invalido , engine);
     get("/verificarDisponibilidadDePOI", poi::disponible , engine);

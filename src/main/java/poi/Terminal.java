@@ -19,7 +19,7 @@ public class Terminal {
 	private int comuna;
 	private String usuario;
 	private String password;
-
+	private boolean admin;
 	public Terminal(double latitud, double longitud, String nombre, int comuna) {
 		homePois = HomePois.GetInstancia();
 		homeTerminal = HomeTerminal.GetInstancia();
@@ -41,7 +41,12 @@ public class Terminal {
 	public void setpass(String pass){
 		this.password = pass;
 	}
-	
+	public void setAdmin(boolean adm){
+		this.admin = adm;
+	}
+	public boolean getAdmin(){
+		return admin;
+	}
 	public int getComuna() {
 		return comuna;
 	}

@@ -47,10 +47,12 @@ public class RepoTerminales {
 		Terminal abc = new Terminal("ABC");
 		abc.setUsuario("admin");
 		abc.setpass("admin");
+		abc.setAdmin(true);
 		addTerminal(abc);
 		Terminal user = new Terminal("no admin");
 		user.setUsuario("user");
 		user.setpass("user");
+		user.setAdmin(false);
 		addTerminal(user);
 		
 	}

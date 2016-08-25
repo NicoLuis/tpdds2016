@@ -143,8 +143,13 @@ public class POIController {
 			String pass = request.queryParams("contrasenia");
 			for(int i = 0; i < lista.size(); i++){
 				if((lista.get(i).getusuario().equals(usuario))&& lista.get(i).getpass().equals(pass)){
-					System.out.println("Ingresio Sesion VALIDO");
-					return new ModelAndView(null, "layoutSesion.hbs");
+					if(lista.get(i).getAdmin() == true){
+						System.out.println("Ingreso Sesion VALIDO Administrador");
+						return new ModelAndView(null, "layoutSesion.hbs");
+					}else{
+						System.out.println("Ingreso Sesion Usuario");
+						return new ModelAndView(null, "layoutSesionUsuario.hbs");
+					}
 				}
 			}
 		}catch (IllegalStateException e){

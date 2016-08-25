@@ -136,7 +136,27 @@ public class POIController {
 		System.out.println("POI NO VALIDO");
 		return new ModelAndView(null, "error.hbs");
 	}
-	
+	public ModelAndView valido(Request request, Response response) {
+		try{
+			ArrayList<Terminal> lista = RepoTerminales.GetInstancia().getListaTerminales();
+			String usuario = request.queryParams("usuario");
+			String pass = request.queryParams("contrasenia");
+			for(int i = 0; i < lista.size(); i++){
+				if((lista.get(i).getusuario().equals(usuario))&& lista.get(i).getpass().equals(pass)){
+					System.out.println("Ingresio Sesion VALIDO");
+					return new ModelAndView(null, "layoutSesion.hbs");
+				}
+			}
+		}catch (IllegalStateException e){
+			response.redirect("/POIs/Invalido");
+		}catch(NumberFormatException e){
+			response.redirect("/POIs/Invalido");
+		}
+		
+		response.redirect("/POIs/Invalido");
+		return null;
+		
+	}
 	
 	public ModelAndView calculoDeDistanciaAPOI(Request request, Response response) {
 		try {
@@ -253,15 +273,6 @@ public class POIController {
 				"&drc2=" + poi.getDireccion().getCalle();
 		if( poi.esPOIValido() )	response.redirect(str);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public ModelAndView calcularDisponibilidad(Request request, Response response) {
 		try {
 			
@@ -296,31 +307,4 @@ public class POIController {
 	public ModelAndView resultadoDisponibilidad(Request request, Response response) {
 		return new ModelAndView(null, "resultadoDisponibilidad.hbs");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

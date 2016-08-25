@@ -3,19 +3,20 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import org.joda.time.DateTime;
 import org.uqbar.geodds.Point;
 
 import poi.*;
 import bases.*;
 
 public class POIController {
-	
-	HomePois basepoi = HomePois.GetInstancia();
 
 	public ModelAndView nuevo(Request request, Response response) {
 		return new ModelAndView(null, "POIs.hbs");
@@ -25,22 +26,76 @@ public class POIController {
 		return new ModelAndView(null, "resultadoHistorial.hbs");
 	}
 	
+	public ModelAndView buscarEnHistorial(Request request, Response response) {
+		
+		String usuario = request.queryParams("usuario");
+		String fecha1String = request.queryParams("fecha1");
+		String fecha2String = request.queryParams("fecha2");
+		
+		List<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
+		lista = lista.stream().filter(busq -> busq.getUsuario().contains(usuario)).collect(Collectors.toList());
+		
+		lista = lista.stream().filter(busq -> busq.getFechaYhora().isBeforeNow()).collect(Collectors.toList());
+		
+		if(fecha1String.length() == 10){
+			DateTime fecha1 = convertirEnDateTime(fecha1String);
+			System.out.println(fecha1String);
+			System.out.println(fecha1);
+			lista = lista.stream().filter(busq -> busq.getFechaYhora().isAfter(fecha1)).collect(Collectors.toList());
+		}
+		
+		if(fecha2String.length() == 10){
+			DateTime fecha2 = convertirEnDateTime(fecha2String);
+			System.out.println(fecha2String);
+			System.out.println(fecha2);
+			lista = lista.stream().filter(busq -> busq.getFechaYhora().isBefore(fecha2)).collect(Collectors.toList());
+		}
+		
+		String str = construirStringLista(lista);
+		response.redirect(str);
+		return null;
+	}
+	
 	public ModelAndView generarHistorial(Request request, Response response) {
-		
-		
 		ArrayList<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
-		String str = "/resultadoHistorial?cantidadFilas=" + lista.size();
+		String str = construirStringLista(lista);
+		response.redirect(str);
+		return null;
+	}
+	
+	public String construirStringLista(List<Busqueda> lista) {
+		String str = "/historialBusquedas?cantidadFilas=" + lista.size();
 		for (Busqueda busqueda : lista) {
-			str = str + "&" + "fecha="  + busqueda.getFechaYhora()   + "&"
+			str = str + "&" + "fecha="  + construirStringFechaYHora(busqueda.getFechaYhora()) + "&"
 			+ "usuario=" + busqueda.getUsuario() + "&"
 			+ "parametros="  + busqueda.getParametros()  + "&"
 			+ "pois=" + busqueda.getCantResultados();
 		}
-		
-		System.out.println(str);
-		response.redirect(str);
-		return null;
+		return str;
 	}
+	
+	public DateTime convertirEnDateTime(String stringFecha) {
+		
+		stringFecha = stringFecha.trim();
+		
+		int anio = Integer.parseInt(stringFecha.substring(6, 10));
+		int mes = Integer.parseInt(stringFecha.substring(3, 5));
+		int dia = Integer.parseInt(stringFecha.substring(0, 2));
+		
+		return new DateTime(anio, mes, dia, 0, 0);
+	}
+	
+	public String construirStringFechaYHora(DateTime fechaYHora) {
+		String fechaString = fechaYHora.getDayOfMonth() + "/" + fechaYHora.getMonthOfYear() + "/" + fechaYHora.getYear();
+		String horaString = fechaYHora.getHourOfDay() + "";
+			if(fechaYHora.getMinuteOfHour() < 10) horaString = horaString + ":0" + fechaYHora.getMinuteOfHour();
+			else horaString = horaString + ":" + fechaYHora.getMinuteOfHour();
+		return fechaString + " " + horaString;
+	}
+	
+	
+	
+	
   
 	public ModelAndView calcularDistancia(Request request, Response response) {
 		return new ModelAndView(null, "calcularDistancia.hbs");
@@ -51,16 +106,16 @@ public class POIController {
 	
 
 	
-	public ModelAndView calculoDeDistancia(Request request, Response response) {
+	public ModelAndView calcularDistanciaEntre2PoisDados(Request request, Response response) {
 		try {
 		
-		POI poi_1 = tomarDatos(request, "nombre", "direccion", "ubicacionX", "ubicacionY", false);
-		POI poi_2 = tomarDatos(request, "nombre2", "direccion2", "ubicacionX2", "ubicacionY2", true);
+		POI poi_1 = tomarDatosPoiNuevo(request, "nombre", "direccion", "ubicacionX", "ubicacionY", false);
+		POI poi_2 = tomarDatosPoiNuevo(request, "nombre2", "direccion2", "ubicacionX2", "ubicacionY2", true);
 		
 		BigDecimal distanciaRedondeada = redondear(poi_1, poi_2);
 		boolean estaCerca = poi_2.estaCerca(poi_1.getCoordenadas());
 		
-		enviar(distanciaRedondeada, poi_1, poi_2, estaCerca, response);
+		dirigirAResultadoDistancia(distanciaRedondeada, poi_1, poi_2, estaCerca, response);
 		
 		} catch (IllegalStateException e) {
 			response.redirect("/POIs/Invalido");
@@ -86,14 +141,13 @@ public class POIController {
 	public ModelAndView calculoDeDistanciaAPOI(Request request, Response response) {
 		try {
 			
-			POI poi_1 = tomarDatos(request, "nombre", "direccion", "ubicacionX", "ubicacionY", false);
-			POI poi_2 = tomarDatosConocidos(request);
+			POI poi_1 = tomarDatosPoiNuevo(request, "nombre", "direccion", "ubicacionX", "ubicacionY", false);
+			POI poi_2 = tomarDatosDeHomePois(request);
 			
-
 			BigDecimal distanciaRedondeada = redondear(poi_1, poi_2);
 			boolean estaCerca = poi_2.estaCerca(poi_1.getCoordenadas());
 			
-			enviar(distanciaRedondeada, poi_1, poi_2, estaCerca, response);
+			dirigirAResultadoDistancia(distanciaRedondeada, poi_1, poi_2, estaCerca, response);
 			
 		} catch (IllegalStateException e) {
 			response.redirect("/POIs/Invalido");
@@ -109,7 +163,7 @@ public class POIController {
 	
 	
 	
-	public POI tomarDatos(Request request, String nombre, String direcc, String ubicacionX, String ubicacionY, boolean tieneTipoDos){
+	public POI tomarDatosPoiNuevo(Request request, String nombre, String direcc, String ubicacionX, String ubicacionY, boolean tieneTipoDos){
 		String nom = request.queryParams(nombre);
 		String direccion = request.queryParams(direcc);
 
@@ -155,7 +209,8 @@ public class POIController {
 		return null;
 	}
 	
-	public POI tomarDatosConocidos(Request request){
+	public POI tomarDatosDeHomePois(Request request){
+		HomePois basepoi = HomePois.GetInstancia();
 		switch(request.queryParams("poi2")){
 			case "ubicacionCercana": return basepoi.crear_ubicacionCercana() ; 
 			case "ubicacionLejana": return basepoi.crear_ubicacionLejana() ; 
@@ -177,7 +232,7 @@ public class POIController {
 		return bigDecimal.setScale(0, RoundingMode.HALF_UP);
 	}
 	
-	public void enviar(BigDecimal distanciaRedondeada, POI poi_1, POI poi_2, boolean estaCerca, Response response){
+	public void dirigirAResultadoDistancia(BigDecimal distanciaRedondeada, POI poi_1, POI poi_2, boolean estaCerca, Response response){
 		String str = "/POIs/resultadoDistancia?distancia=" + distanciaRedondeada + 
 				"&nom=" + poi_1.getNombre() +
 				"&drc=" + poi_1.getDireccion().getCalle() +
@@ -192,8 +247,8 @@ public class POIController {
 	
 	
 	
-	public void enviar(POI poi, boolean disponible, Response response){
-		String str = "/POIs/Disponible?disp=" + disponible +
+	public void dirigirAResultadoDisponibilidad(POI poi, boolean disponible, Response response){
+		String str = "/POIs/resultadoDisponibilidad?disp=" + disponible +
 				"&nom2=" + poi.getNombre() +
 				"&drc2=" + poi.getDireccion().getCalle();
 		if( poi.esPOIValido() )	response.redirect(str);
@@ -210,7 +265,7 @@ public class POIController {
 	public ModelAndView calcularDisponibilidad(Request request, Response response) {
 		try {
 			
-			POI poi = tomarDatosConocidos(request);
+			POI poi = tomarDatosDeHomePois(request);
 			
 			LocalDateTime time = 
 					LocalDateTime.of(	Integer.parseInt(request.queryParams("año")),
@@ -220,7 +275,7 @@ public class POIController {
 										Integer.parseInt(request.queryParams("minutos")), 0, 0);
 			
 			
-			enviar(poi, poi.estaDisponible(time), response);
+			dirigirAResultadoDisponibilidad(poi, poi.estaDisponible(time), response);
 			
 			
 		} catch (IllegalStateException e) {
@@ -238,8 +293,8 @@ public class POIController {
 		return new ModelAndView(null, "disponible.hbs");
 	}
 	
-	public ModelAndView disponibilidad(Request request, Response response) {
-		return new ModelAndView(null, "disponibilidad.hbs");
+	public ModelAndView resultadoDisponibilidad(Request request, Response response) {
+		return new ModelAndView(null, "resultadoDisponibilidad.hbs");
 	}
 	
 	

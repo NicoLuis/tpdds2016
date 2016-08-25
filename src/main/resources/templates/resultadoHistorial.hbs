@@ -1,9 +1,64 @@
 {{# partial "titulo" }}	
-	<title>POI</title>
+	<title>Historial Busquedas Realizadas</title>
 {{/partial}}
 
 		
 {{# partial "contenido" }}
+
+
+<script>
+function genera_tabla() {
+  var parameters = location.search.substring(1).split("&");
+  
+  var temp = parameters[0].split("=");
+  var cantidadFilas = unescape(temp[1]);
+    
+  var body = document.getElementsByTagName("body")[0];
+  var tabla   = document.createElement("table");
+  var tblHead = document.createElement("thead");
+  var tblBody = document.createElement("tbody");
+  
+  var numeroParametro = 1;
+ 
+  for (var i = 0; i <= cantidadFilas; i++) {
+    var hilera = document.createElement("tr");
+    
+    for (var j = 0; j < 4; j++) {
+	
+		if(i==0){
+			if(j==0) var parametro = "Fecha";			//Setteo titulos columnas
+			if(j==1) var parametro = "Usuario";
+			if(j==2) var parametro = "Parametros";
+			if(j==3) var parametro = "POIs";
+			var celda = document.createElement("th");
+		}else{
+			var temp = parameters[numeroParametro].split("=");
+			var parametro = unescape(temp[1]);
+			var celda = document.createElement("td");
+			numeroParametro++;
+		}
+
+		var textoCelda = document.createTextNode(parametro);
+		celda.appendChild(textoCelda);
+		hilera.appendChild(celda);
+	}
+	if(i==0){  tblHead.appendChild(hilera) }
+    else{ tblBody.appendChild(hilera); }
+  }
+  
+  tabla.appendChild(tblHead);
+  tabla.appendChild(tblBody);
+  body.appendChild(tabla);
+  tabla.setAttribute("class", "table");
+}
+</script>
+
+
+
+
+
+
+<form action="/buscarEnHistorial" method="post">
 
 <h1>Historial de Busquedas Realizadas</h1>
 
@@ -15,7 +70,7 @@
 </div>
 
 <div class="col-xs-3">
-<Strong> Fecha:  </Strong>
+<Strong> Fecha (dd/mm/aaaa) :  </Strong>
 	<input type="text"  class="form-control" name="fecha1">
 </div>
 <div class="col-xs-3">
@@ -27,86 +82,12 @@
 	<input type="submit" class="btn btn-primary" value="Buscar">
 </div>
 
-
-
+<br/><br/><br/>
 <h3>Resultado</h3>
 
- <table class="table">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Usuario</th>
-        <th>Parámetros</th>
-        <th>POIs</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>10/06/2015 10:00</td>
-        <td>jperez</td>
-        <td>nombre = "Mad"</td>
-        <td>1</td>
-      </tr>
-      <tr>
-        <td>10/06/2015 10:03</td>
-        <td>jperez</td>
-        <td>nombre = "Monte"</td>
-        <td>2</td>
-      </tr>
-      <tr>
-        <td>11/06/2015 08:34</td>
-        <td>jperez</td>
-        <td>nombre = "FILO"</td>
-        <td>0</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-<script>
-function genera_tabla() {
-  var parameters = location.search.substring(1).split("&");
-  
-  var temp = parameters[0].split("=");
-  var cantidadFilas = unescape(temp[1]);
-    
-  var body = document.getElementsByTagName("body")[0];
-  var tabla   = document.createElement("table");
-  var tblBody = document.createElement("tbody");
-  
-  var numeroParametro = 1;
- 
-  for (var i = 0; i < cantidadFilas; i++) {
-    var hilera = document.createElement("tr");
-    
-    for (var j = 0; j < 4; j++) {
-	
-		if(i==0 && j==0){var parametro = "Fecha";}
-		if(i==0 && j==1){var parametro = "Usuario";}
-		if(i==0 && j==2){var parametro = "Parametros";}
-		if(i==0 && j==3){var parametro = "POIs";}
-		
-		if(i>0){
-			var temp = parameters[numeroParametro].split("=");
-			var parametro = unescape(temp[1]);
-			numeroParametro++;
-		}
-
-		var celda = document.createElement("td");
-		var textoCelda = document.createTextNode(parametro);
-		celda.appendChild(textoCelda);
-		hilera.appendChild(celda);
-	}
- 
-    tblBody.appendChild(hilera);
-  }
- 
-  tabla.appendChild(tblBody);
-  body.appendChild(tabla);
-  tabla.setAttribute("class", "table");
-}
-genera_tabla();
-</script>
+<div class="m-x-auto" style="width: 200px;">
+	<script> genera_tabla(); </script>
+</div>
 
 
 {{/partial}}

@@ -23,17 +23,18 @@ public static void main(String[] args) {
     });
     
     get("/POIs", poi::nuevo, engine);
-    get("/resultadoHistorial", poi::historial, engine);
+    get("/historialBusquedas", poi::historial, engine);
+    post("/buscarEnHistorial", poi::buscarEnHistorial, engine);
     get("/gh", poi::generarHistorial, engine);
     get("/calcularDistancia", poi::calcularDistancia , engine);
     get("/calcularDistanciaAPOI", poi::calcularDistanciaAPOI , engine);
-    post("/POIs/calcularDistancia", poi::calculoDeDistancia , engine);
+    post("/POIs/calcularDistancia", poi::calcularDistanciaEntre2PoisDados , engine);
     post("/POIs/calcularDistanciaAPOI", poi::calculoDeDistanciaAPOI , engine);
     get("/POIs/resultadoDistancia", poi::resultadoDistancia, engine);
     get("/POIs/Invalido", poi::invalido , engine);
     get("/verificarDisponibilidadDePOI", poi::disponible , engine);
     post("/POIs/calcularDisponibilidad", poi::calcularDisponibilidad , engine);
-    get("/POIs/Disponible", poi::disponibilidad , engine);
+    get("/POIs/resultadoDisponibilidad", poi::resultadoDisponibilidad , engine);
   }
 
 

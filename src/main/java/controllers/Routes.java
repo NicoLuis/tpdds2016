@@ -21,7 +21,7 @@ public static void main(String[] args) {
     get("/POIs", poi::nuevo, engine);
     post("/busquedaPOI", poi::buscar, engine);
     get("/paginaBusqueda", poi::busqueda, engine);
-    post("/configurarAcciones", poi::nuevaAccion, engine);
+    get("/configurarAcciones", poi::nuevaAccion, engine);
     get("/historialBusquedas", poi::historial, engine);
     post("/buscarEnHistorial", poi::buscarEnHistorial, engine);
     get("/gh", poi::generarHistorial, engine);

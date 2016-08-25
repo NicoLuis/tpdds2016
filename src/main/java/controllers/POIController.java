@@ -81,7 +81,27 @@ public class POIController {
 		System.out.println("POI NO VALIDO");
 		return new ModelAndView(null, "error.hbs");
 	}
-	
+	public ModelAndView valido(Request request, Response response) {
+		try{
+			ArrayList<Terminal> lista = RepoTerminales.GetInstancia().getListaTerminales();
+			String usuario = request.queryParams("usuario");
+			String pass = request.queryParams("contrasenia");
+			for(int i = 0; i < lista.size(); i++){
+				if((lista.get(i).getusuario().equals(usuario))&& lista.get(i).getpass().equals(pass)){
+					System.out.println("Ingresio Sesion VALIDO");
+					return new ModelAndView(null, "layoutSesion.hbs");
+				}
+			}
+		}catch (IllegalStateException e){
+			response.redirect("/POIs/Invalido");
+		}catch(NumberFormatException e){
+			response.redirect("/POIs/Invalido");
+		}
+		
+		response.redirect("/POIs/Invalido");
+		return null;
+		
+	}
 	
 	public ModelAndView calculoDeDistanciaAPOI(Request request, Response response) {
 		try {
@@ -105,11 +125,7 @@ public class POIController {
 		
 		return null;
 	}
-	
-	
-	
-	
-	public POI tomarDatos(Request request, String nombre, String direcc, String ubicacionX, String ubicacionY, boolean tieneTipoDos){
+		public POI tomarDatos(Request request, String nombre, String direcc, String ubicacionX, String ubicacionY, boolean tieneTipoDos){
 		String nom = request.queryParams(nombre);
 		String direccion = request.queryParams(direcc);
 
@@ -187,26 +203,12 @@ public class POIController {
 		if( poi_1.esPOIValido() && poi_2.esPOIValido() )	response.redirect(str);
 	
 	}
-	
-	
-	
-	
-	
 	public void enviar(POI poi, boolean disponible, Response response){
 		String str = "/POIs/Disponible?disp=" + disponible +
 				"&nom2=" + poi.getNombre() +
 				"&drc2=" + poi.getDireccion().getCalle();
 		if( poi.esPOIValido() )	response.redirect(str);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public ModelAndView calcularDisponibilidad(Request request, Response response) {
 		try {
 			
@@ -241,31 +243,4 @@ public class POIController {
 	public ModelAndView disponibilidad(Request request, Response response) {
 		return new ModelAndView(null, "disponibilidad.hbs");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

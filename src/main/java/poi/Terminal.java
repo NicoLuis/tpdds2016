@@ -17,6 +17,8 @@ public class Terminal {
 	private HomeTerminal homeTerminal;
 	private String nombre;
 	private int comuna;
+	private String usuario;
+	private String password;
 
 	public Terminal(double latitud, double longitud, String nombre, int comuna) {
 		homePois = HomePois.GetInstancia();
@@ -27,6 +29,19 @@ public class Terminal {
 		homeTerminal.agregarTerminal(this);
 	}
 
+	public String getusuario(){
+		return usuario;
+	}
+	public String getpass(){
+		return password;
+	}
+	public void setUsuario(String user){
+		this.usuario = user;
+	}
+	public void setpass(String pass){
+		this.password = pass;
+	}
+	
 	public int getComuna() {
 		return comuna;
 	}

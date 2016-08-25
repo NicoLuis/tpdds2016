@@ -324,7 +324,7 @@ public class POIController {
 			}
 		}
 		if(listaFiltrada.size()> 0){
-			String str = "/busquedaPOI?cantidadFilas=" + listaFiltrada.size();
+			String str = "/paginaBusqueda?cantidadFilas=" + listaFiltrada.size();
 			for(int i = 0; i< listaFiltrada.size(); i++){
 					str = str + "&nombre=" + listaFiltrada.get(i).getNombre() +
 					"&direccion=" + listaFiltrada.get(i).getDireccion().getCalle() +" "+ listaFiltrada.get(i).getDireccion().getNumero();

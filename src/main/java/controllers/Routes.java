@@ -19,7 +19,7 @@ public static void main(String[] args) {
       return null;
     });
     get("/POIs", poi::nuevo, engine);
-    get("/busquedaPOI", poi::buscar, engine);
+    post("/busquedaPOI", poi::buscar, engine);
     get("/paginaBusqueda", poi::busqueda, engine);
     post("/configurarAcciones", poi::nuevaAccion, engine);
     get("/historialBusquedas", poi::historial, engine);

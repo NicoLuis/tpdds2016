@@ -308,7 +308,39 @@ public class POIController {
 	public ModelAndView disponible(Request request, Response response) {
 		return new ModelAndView(null, "disponible.hbs");
 	}
-	
+	public ModelAndView busqueda(Request request, Response response) {
+		return new ModelAndView(null, "busquedaPOI.hbs");
+	}
+	public ModelAndView buscar(Request request, Response response) {
+		String nombre = request.queryParams("nombre");
+		ArrayList<POI> listaFiltrada = new ArrayList<POI>();
+		HomePois basepoi = HomePois.GetInstancia();
+		basepoi.crear_arrayPOIs();
+		ArrayList<POI> lista = basepoi.getListaPois();
+		for(int i = 0; i < lista.size(); i++){
+			POI nuevo = lista.get(i);
+			if(nuevo.resultadosDeBusquedaLibre(nombre) != null){
+				listaFiltrada.add(nuevo);
+			}
+		}
+		if(listaFiltrada.size()> 0){
+			String str = "/busquedaPOI?cantidadFilas=" + listaFiltrada.size();
+			for(int i = 0; i< listaFiltrada.size(); i++){
+					str = str + "&nombre=" + listaFiltrada.get(i).getNombre() +
+					"&direccion=" + listaFiltrada.get(i).getDireccion().getCalle() +" "+ listaFiltrada.get(i).getDireccion().getNumero();
+			}
+			response.redirect(str);
+			return null;
+		}
+		else{
+			System.out.println("No se encontro ningun poi");
+			response.redirect("/POIs/Invalido");
+			return null;
+		}
+	}
+	public ModelAndView nuevaAccion(Request request, Response response) {
+		return new ModelAndView(null, "configurarAcciones.hbs");
+	}
 	public ModelAndView resultadoDisponibilidad(Request request, Response response) {
 		return new ModelAndView(null, "resultadoDisponibilidad.hbs");
 	}

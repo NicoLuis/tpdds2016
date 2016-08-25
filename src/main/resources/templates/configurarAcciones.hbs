@@ -1,0 +1,18 @@
+'{{# partial "titulo" }}	
+	<title>POIs - Configurar Acciones</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+
+<form action="/configurarAcciones" method="post">
+  <div class="row">
+
+	<div class="col-md-5">
+		<input type="submit" class="btn btn-primary" value="Agregar" name="agregar">
+	</div>
+	
+  </div>
+</form>
+{{/partial}}
+				
+{{> layoutSesion.hbs }}

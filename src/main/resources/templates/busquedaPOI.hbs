@@ -1,0 +1,77 @@
+'{{# partial "titulo" }}	
+	<title>POIs - Busqueda Poi</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+<script>
+function genera_tabla() {
+  var parameters = location.search.substring(1).split("&");
+  
+  var temp = parameters[0].split("=");
+  var cantidadFilas = unescape(temp[1]);
+    
+  var body = document.getElementsByTagName("body")[0];
+  var tabla   = document.createElement("table");
+  var tblHead = document.createElement("thead");
+  var tblBody = document.createElement("tbody");
+  
+  var numeroParametro = 1;
+ 
+  for (var i = 0; i <= cantidadFilas; i++) {
+    var hilera = document.createElement("tr");
+    
+    for (var j = 0; j < 2; j++) {
+	
+		if(i==0){
+			if(j==0) var parametro = "nombre";			//Setteo titulos columnas
+			if(j==1) var parametro = "direccion";
+			var celda = document.createElement("th");
+		}else{
+			var temp = parameters[numeroParametro].split("=");
+			var parametro = unescape(temp[1]);
+			var celda = document.createElement("td");
+			numeroParametro++;
+		}
+
+		var textoCelda = document.createTextNode(parametro);
+		celda.appendChild(textoCelda);
+		hilera.appendChild(celda);
+	}
+	if(i==0){  tblHead.appendChild(hilera) }
+    else{ tblBody.appendChild(hilera); }
+  }
+  
+  tabla.appendChild(tblHead);
+  tabla.appendChild(tblBody);
+  body.appendChild(tabla);
+  tabla.setAttribute("class", "table");
+}
+</script>
+
+<form action="/busquedaPOI" method="get">
+  <div class="row">
+	<h1>Busqueda POI</h1>
+
+<h3>Criterio de búsqueda</h3>
+
+<div class="col-xs-3" width=900px>
+	<Strong> Nombre:  </Strong>
+	<input type="text"  class="form-control" name="nombre">
+	<input type="submit" class="btn btn-primary" value="agregar">
+	<input type="submit" class="btn btn-primary" value="buscar">
+</div>
+
+<br/><br/><br/><br/><br/>
+<h3>Resultado</h3>
+
+<div class="m-x-auto" style="width: 200px;">
+	<script> genera_tabla(); </script>
+</div>
+		
+
+	
+  </div>
+</form>
+{{/partial}}
+				
+{{> layoutSesion.hbs }}

@@ -70,7 +70,8 @@ public class POIController {
 			str = str + "&" + "fecha="  + construirStringFechaYHora(busqueda.getFechaYhora()) + "&"
 			+ "usuario=" + busqueda.getUsuario() + "&"
 			+ "parametros="  + busqueda.getParametros()  + "&"
-			+ "pois=" + busqueda.getCantResultados();
+			+ "pois=" + busqueda.getCantResultados()  + "&"
+			+ "listaPois=" + busqueda.getNombrePoisResultado();
 		}
 		return str;
 	}
@@ -320,14 +321,14 @@ public class POIController {
 						str = str + "&nombre=" + listaFiltrada.get(i).getNombre() +
 						"&direccion=" + listaFiltrada.get(i).getDireccion().getCalle() +" "+ listaFiltrada.get(i).getDireccion().getNumero();
 				}
-				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, listaFiltrada.size());
+				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, listaFiltrada.size(),  "");
 				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 				this.lista.add(busque);
 				response.redirect(str);
 				return null;
 			}
 			else{
-				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, 0);
+				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, 0, "");
 				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 				this.lista.add(busque);
 				System.out.println("No se encontro ningun poi");

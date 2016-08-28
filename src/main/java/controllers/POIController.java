@@ -64,6 +64,13 @@ public class POIController {
 		return null;
 	}
 	
+	public ModelAndView get_detalles(Request request, Response response) {
+		String str= "perro";
+		System.out.println("laconchadetumadreallboys");
+		response.redirect("/paginaBusqueda?foo=bar");
+		return null;
+	}
+	
 	public String construirStringLista(List<Busqueda> lista) {
 		String str = "/historialBusquedas?cantidadFilas=" + lista.size();
 		for (Busqueda busqueda : lista) {

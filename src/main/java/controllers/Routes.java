@@ -20,6 +20,7 @@ public static void main(String[] args) {
     });
     get("/POIs", poi::nuevo, engine);
     post("/busquedaPOI", poi::buscar, engine);
+    post("/getDetalles", poi::get_detalles, engine);
     get("/paginaBusqueda", poi::busqueda, engine);
     get("/configurarAcciones", poi::nuevaAccion, engine);
     get("/historialBusquedas", poi::historial, engine);

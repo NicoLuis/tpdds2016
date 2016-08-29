@@ -38,12 +38,13 @@ public static void main(String[] args) {
     get("/calcularDistanciaAPOI", poi::calcularDistanciaAPOI , engine);
     post("/POIs/calcularDistancia", poi::calcularDistanciaEntre2PoisDados , engine);
     post("/POIs/calcularDistanciaAPOI", poi::calculoDeDistanciaAPOI , engine);
+    post("/Valido", poi::valido, engine);
+    get("/InvalidoSesion", poi::invalidaSesion, engine);
+    get("/Invalido", poi::invalido , engine);
     get("/POIs/resultadoDistancia", poi::resultadoDistancia, engine);
     //Disponibilidad
     get("/verificarDisponibilidadDePOI", poi::disponible , engine);
     post("/POIs/calcularDisponibilidad", poi::calcularDisponibilidad , engine);
     get("/POIs/resultadoDisponibilidad", poi::resultadoDisponibilidad , engine);
   }
-
-
 }

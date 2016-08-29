@@ -1,0 +1,47 @@
+{{# partial "titulo" }}	
+	<title>Menu Administrador</title>
+{{/partial}}
+
+{{# partial "contenido" }}
+
+
+<style>
+.buttonsdds {
+    background-color: #4CAF50;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+.button1 {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+.button1:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+        
+        <form action="/calcularDistancia" method="get">
+        	<input type="submit" class="buttonsdds button1" value="Calcular Distancia">
+        </form>
+        
+        <form action="/calcularDistanciaAPOI" method="get">
+        	<input type="submit" class="buttonsdds button1" value="Calcular Distancia a POI">
+        </form>
+        
+        <form action="/verificarDisponibilidadDePOI" method="get">
+        	<input type="submit" class="buttonsdds button1" value="Verificar Disponibilidad De un POI">
+        </form>
+         
+{{/partial}}
+				
+{{> layoutSesion.hbs }}

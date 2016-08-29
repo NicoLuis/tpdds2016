@@ -25,6 +25,7 @@ public abstract class POI {
 		numeroPOI= MaxNumeroPOI;
 		MaxNumeroPOI++;
 		setTags();
+		this.setDireccion(new Direccion(""));
 	}
 
 	

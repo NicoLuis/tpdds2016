@@ -19,8 +19,12 @@ import bases.*;
 public class POIController {
 	String usuarioLogueado;
 	ArrayList<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
-	public ModelAndView nuevo(Request request, Response response) {
-		return new ModelAndView(null, "POIs.hbs");
+	
+	public ModelAndView opciones(Request request, Response response) {
+		chequearUsuario(response);
+		if( RepoTerminales.GetInstancia().getBooleanAdmin() )
+			return new ModelAndView(null, "MenuAdmin.hbs");
+		return new ModelAndView(null, "MenuUser.hbs");
 	}
 	
 	public ModelAndView historial(Request request, Response response) {
@@ -145,10 +149,12 @@ public class POIController {
 					this.usuarioLogueado = usuario;
 					if(lista.get(i).getAdmin() == true){
 						System.out.println("Ingreso Sesion VALIDO Administrador");
+						RepoTerminales.GetInstancia().setBooleanAdmin(true);
 						return new ModelAndView(null, "layoutSesion.hbs");
 					}else{
 						System.out.println("Ingreso Sesion Usuario");
-						return new ModelAndView(null, "layoutSesionUsuario.hbs");
+						RepoTerminales.GetInstancia().setBooleanAdmin(false);
+						return new ModelAndView(null, "layoutSesion.hbs");
 					}
 					
 				}
@@ -305,9 +311,11 @@ public class POIController {
 		return new ModelAndView(null, "disponible.hbs");
 	}
 	public ModelAndView busqueda(Request request, Response response) {
+		chequearUsuario(response);
 		return new ModelAndView(null, "busquedaPOI.hbs");
 	}
-	public ModelAndView buscar(Request request, Response response) { 
+	public ModelAndView buscar(Request request, Response response) {
+		chequearUsuario(response);
 		String nombre = request.queryParams("nombre");
 		if(nombre != null && nombre != ""){
 			ArrayList<POI> listaFiltrada = new ArrayList<POI>();
@@ -322,11 +330,14 @@ public class POIController {
 			}
 			if(listaFiltrada.size()> 0){
 				String str = "/paginaBusqueda?cantidadFilas=" + listaFiltrada.size();
-				for(int i = 0; i< listaFiltrada.size(); i++){
+				String listaPois = "";
+				for(int i = 0; i < listaFiltrada.size(); i++){
 						str = str + "&nombre=" + listaFiltrada.get(i).getNombre() +
 						"&direccion=" + listaFiltrada.get(i).getDireccion().getCalle() +" "+ listaFiltrada.get(i).getDireccion().getNumero();
+						if(i!=0) listaPois = listaPois + ", ";
+						listaPois = listaPois + listaFiltrada.get(i).getNombre();
 				}
-				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, listaFiltrada.size(),  "");
+				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, listaFiltrada.size(), listaPois);
 				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 				this.lista.add(busque);
 				response.redirect(str);
@@ -337,7 +348,7 @@ public class POIController {
 				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 				this.lista.add(busque);
 				System.out.println("No se encontro ningun poi");
-				response.redirect("paginaBusqueda?cantidadFilas=0");
+				response.redirect("/paginaBusqueda?cantidadFilas=0");
 				return null;
 			}
 		}else{
@@ -351,5 +362,9 @@ public class POIController {
 	}
 	public ModelAndView resultadoDisponibilidad(Request request, Response response) {
 		return new ModelAndView(null, "resultadoDisponibilidad.hbs");
+	}
+	
+	public void chequearUsuario(Response response) {
+		if(usuarioLogueado == null) response.redirect("/");
 	}
 }

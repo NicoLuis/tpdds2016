@@ -3,16 +3,13 @@ package bases;
 
 import java.util.ArrayList;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
-
 
 import poi.Terminal;
 
 
 public class RepoTerminales {
 	private ArrayList<Terminal> listaTerminales;
+	private boolean usuarioActualEsAdmin;
 
 	// Singleton//////////////////////////////////////////
 	static RepoTerminales instancia;
@@ -41,6 +38,13 @@ public class RepoTerminales {
 	
 	public void addTerminal(Terminal term){
 		listaTerminales.add(term);
+	}
+	
+	public boolean getBooleanAdmin(){
+		return usuarioActualEsAdmin;
+	}
+	public void setBooleanAdmin(boolean usuarioActualEsAdmin){
+		this.usuarioActualEsAdmin = usuarioActualEsAdmin;
 	}
 	//
 	public void crearTerminales(){

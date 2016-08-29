@@ -7,12 +7,81 @@
 <form action="/configurarAcciones" method="get">
   <div class="row">
 
-	<div class="col-md-5">
+/*	<div class="col-md-5">
 		<input type="submit" class="btn btn-primary" value="Agregar" name="agregar">
 	</div>
 	
+*/
+
+  <div class="row">
+  
+         <div class="col-sm-4">
+  <select class="btn btn-primary" onchange="add_li()" id="select_id">
+     <option value="0">--</option>
+     <option value="Generar Log">Generar Log</option>
+     <option value="Totalizar por Fecha">Totalizar por Fecha</option>
+     <option value="Totalizar por Usuario">Totalizar por Usuario</option>
+        </select>
+   </div>
+  </div>
+        </p>
+        <ul id="listaDesordenada">
+        </ul>
+
+	
   </div>
 </form>
+
+ <script>
+
+ 
+        /**
+         * Funcion que añade un <li> dentro del <ul>
+         */
+        function add_li()
+        {
+            var nuevoLi=document.getElementById("select_id").value;
+            if(nuevoLi.length>0)
+            {
+             
+                    var li=document.createElement('li');
+                    li.id=nuevoLi;
+                    li.innerHTML="<span onclick='eliminar(this)'>X</span>"+nuevoLi;
+   if(find_li(nuevoLi))
+                {                   
+       document.getElementById("listaDesordenada").appendChild(li);
+                }
+            }
+            return false;
+        
+  }
+ 
+        /**
+         * Funcion que busca si existe ya el <li> dentrol del <ul>
+         * Devuelve true si no existe.
+         */
+        function find_li(contenido)
+        {
+            var el = document.getElementById("listaDesordenada").getElementsByTagName("li");
+            for (var i=0; i<el.length; i++)
+            {
+                if(el[i].id==contenido)
+                    return false;
+            }
+            return true;
+        }
+ 
+        /**
+         * Funcion para eliminar los elementos
+         * Tiene que recibir el elemento pulsado
+         */
+        function eliminar(elemento)
+        {
+            var id=elemento.parentNode.getAttribute("id");
+            node=document.getElementById(id);
+            node.parentNode.removeChild(node);
+        }
+    </script>
 {{/partial}}
 				
 {{> layoutSesion.hbs }}

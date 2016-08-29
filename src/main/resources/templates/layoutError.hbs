@@ -1,0 +1,54 @@
+<html>
+  <head>
+    {{# block "titulo" }}
+    {{/block}}
+  </head>
+  <body>
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet"  href="main.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="main.java.poi.CGP.java"></script>
+
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand"href="/">POI</a>
+      </div>
+      <div>
+        <ul class="nav navbar-nav">
+<!--          <li><a href="/calcularDistancia" onclick="return false">Calcular Distancia</a></li>
+          <li><a href="/calcularDistanciaAPOI" onclick="return false">Calcular Distancia a POI</a></li>
+          <li><a href="/verificarDisponibilidadDePOI" onclick="return false"> Verificar Disponibilidad De un POI</a></li>      
+          <li><a href="/paginaBusqueda" onclick="return false"> Búsqueda </a></li>
+          <li><a href="/configurarAcciones" onclick="return false"> Configurar acciones</a></li>
+          <li><a href="/historialBusquedas" onclick="return false"> Historial de Búsquedas </a></li>
+          <li><a href="/" onclick="return false"> Logout </a></li>
+ -->       </ul>
+      </div>
+    </div>
+  </nav>
+	
+  <div class="container">
+  {{# block "contenido" }}
+  
+	    	<div class="alert alert-danger">
+  		<strong>NO VALIDO</strong> 
+  			Los datos ingresados no son correctos o faltan ingresar datos
+	</div>
+	
+	<div class="alert alert-warning">
+  		Vuelva atras y revise los datos ingresados
+	</div>
+
+  {{/block}}
+  </div>
+  
+  <footer class="footer">
+    <p class="text-center">
+      &copy; Grupo7 DDS 2016
+    </p>
+  </footer>
+  </body>
+</html>

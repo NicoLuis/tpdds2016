@@ -133,7 +133,9 @@ public class POIController {
 		System.out.println("DATOS NO VALIDOS");
 		return new ModelAndView(null, "error.hbs");
 	}
-	
+	public ModelAndView invalidaSesion(Request request, Response response){
+		return new ModelAndView(null, "errorBusqueda.hbs");
+	}
 	
 	public ModelAndView valido(Request request, Response response) {
 		try{
@@ -154,12 +156,12 @@ public class POIController {
 				}
 			}
 		}catch (IllegalStateException e){
-			response.redirect("/Invalido");
+			response.redirect("/InvalidoSesion");
 		}catch(NumberFormatException e){
-			response.redirect("/Invalido");
+			response.redirect("/InvalidoSesion");
 		}
 		
-		response.redirect("/Invalido");
+		response.redirect("/InvalidoSesion");
 		return null;
 		
 	}

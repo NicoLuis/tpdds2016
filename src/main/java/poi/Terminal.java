@@ -54,6 +54,8 @@ public class Terminal {
 	public Terminal(String nom) {
 		this.nombre = nom;
 	};
+	
+	public Terminal() {};
 
 	public List<POI> buscar(String busqueda) {
 

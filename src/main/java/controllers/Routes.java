@@ -30,8 +30,8 @@ public static void main(String[] args) {
     post("/POIs/calcularDistancia", poi::calcularDistanciaEntre2PoisDados , engine);
     post("/POIs/calcularDistanciaAPOI", poi::calculoDeDistanciaAPOI , engine);
     post("/Valido", poi::valido, engine);
+    get("/Invalido", poi::invalido , engine);
     get("/POIs/resultadoDistancia", poi::resultadoDistancia, engine);
-    get("/POIs/Invalido", poi::invalido , engine);
     get("/verificarDisponibilidadDePOI", poi::disponible , engine);
     post("/POIs/calcularDisponibilidad", poi::calcularDisponibilidad , engine);
     get("/POIs/resultadoDisponibilidad", poi::resultadoDisponibilidad , engine);

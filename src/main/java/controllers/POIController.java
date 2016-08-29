@@ -52,6 +52,9 @@ public class POIController {
 			lista = lista.stream().filter(busq -> busq.getFechaYhora().isBefore(fecha2)).collect(Collectors.toList());
 		}
 		
+		if(lista.size() == RepoBusquedas.GetInstancia().getListaBusqueda().size()) 
+			response.redirect("/historialBusquedas");
+		
 		String str = construirStringLista(lista);
 		response.redirect(str);
 		return null;
@@ -112,12 +115,12 @@ public class POIController {
 		dirigirAResultadoDistancia(distanciaRedondeada, poi_1, poi_2, estaCerca, response);
 		
 		} catch (IllegalStateException e) {
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 		} catch (NumberFormatException e) {
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 		}
 		
-		response.redirect("/POIs/Invalido");
+		response.redirect("/Invalido");
 		
 		return null;
 	}
@@ -127,9 +130,11 @@ public class POIController {
 	}
   
 	public ModelAndView invalido(Request request, Response response) {
-		System.out.println("POI NO VALIDO");
+		System.out.println("DATOS NO VALIDOS");
 		return new ModelAndView(null, "error.hbs");
 	}
+	
+	
 	public ModelAndView valido(Request request, Response response) {
 		try{
 			ArrayList<Terminal> lista = RepoTerminales.GetInstancia().getListaTerminales();
@@ -149,12 +154,12 @@ public class POIController {
 				}
 			}
 		}catch (IllegalStateException e){
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 		}catch(NumberFormatException e){
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 		}
 		
-		response.redirect("/POIs/Invalido");
+		response.redirect("/Invalido");
 		return null;
 		
 	}
@@ -171,12 +176,12 @@ public class POIController {
 			dirigirAResultadoDistancia(distanciaRedondeada, poi_1, poi_2, estaCerca, response);
 			
 		} catch (IllegalStateException e) {
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 		} catch (NumberFormatException e) {
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 		}
 		
-		response.redirect("/POIs/Invalido");
+		response.redirect("/Invalido");
 		
 		return null;
 	}
@@ -286,12 +291,12 @@ public class POIController {
 			
 			
 		} catch (IllegalStateException e) {
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 		} catch (NumberFormatException e) {
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 		}
 		
-		response.redirect("/POIs/Invalido");
+		response.redirect("/Invalido");
 		
 		return null;
 	}
@@ -337,7 +342,7 @@ public class POIController {
 			}
 		}else{
 			System.out.println("Ingrese un nombre correcto");
-			response.redirect("/POIs/Invalido");
+			response.redirect("/Invalido");
 			return null;
 		}
 	}

@@ -4,84 +4,124 @@
 		
 {{# partial "contenido" }}	
 
-<form action="/configurarAcciones" method="get">
-  <div class="row">
+<style>
+.botonEliminar {
+    background-color: #eee;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    width: 30%;
+    margin-left: 50%;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
 
-<!--	<div class="col-md-5">
-		<input type="submit" class="btn btn-primary" value="Agregar" name="agregar">
-	</div>
-	
--->
+.botonEliminar1 {
+    background-color: white;
+    color: black;
+    border: 2px solid #eee;
+}
+.botonEliminar1:hover {
+    background-color: #eee;
+    color: white;
+}
+.centrado {
+    margin: auto;
+}
+</style>
 
-  <div class="row">
-  
-         <div class="col-sm-4">
-  <select class="btn btn-primary" onchange="add_li()" id="select_id">
-     <option value="0">--</option>
-     <option value="Generar Log">Generar Log</option>
-     <option value="Totalizar por Fecha">Totalizar por Fecha</option>
-     <option value="Totalizar por Usuario">Totalizar por Usuario</option>
-        </select>
-   </div>
+
+	<div class="row">
+		<div class="row centrado" >
+			<div class="col-sm-4 centrado">
+				<select class="btn btn-default btn-block btn-lg" id="select_id">
+					<option value="0"> -- </option>
+					<option value="Generar Log"> Generar Log </option>
+					<option value="Totalizar por Fecha"> Totalizar por Fecha </option>
+					<option value="Totalizar por Usuario"> Totalizar por Usuario </option>
+				</select>
+		   </div>
+
+			<div class="col-md-5 centrado">
+				<input type="submit" class="btn btn-primary btn-lg" value="Agregar" name="agregar" onclick="add_li()" >
+			</div>
+		</div>
+				<br></br>
+		<table style="width:100%" id="listaDesordenada">
+		</table>
+				
   </div>
-        </p>
-        <ul id="listaDesordenada">
-        </ul>
 
+<script>
+/**
+ * Funcion que añade un <li> dentro del <ul>
+ */
+function add_li(){
+	var nuevoLi = document.getElementById("select_id").value;
+	if(nuevoLi.length > 0 && nuevoLi != "0"){
+		var fila = document.createElement("tr");
+		fila.setAttribute("id", nuevoLi);
 	
-  </div>
-</form>
+		var parteIzq = document.createElement("th");
+		parteIzq.innerHTML = nuevoLi;
+		
+		var parteDer = document.createElement("th");
+		var boton = document.createElement("button");
+		var texto = document.createTextNode("Eliminar");
+		boton.appendChild(texto);
+		boton.setAttribute("class", "botonEliminar botonEliminar1");
+		
+		boton.onclick = (
+			function() {
+				var id_eliminar = fila.getAttribute("id");	
+				return function() {
+					node = document.getElementById(id_eliminar);
+					node.parentNode.removeChild(node);
+				}
+			}
+		)();
+		
+		
+		parteDer.appendChild(boton);
+		
+		fila.appendChild(parteIzq);
+		fila.appendChild(parteDer);
+		
+		if(find_li(nuevoLi))
+			document.getElementById("listaDesordenada").appendChild(fila);
+	}
+	return false;
+}
+ 
+/**
+ * Funcion que busca si existe ya el <li> dentrol del <ul>
+ * Devuelve true si no existe.
+ */
+function find_li(contenido){
+	var el = document.getElementById("listaDesordenada").getElementsByTagName("li");
+	for (var i=0; i<el.length; i++){
+		if(el[i].id==contenido) return false;
+	}
+	return true;
+}
+ 
+/**
+ * Funcion para eliminar los elementos
+ * Tiene que recibir el elemento pulsado
+ */
+function eliminar(elemento){
+	var id = elemento.parentNode.getAttribute("id");
+	node = document.getElementById(id);
+	node.parentNode.removeChild(node);
+}
+</script>
 
- <script>
 
- 
-        /**
-         * Funcion que añade un <li> dentro del <ul>
-         */
-        function add_li()
-        {
-            var nuevoLi=document.getElementById("select_id").value;
-            if(nuevoLi.length>0)
-            {
-             
-                    var li=document.createElement('li');
-                    li.id=nuevoLi;
-                    li.innerHTML="<span onclick='eliminar(this)'>X</span>"+nuevoLi;
-   if(find_li(nuevoLi))
-                {                   
-       document.getElementById("listaDesordenada").appendChild(li);
-                }
-            }
-            return false;
-        
-  }
- 
-        /**
-         * Funcion que busca si existe ya el <li> dentrol del <ul>
-         * Devuelve true si no existe.
-         */
-        function find_li(contenido)
-        {
-            var el = document.getElementById("listaDesordenada").getElementsByTagName("li");
-            for (var i=0; i<el.length; i++)
-            {
-                if(el[i].id==contenido)
-                    return false;
-            }
-            return true;
-        }
- 
-        /**
-         * Funcion para eliminar los elementos
-         * Tiene que recibir el elemento pulsado
-         */
-        function eliminar(elemento)
-        {
-            var id=elemento.parentNode.getAttribute("id");
-            node=document.getElementById(id);
-            node.parentNode.removeChild(node);
-        }
-    </script>
+
 {{/partial}}
 				
 {{> layoutSesion.hbs }}

@@ -10,6 +10,7 @@ public static void main(String[] args) {
 
     POIController poi = new POIController();
     HomeController home = new HomeController();
+    HistorialController historial = new HistorialController();
     HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
     port(8081);
     staticFileLocation("/public");
@@ -26,14 +27,14 @@ public static void main(String[] args) {
     
     //Busqueda
     post("/getDetalles", poi::generarDetalles, engine);
-    post("/busquedaPOI", poi::buscar, engine);
+    get("/busquedaPOI", poi::buscar, engine);
     get("/paginaBusqueda", poi::busqueda, engine);
     //Acciones
     get("/configurarAcciones", poi::nuevaAccion, engine);
     //Historial
-    get("/historialBusquedas", poi::historial, engine);
-    post("/buscarEnHistorial", poi::buscarEnHistorial, engine);
-    get("/generarHistorial", poi::generarHistorial, engine);
+    get("/historialBusquedas", historial::historial, engine);
+    post("/buscarEnHistorial", historial::buscarEnHistorial, engine);
+    get("/generarHistorial", historial::generarHistorial, engine);
     //Distancia
     get("/calcularDistancia", poi::calcularDistancia , engine);
     get("/calcularDistanciaAPOI", poi::calcularDistanciaAPOI , engine);

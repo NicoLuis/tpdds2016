@@ -1,4 +1,4 @@
-'{{# partial "titulo" }}	
+{{# partial "titulo" }}	
 	<title>POIs - Busqueda Poi</title>
 {{/partial}}
 		
@@ -74,7 +74,7 @@ function generar_detalles(){
 }
 </script>
 
-<form action="/busquedaPOI" class="form-inline" method="post">
+<form action="/busquedaPOI" class="form-inline" method="get">
 
 <input type="hidden" id="cantidad" name="cantidad" value="1">
 

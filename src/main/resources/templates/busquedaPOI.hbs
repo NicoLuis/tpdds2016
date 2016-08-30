@@ -56,12 +56,12 @@ function genera_tabla() {
 
 function crear_boton_detalles(){
 	var form= document.createElement('form');
-	form.setAttribute('action',"/getDetalles");
+	form.setAttribute('action',"/generarDetalles");
+	form.setAttribute('method',"post");
 	
 	boton_detalle= document.createElement('input');
 	boton_detalle.setAttribute('class',"btn btn-primary");
 	boton_detalle.setAttribute('type',"submit");
-	boton_detalle.setAttribute('method',"post");
 	boton_detalle.setAttribute('value',"Ver Detalles");
 	
 	form.appendChild(boton_detalle);

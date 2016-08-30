@@ -94,7 +94,7 @@ public class POIController {
 		for(POI poi : lista){
 			ArrayList <String> detalles = poi.get_detalles();
 		}
-		return "hola";
+		return str;
 	}
 	public DateTime convertirEnDateTime(String stringFecha) {
 		

@@ -46,5 +46,9 @@ public static void main(String[] args) {
     get("/verificarDisponibilidadDePOI", poi::disponible , engine);
     post("/POIs/calcularDisponibilidad", poi::calcularDisponibilidad , engine);
     get("/POIs/resultadoDisponibilidad", poi::resultadoDisponibilidad , engine);
+    
+    //detalles
+    
+    post("/generarDetalles",poi::generarDetalles,engine);
   }
 }

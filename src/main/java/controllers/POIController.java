@@ -3,7 +3,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import spark.ModelAndView;
@@ -332,6 +334,39 @@ public class POIController {
 	public ModelAndView buscar(Request request, Response response) {
 		chequearUsuario(response);
 		String nombre = request.queryParams("nombre");
+		//System.out.println(request.queryParams("cantidad") + "cantidad");
+	
+		
+		
+		/*
+		 Recibis parametro cantidad que minimo es 1 y maximo es la cantidad de campoos que puede haber
+		 
+		 siendo 
+		 cantiadad = 3
+		 
+		 nombre1 = parada 21
+		 nombre2 = cgp coso
+		 nombre3 = lalala
+		 
+		 
+		 Ojo que puede darse el caso de que cantidad sea 5 pero el item 4 no exista porque se elimino,
+		 verificar con un null o que no sea ""
+		 
+		 No va mas nombre solo como esa ahora. 
+		 ahora arranca con nombre1 el item1 de busqueda y va creciendo sucesivamente.
+		 
+		 no me funciono request.querymap o reques.paramvalues que podrian haber resuelto esto mas facil.
+		 
+		 
+		 */
+		
+		
+		
+		
+		
+		
+		
+		
 		if(nombre != null && nombre != ""){
 			ArrayList<POI> listaFiltrada = new ArrayList<POI>();
 			HomePois basepoi = HomePois.GetInstancia();

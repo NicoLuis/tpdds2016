@@ -1,16 +1,51 @@
-{{# partial "titulo" }}	
-	<title>POI</title>
-{{/partial}}
+<html>
+  <head>
+   	<title>POI - Iniciar Sesion</title>
+  </head>
+  <body>
 
-		
-{{# partial "contenido" }}
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet"  href="main.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="main.java.poi.CGP.java"></script>
 
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand"href="/">POI</a>
+      </div>
+      <div>
+        <ul class="nav navbar-nav">
+        </ul>
+      </div>
+    </div>
+  </nav>
+	
+  <div class="container">
+  
+  
+  <style>
+  .tituloPPal{
+    padding: 10px 32px;
+    margin-bottom: 20px;
+    color: black;
+    background-color: #eee;
+    font-weight: bolder;
+  }
+  
+  .ancho{
+  	width: 70%;
+  	margin: auto;
+  }
+  </style>
+  
 <form action="/Valido" method="post">
-	<div class="jumbotron">
+	<div class="tituloPPal">
 	  <h1>POI</h1>
 	</div>	
 	
-	<div class="col-xs-8"><div class="panel panel-primary">
+	<div class="panel panel-primary ancho">
 	
 		<div class="panel-heading">
 			<h1>LOG IN</h1>
@@ -26,9 +61,17 @@
 			<input type="submit" class="btn btn-primary" value="Ingresar">
 		</div>
 	
-	</div></div>
+	</div>
 </form>
-{{/partial}}
-				
-{{> layout.hbs }}
+
+  </div>
+  
+  <footer class="footer">
+    <p class="text-center">
+      &copy; Grupo7 DDS 2016
+    </p>
+  </footer>
+  </body>
+</html>
+
 

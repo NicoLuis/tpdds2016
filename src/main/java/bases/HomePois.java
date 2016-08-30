@@ -97,7 +97,11 @@ public class HomePois{
 		return listaLocal;
 	}
 	
-	public POI buscarNombre(String busqueda){	
+	public List<POI> buscarNombrePOIS(String busqueda){
+		return listaPois.stream().filter(u -> (u.getNombre()).contains(busqueda)).collect(Collectors.toList());
+	}
+	
+	public POI buscarNombre(String busqueda){
 		return listaPois.stream().filter(u -> (u.getNombre()).equals(busqueda)).findFirst().get();
 	}
 	

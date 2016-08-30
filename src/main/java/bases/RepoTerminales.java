@@ -3,16 +3,13 @@ package bases;
 
 import java.util.ArrayList;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
-
 
 import poi.Terminal;
 
 
 public class RepoTerminales {
 	private ArrayList<Terminal> listaTerminales;
+	private boolean usuarioActualEsAdmin;
 
 	// Singleton//////////////////////////////////////////
 	static RepoTerminales instancia;
@@ -42,19 +39,29 @@ public class RepoTerminales {
 	public void addTerminal(Terminal term){
 		listaTerminales.add(term);
 	}
+	
+	public boolean getBooleanAdmin(){
+		return usuarioActualEsAdmin;
+	}
+	public void setBooleanAdmin(boolean usuarioActualEsAdmin){
+		this.usuarioActualEsAdmin = usuarioActualEsAdmin;
+	}
 	//
 	public void crearTerminales(){
-		Terminal abc = new Terminal("ABC");
-		abc.setUsuario("admin");
-		abc.setpass("admin");
-		abc.setAdmin(true);
-		addTerminal(abc);
-		Terminal user = new Terminal("no admin");
-		user.setUsuario("user");
-		user.setpass("user");
-		user.setAdmin(false);
-		addTerminal(user);
-		
+		crearUsuario("admin", "admin", true);
+		crearUsuario("user", "user", false);
+		crearUsuario("nLuis", "qwe123", true);
+		crearUsuario("jperez", "1234juan", false);
 	}
+	
+	
+	public void crearUsuario(String nombre, String pass, boolean admin){
+		Terminal abc = new Terminal();
+		abc.setUsuario(nombre);
+		abc.setpass(pass);
+		abc.setAdmin(admin);
+		addTerminal(abc);
+	}
+	
 	
 }

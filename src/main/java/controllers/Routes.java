@@ -25,6 +25,7 @@ public static void main(String[] args) {
     get("/Invalido", poi::invalido , engine);
     
     //Busqueda
+    post("/getDetalles", poi::generarDetalles, engine);
     post("/busquedaPOI", poi::buscar, engine);
     get("/paginaBusqueda", poi::busqueda, engine);
     //Acciones

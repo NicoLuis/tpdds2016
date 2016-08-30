@@ -5,27 +5,76 @@
   </head>
   <body>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet"  href="main.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="main.java.poi.CGP.java"></script>
+  
+  <style>
+  .centrado{
+  	margin: auto;
+  }
+	.buttonSesion {
+	    background-color: #555555;
+	    border: none;
+	    color: black;
+	    padding: 15px 32px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: block;
+	    width: 100%;
+	    font-size: 16px;
+	    transition-duration: 0.4s;
+	    cursor: pointer;
+		margin-bottom: 5px;
+	}
+	.buttonS {
+	    background-color: white;
+	    color: black;
+	    border: 2px solid #555555;
+	}
+	.buttonS:hover {
+    	background-color: #555555;
+    	color: white;
+	}
+  </style>
+  
+  <!-- Modal -->
+<div id="modalCerrarSesion" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+
+	  
+      <div class="modal-body centrado">
+        <Strong> Desea Cerrar Sesion? </Strong>
+      </div> 
+      
+      <div class="modal-footer centrado">
+        <form action="/" method="get">
+        	<input type="submit" class="buttonSesion buttonS" value="Si">
+        </form>
+        <button type="button" class="buttonSesion buttonS" data-dismiss="modal">No</button>
+      </div>
+	  
+    </div>
+
+  </div>
+</div>
+
 
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand"href="/" onclick="return false">POI</a>
+        <a class="navbar-brand"href="/" onclick="return false"> POI </a>
       </div>
       <div>
-        <ul class="nav navbar-nav">
-          <li><a href="/calcularDistancia">Calcular Distancia</a></li>
-          <li><a href="/calcularDistanciaAPOI">Calcular Distancia a POI</a></li>
-          <li><a href="/verificarDisponibilidadDePOI"> Verificar Disponibilidad De un POI</a></li>      
-          <li><a href="/paginaBusqueda"> Búsqueda </a></li>			<!-- Modificar por el link correcto cuando este le pantalla -->
-          <li><a href="/configurarAcciones"> Configurar acciones</a></li>
-          <li><a href="/historialBusquedas"> Historial de Búsquedas </a></li>
+        <ul class="nav navbar-nav ">
+          <li><a href="/paginaBusqueda"> Búsqueda </a></li>	
+          <li><a href="/Acciones"> Acciones </a></li>
+          <li><a data-toggle="modal" data-target="#modalCerrarSesion"> Cerrar Sesion </button></a></li>
         </ul>
       </div>
     </div>
@@ -33,15 +82,15 @@
 	
   <div class="container">
   {{# block "contenido" }}
-  	<div class="alert alert-success">
-  		<strong>Sesion Valida</strong> 
-  			Los datos ingresados son correctos
-	</div>
-	
-	<div class="alert alert-info">
-  		Ya puede acceder a las opciones del menu
-	</div>
   
+	    <div class="alert alert-success">
+	  		<strong>Sesion Valida</strong> 
+	  		Los datos ingresados son correctos
+	  </div>
+		
+	  <div class="alert alert-info">
+			Ya puede acceder a las opciones del menu
+	  </div>
   {{/block}}
   </div>
   

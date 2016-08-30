@@ -60,5 +60,14 @@ public class LocalComercial extends POI{
 	public String tipo(){
 		return "Local Comercial";
 	}
-
+	public void setIcono(){
+		icono="glyphicons glyphicons-shopping-bag";
+	}
+	public void set_detalles(POI unPoi){
+		String direccion= unPoi.getDireccion().getCalle() + unPoi.getDireccion().getNumero();
+		lista_detalles.add(unPoi.getIcono());
+		lista_detalles.add(direccion);
+		lista_detalles.add(this.getNombre());
+		lista_detalles.add(this.getRubro().getNombre());
+	}
 }

@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uqbar.geodds.Polygon;
+
 public class Banco extends POI{
 
 	private String nombreGerente;
@@ -62,5 +64,22 @@ public class Banco extends POI{
 	
 	public String tipo(){
 		return "Sucursal de Banco";
+	}
+	public Polygon getComuna(){
+		return comuna;
+	}
+	public void setIcono(){
+		icono= "glyphicons glyphicons-bank";
+	}
+	public void set_detalles(POI unPoi){
+		String direccion= unPoi.getDireccion().getCalle() + unPoi.getDireccion().getNumero();
+		String servicios="";
+		for(String servicio : this.getListaServicios()){
+			servicios+=servicio;
+		}
+		lista_detalles.add(unPoi.getIcono());
+		lista_detalles.add(direccion);
+		//lista_detalles.add(this.getComuna());
+		lista_detalles.add(servicios);
 	}
 }

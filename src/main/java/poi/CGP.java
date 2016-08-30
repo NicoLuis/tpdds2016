@@ -27,7 +27,6 @@ public class CGP extends POI{
 	}
 	public CGP() {
 	};
-		
 		    
 		
 	@Override
@@ -83,11 +82,31 @@ public class CGP extends POI{
 	}
 		
 		
-		
+	
 		
 		
 	public Polygon getArea() {
 		return comuna;
 	}
+	public void setIcono(){
+		icono= "glyphicons glyphicons-family";
+	}
+	public void set_detalles(POI unPoi){
+		String direccion= unPoi.getDireccion().getCalle() + unPoi.getDireccion().getNumero();
+		String servicios="";
+		String franjaHoraria="";
+		for(Servicio servicio : this.getServicios()){
+			servicios+=servicio.getNombre();
+		}
 		
+		for(Franja franja : this.getFranjaHoraria()){
+			franjaHoraria+= franja.getHorarioDeApertura().toString();
+			franjaHoraria+= franja.getHorarioDeCierre().toString();
+		}
+		lista_detalles.add(unPoi.getIcono());
+		lista_detalles.add(direccion);
+		//lista_detalles.add(this.getArea());
+		lista_detalles.add(servicios);
+		lista_detalles.add(franjaHoraria);
+	}
 }

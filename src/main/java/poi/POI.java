@@ -19,7 +19,8 @@ public abstract class POI {
 	protected Polygon			comuna;
 	protected List<Franja> 		franjaHoraria = new ArrayList<Franja>();
 	protected ArrayList<String>	tags; //Array de String que contienen todos los tags de busqueda libre
-
+	protected ArrayList<String>	lista_detalles; //Array de String que contienen todos los tags de busqueda libre
+	protected String 			icono;
 
 	protected POI(){
 		numeroPOI= MaxNumeroPOI;
@@ -88,6 +89,9 @@ public abstract class POI {
 	public int getNumeroPOI() {
 		return numeroPOI;
 	}
+	public ArrayList<String> get_detalles(){
+		return lista_detalles;
+	}
 	public Point getCoordenadas() {
 		return coordenadas;
 	}
@@ -143,6 +147,8 @@ public abstract class POI {
 	public void setUbicacion(Point point) {
 		this.coordenadas = point;
 	}
-
+	public String getIcono(){
+		return icono;
+	}
 	
 }

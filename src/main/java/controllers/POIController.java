@@ -64,13 +64,6 @@ public class POIController {
 		return null;
 	}
 	
-	public ModelAndView get_detalles(Request request, Response response) {
-		String str= "perro";
-		System.out.println("laconchadetumadreallboys");
-		response.redirect("/paginaBusqueda?foo=bar");
-		return null;
-	}
-	
 	public String construirStringLista(List<Busqueda> lista) {
 		String str = "/historialBusquedas?cantidadFilas=" + lista.size();
 		for (Busqueda busqueda : lista) {
@@ -81,7 +74,20 @@ public class POIController {
 		}
 		return str;
 	}
+	public ModelAndView generarDetalles(Request request, Response response) {
+		ArrayList<POI> lista= HomePois.GetInstancia().getListaPois();
+		String str = construirListaDetalles(lista);
+		response.redirect(str);
+		return null;
+	}
 	
+	public String construirListaDetalles(ArrayList<POI> lista){
+		String str= "paginaBusqueda?cantidadFilas="+lista.size();
+		for(POI poi : lista){
+			ArrayList <String> detalles = poi.get_detalles();
+		}
+		return "hola";
+	}
 	public DateTime convertirEnDateTime(String stringFecha) {
 		
 		stringFecha = stringFecha.trim();

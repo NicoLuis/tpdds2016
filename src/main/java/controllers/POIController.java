@@ -257,7 +257,6 @@ public class POIController {
 	}
 	public ModelAndView buscar(Request request, Response response) {
 		chequearUsuario(response);
-		String nombre = request.queryParams("nombre");
 		//System.out.println(request.queryParams("cantidad") + "cantidad");
 	
 		
@@ -284,24 +283,35 @@ public class POIController {
 		 
 		 */
 		
+		ArrayList<String> listaNombres = new ArrayList<String>();
+		
+		String query = request.queryString();
+		int ultimoIgual = query.lastIndexOf("=");
+		String ultimoNumero = query.substring(ultimoIgual - 1, ultimoIgual);
+		
+		int cantidadMax = Integer.parseInt(ultimoNumero);
 		
 		
+		for(int i = 1; i <= cantidadMax; i++){
+			String nombre = request.queryParams("nombre" + i);
+			if(nombre != null) listaNombres.add(nombre);
+		}
 		
 		
-		
-		
-		
-		if(nombre != null && nombre != ""){
 			ArrayList<POI> listaFiltrada = new ArrayList<POI>();
 			HomePois basepoi = HomePois.GetInstancia();
 			basepoi.crear_arrayPOIs();
 			ArrayList<POI> lista = basepoi.getListaPois();
-			for(int i = 0; i < lista.size(); i++){
-				POI nuevo = lista.get(i);
-				if(nuevo.resultadosDeBusquedaLibre(nombre) != null){
-					listaFiltrada.add(nuevo);
+			
+			for(int j = 0; j < listaNombres.size(); j++){
+				String str = listaNombres.get(j);
+				for(int i = 0; i < lista.size(); i++){
+					POI nuevo = lista.get(i);
+					if(nuevo.resultadosDeBusquedaLibre(str) != null && !listaFiltrada.contains(nuevo))
+						listaFiltrada.add(nuevo);
 				}
 			}
+			
 			if(listaFiltrada.size()> 0){
 				String str = "/paginaBusqueda?cantidadFilas=" + listaFiltrada.size();
 				String listaPois = "";
@@ -311,25 +321,20 @@ public class POIController {
 						if(i!=0) listaPois = listaPois + ", ";
 						listaPois = listaPois + listaFiltrada.get(i).getNombre();
 				}
-				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, listaFiltrada.size(), listaPois);
+				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, "nombre: " + listaNombres, listaFiltrada.size(), listaPois);
 				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 				this.lista.add(busque);
 				response.redirect(str);
 				return null;
 			}
 			else{
-				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, nombre, 0, "");
+				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, "nombre: " + listaNombres, 0, "");
 				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 				this.lista.add(busque);
 				System.out.println("No se encontro ningun poi");
 				response.redirect("/paginaBusqueda?cantidadFilas=0");
 				return null;
 			}
-		}else{
-			System.out.println("Ingrese un nombre correcto");
-			response.redirect("/Invalido");
-			return null;
-		}
 	}
 	public ModelAndView nuevaAccion(Request request, Response response) {
 		return new ModelAndView(null, "configurarAcciones.hbs");

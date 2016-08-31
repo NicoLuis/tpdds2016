@@ -88,11 +88,13 @@ public class CGP extends POI{
 	public Polygon getArea() {
 		return comuna;
 	}
+	@Override
 	public void setIcono(){
 		icono= "glyphicons glyphicons-family";
 	}
-	public void set_detalles(POI unPoi){
-		String direccion= unPoi.getDireccion().getCalle() + unPoi.getDireccion().getNumero();
+	@Override
+	public void setDetalles(){
+		String direccion= this.getDireccion().getCalle() + this.getDireccion().getNumero();
 		String servicios="";
 		String franjaHoraria="";
 		for(Servicio servicio : this.getServicios()){
@@ -103,10 +105,10 @@ public class CGP extends POI{
 			franjaHoraria+= franja.getHorarioDeApertura().toString();
 			franjaHoraria+= franja.getHorarioDeCierre().toString();
 		}
-		lista_detalles.add(unPoi.getIcono());
-		lista_detalles.add(direccion);
+		detalles.put("Icono",this.getIcono());
+		detalles.put("Direccion",direccion);
 		//lista_detalles.add(this.getArea());
-		lista_detalles.add(servicios);
-		lista_detalles.add(franjaHoraria);
+		detalles.put("Servicios",servicios);
+		detalles.put("Horario",franjaHoraria);
 	}
 }

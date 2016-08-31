@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.lang.String;
+import java.util.*;
 
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
@@ -19,8 +20,8 @@ public abstract class POI {
 	protected Polygon			comuna;
 	protected List<Franja> 		franjaHoraria = new ArrayList<Franja>();
 	protected ArrayList<String>	tags; //Array de String que contienen todos los tags de busqueda libre
-	protected ArrayList<String>	lista_detalles; //Array de String que contienen todos los tags de busqueda libre
-	protected String 			icono;
+	protected String 				icono;
+	protected Map<String,String> detalles= new HashMap<String,String>();
 
 	protected POI(){
 		numeroPOI= MaxNumeroPOI;
@@ -90,8 +91,8 @@ public abstract class POI {
 	public int getNumeroPOI() {
 		return numeroPOI;
 	}
-	public ArrayList<String> get_detalles(){
-		return lista_detalles;
+	public Map<String,String> get_detalles(){
+		return detalles;
 	}
 	public Point getCoordenadas() {
 		return coordenadas;
@@ -149,7 +150,15 @@ public abstract class POI {
 		this.coordenadas = point;
 	}
 	public String getIcono(){
-		return icono;
+		System.out.println(icono + " " +this.icono);
+		return this.icono;
+	}
+	public void setDetalles(){
+		detalles.put("nombre",this.getNombre());
+	}
+	
+	public void setIcono(){
+		icono="Lpm";
 	}
 	
 }

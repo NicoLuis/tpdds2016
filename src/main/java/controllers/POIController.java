@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.*;
 
 import spark.ModelAndView;
 import spark.Request;
@@ -26,16 +27,32 @@ public class POIController {
 	}
 	
 	public ModelAndView generarDetalles(Request request, Response response) {
+		System.out.println(request);
+		String nombre_poi=request.queryParams("nombre");
+		String direccion_poi=request.queryParams("direccion");
 		ArrayList<POI> lista= HomePois.GetInstancia().getListaPois();
-		String str = construirListaDetalles(lista);
+		ArrayList<POI> lista_coincidencias= new ArrayList<POI>();
+		for (POI poi: lista){
+			if(poi.getNombre().contains(nombre_poi)){
+				System.out.println("HOLAAAAAAAAAAAAAAAAAAAA");
+				lista_coincidencias.add(poi);
+			}
+		}
+		String str = construirListaDetalles(lista_coincidencias);
 		response.redirect(str);
 		return null;
 	}
 	
 	public String construirListaDetalles(ArrayList<POI> lista){
 		String str= "paginaBusqueda?cantidadFilas="+lista.size();
+		Map<String,String> detalles= new HashMap <String,String>();
 		for(POI poi : lista){
-			ArrayList <String> detalles = poi.get_detalles();
+			poi.setDetalles();
+			detalles = poi.get_detalles();
+		}
+		for (Map.Entry<String, String> detalle : detalles.entrySet()) {
+			str =str + "&"+ detalle.getKey() +"=" +detalle.getValue();
+			System.out.println("Key : " + detalle.getKey() + " Value : " + detalle.getValue());
 		}
 		return str;
 	}

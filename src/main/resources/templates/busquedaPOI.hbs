@@ -73,7 +73,7 @@ function genera_tabla() {
       var celda = document.createElement("th");
     }else{
       var temp = parameters[numeroParametro].split("=");
-      if(temp[0]=="icono"){
+      if(temp[0]=="Icono"){
         generar_detalles();
       }
       var parametro = unescape(temp[1]);
@@ -161,10 +161,10 @@ function crear_boton_detalles(params){
   
   boton_detalle= document.createElement('input');
   boton_detalle.setAttribute('class',"btn btn-primary");
- // boton_detalle.setAttribute('type',"submit");
+  boton_detalle.setAttribute('type',"submit");
   
   
-  boton_detalle.setAttribute('onclick',"doModal('titulo del modal', 'aca va el texto  del detalle   <button type=\"button\" class=\"btn btn-primary\">estoes un boton</button>');");
+  //boton_detalle.setAttribute('onclick',"doModal('titulo del modal', 'aca va el texto  del detalle   <button type=\"button\" class=\"btn btn-primary\">estoes un boton</button>');");
   
   
   //    \" con esto generas comilla dentro de comilla 
@@ -245,10 +245,6 @@ console.log("gn");
             <thead id="detalles_head"></thead>
             <tbody id= "detalles_body"></tbody>
           </table>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save Changes</button>
-        </div>
         
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -4,6 +4,52 @@
 		
 {{# partial "contenido" }}	
 <script>
+
+
+
+
+function doModal(heading, formContent) {
+    html =  '<div id="dynamicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirm-modal" aria-hidden="true">';
+    html += '<div class="modal-dialog">';
+    html += '<div class="modal-content">';
+    html += '<div class="modal-header">';
+    html += '<a class="close" data-dismiss="modal">×</a>';
+    html += '<h4>'+heading+'</h4>'
+    html += '</div>';
+    html += '<div class="modal-body">';
+    html += '<p>';
+    html += formContent;
+    html += '</div>';
+    html += '<div class="modal-footer">';
+    html += '<span class="btn btn-primary" data-dismiss="modal">Close</span>';
+    html += '</div>';  // content
+    html += '</div>';  // dialog
+    html += '</div>';  // footer
+    html += '</div>';  // modalWindow
+    $('body').append(html);
+    $("#dynamicModal").modal();
+    $("#dynamicModal").modal('show');
+
+    $('#dynamicModal').on('hidden.bs.modal', function (e) {
+        $(this).remove();
+    });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function genera_tabla() {
   var parameters = location.search.substring(1).split("&");
   var temp = parameters[0].split("=");
@@ -115,9 +161,18 @@ function crear_boton_detalles(params){
   
   boton_detalle= document.createElement('input');
   boton_detalle.setAttribute('class',"btn btn-primary");
-  boton_detalle.setAttribute('type',"submit");
-  //boton_detalle.setAttribute('onclick',"submit");
+ // boton_detalle.setAttribute('type',"submit");
+  
+  
+  boton_detalle.setAttribute('onclick',"doModal('titulo del modal', 'aca va el texto  del detalle   <button type=\"button\" class=\"btn btn-primary\">estoes un boton</button>');");
+  
+  
+  //    \" con esto generas comilla dentro de comilla 
+  
+  
+  
   boton_detalle.setAttribute('value',"Ver Detalles");
+  console.log("ACA");
   params.shift();
   params.forEach(function(param,i){
     param=param.split("=");
@@ -138,6 +193,7 @@ function crear_boton_detalles(params){
   return form;
 }
 function generar_detalles(){
+console.log("gn");
   var ths=[];
   var tds=[];
   var parameters = location.search.substring(1).split("&");

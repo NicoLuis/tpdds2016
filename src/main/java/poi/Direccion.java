@@ -19,6 +19,11 @@ public class Direccion {
 	public Direccion(String calle){
 		this.calle = calle;
 	}
+	
+	public Direccion(String calle,  int numero){
+		this.calle = calle;
+		this.numero = numero;
+	}
 
 	public String getCalle() {
 		return calle;

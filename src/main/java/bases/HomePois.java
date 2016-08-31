@@ -251,9 +251,7 @@ public class HomePois{
 	
 	public ParadaColectivo crear_paradaDel47() {
 		Direccion dir = new Direccion();
-		dir.setCalle("Triunvirato");
-		dir.setNumero(4566);
-		paradaDel47 = new ParadaColectivo();
+		paradaDel107.setDireccion(new Direccion("Triunvirato", 4566));
 		paradaDel47.setNombre("Parada del 47");
 		paradaDel47.setDireccion(dir);
 		paradaDel47.setUbicacion(new Point(-34.6715, -58.4676));
@@ -262,6 +260,7 @@ public class HomePois{
 	
 	public ParadaColectivo crear_paradaDel107() {
 		paradaDel107 = new ParadaColectivo();
+		paradaDel107.setDireccion(new Direccion("Av. Escalada", 2214)); 
 		paradaDel107.setNombre("Parada del 107");
 		paradaDel107.setUbicacion(new Point(-34.6578,-58.4787));
 		return paradaDel107;
@@ -269,6 +268,7 @@ public class HomePois{
 	
 	public ParadaColectivo crear_paradaDel114() {
 		paradaDel114 = new ParadaColectivo();
+		paradaDel114.setDireccion(new Direccion("Av. Lacarra", 2254));
 		paradaDel114.setNombre("Parada del 114");
 		paradaDel114.setUbicacion(new Point(-34.6715, -58.4676));
 		return paradaDel114;
@@ -276,6 +276,7 @@ public class HomePois{
 	
 	public Banco crear_SucursalBanco_1() {
 		sucursalBanco_1 = new Banco();
+		sucursalBanco_1.setDireccion(new Direccion("Av. Riestra", 5012));
 		sucursalBanco_1.setNombre("Sucursal Banco");
 		sucursalBanco_1.setUbicacion(new Point(-34.6719, -58.4695));
 		return sucursalBanco_1;
@@ -297,6 +298,7 @@ public class HomePois{
 		libreriaEscolar = new LocalComercial();
 		libreriaEscolar.setNombre("Libreria Escolar");
 		libreriaEscolar.setUbicacion(new Point(-34.6720, -58.4678));
+		libreriaEscolar.setDireccion(new Direccion("Av Caseros", 3211));
 		libreriaEscolar.setRubro(rubroLibreriaEscolar);
 		libreriaEscolar.setFranjaHoraria( new ArrayList<Franja>() );
 		libreriaEscolar.addFranjaHoraria( new Franja(10, 18, 1, 5) );
@@ -307,6 +309,7 @@ public class HomePois{
 		kioskoDeDiarios = new LocalComercial();
 		kioskoDeDiarios.setNombre("Kiosko de Diarios");
 		kioskoDeDiarios.setUbicacion(new Point(-34.6717, -58.4673));
+		libreriaEscolar.setDireccion(new Direccion("Corvalan", 3691));
 		kioskoDeDiarios.setRubro(rubroKioskoDeDiarios);
 		return kioskoDeDiarios;
 	}
@@ -334,11 +337,13 @@ public class HomePois{
 		supermercado = new LocalComercial();
 		supermercado.setNombre("Supermercado");
 		supermercado.setRubro(rubrosSupermercado);
+		supermercado.setDireccion(new Direccion("Santander", 5423));
 		return supermercado;
 	}
 	
 	public POI crear_localDeRopa_1(){
 		localDeRopa = new LocalComercial();
+		supermercado.setDireccion(new Direccion("Santander", 1214));
 		localDeRopa.setNombre("Local de Ropa");
 		ArrayList<String> tagsDeLocalDeRopa = new ArrayList<String>();
 		tagsDeLocalDeRopa.add("casual");
@@ -350,6 +355,7 @@ public class HomePois{
 	
 	public POI crear_casaDeComida_1(){
 		casaDeComida = new LocalComercial();
+		supermercado.setDireccion(new Direccion("Monte", 4805));
 		casaDeComida.setNombre("Casa de Comida");
 		ArrayList<String> tagsDeCasaDeComida = new ArrayList<String>();
 		tagsDeCasaDeComida.add("almuerzo");

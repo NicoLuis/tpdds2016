@@ -21,7 +21,7 @@ public class ReportHandler {
 
 		ReportePorFecha reporte = new ReportePorFecha();
 
-		LocalDate fechaAnterior = busquedas.get(0).getDate();
+		DateTime fechaAnterior = busquedas.get(0).getDate();
 		int cantBusquedas = 0;
 		Iterator<Busqueda> iterator = busquedas.listIterator();
 		while (iterator.hasNext()) {

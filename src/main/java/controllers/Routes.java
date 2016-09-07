@@ -12,6 +12,8 @@ public static void main(String[] args) {
     HomeController home = new HomeController();
     HistorialController historial = new HistorialController();
     HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
+    ReporteFechaController reportef = new ReporteFechaController();
+    ReporteUsuarioController reporteu = new ReporteUsuarioController();
     port(8081);
     staticFileLocation("/public");
     
@@ -35,6 +37,15 @@ public static void main(String[] args) {
     get("/historialBusquedas", historial::historial, engine);
     post("/buscarEnHistorial", historial::buscarEnHistorial, engine);
     get("/generarHistorial", historial::generarHistorial, engine);
+    //ReporteFechas
+    get("/reportarFecha", reportef::reporteFecha, engine );
+    post("/buscarPorFecha", reportef::buscarEnHistorialFechas, engine );
+   // get("/generarReporte", reportef::generarReporte, engine);
+    
+    //ReporteUsuarios
+    get("/reportarUsuario", reporteu::reporteUsuario, engine);
+    post("/buscarPorUsuario", reporteu::buscarEnHistorialUsuario, engine);
+    //get("/generarReporteUsuario", reporteu::generarReporte, engine);
     //Distancia
     get("/calcularDistancia", poi::calcularDistancia , engine);
     get("/calcularDistanciaAPOI", poi::calcularDistanciaAPOI , engine);

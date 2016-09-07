@@ -1,0 +1,86 @@
+{{# partial "titulo" }}	
+	<title>Reporte por usuario</title>
+{{/partial}}
+
+{{# partial "contenido" }}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<script>
+function genera_tabla() {
+  var parameters = location.search.substring(1).split("&");
+  
+  var temp = parameters[0].split("=");
+  var cantidadFilas = unescape(temp[1]);
+    
+  var body = document.getElementsByTagName("body")[0];
+  
+  if(cantidadFilas >= 0){
+	  var h3 = document.createElement("h3");
+	  var resultado = document.createTextNode("                    Resultado");
+	  h3.appendChild(resultado);
+	  h3.style.marginLeft ="5%";
+	  body.appendChild(h3);
+  }
+  
+  var tabla   = document.createElement("table");
+  var tblHead = document.createElement("thead");
+  var tblBody = document.createElement("tbody");
+  
+  var numeroParametro = 1;
+ 
+  for (var i = 0; i <= cantidadFilas; i++) {
+    var hilera = document.createElement("tr");
+    
+    for (var j = 0; j <= 2; j++) {
+	
+		if(i==0){
+			if(j==0) var parametro = "Usuario";			//Setteo titulos columnas
+			if(j==1) var parametro = "Cantidad De Busquedas";
+			
+			var celda = document.createElement("th");
+			var textoCelda = document.createTextNode(parametro);
+			celda.appendChild(textoCelda);
+			hilera.appendChild(celda);
+		
+			}else{
+				var temp = parameters[numeroParametro].split("=");
+				var parametro = unescape(temp[1]);
+				var celda = document.createElement("td");
+				numeroParametro++;
+				var textoCelda = document.createTextNode(parametro);
+				celda.appendChild(textoCelda);
+				hilera.appendChild(celda);
+			}
+		}
+
+	}
+	if(i==0){  tblHead.appendChild(hilera) }
+    else{ tblBody.appendChild(hilera); }
+  }
+  
+  tabla.appendChild(tblHead);
+  tabla.appendChild(tblBody);
+  tabla.setAttribute("class", "table");
+  tabla.style.marginLeft="5%";
+  tabla.style.maxWidth="90%"
+  tabla.style.alignContent="center"
+  body.appendChild(tabla);
+}
+</script>
+
+
+
+<form action="/buscarPorUsuario" class="form-inline" method="post">
+ <div class="row">
+<button type="submit" class="btn btn-primary"> Generar Reporte</button>
+</div>
+<script> genera_tabla(); </script>
+
+
+
+{{/partial}}
+				
+{{> layoutSesion.hbs }}

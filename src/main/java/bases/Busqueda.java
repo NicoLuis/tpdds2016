@@ -43,6 +43,13 @@ public class Busqueda {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
+        public boolean mismaTerminal(Busqueda busqueda) {
+	        return this.getUsuario().equals(busqueda.getUsuario());
+
+	}
+        public boolean mismaFecha(DateTime fecha) {
+		return fechaYhora.equals(fecha);
+	}
 	public DateTime getFechaYhora() {
 		return fechaYhora;
 	}

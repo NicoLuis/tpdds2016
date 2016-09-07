@@ -1,19 +1,21 @@
 package reportes;
 
 import java.time.*;
+import org.joda.time.DateTime;
 import java.util.*;
 
 public class ReportePorFecha{
 
 	public class Entrada{
 
-		public LocalDate fecha;
+		public DateTime fecha;
 		public int cantBusquedas;
 		
-		public Entrada(LocalDate fecha, int cantBusquedas) {
+		public Entrada(DateTime fecha, int cantBusquedas) {
 			this.fecha = fecha;
 			this.cantBusquedas = cantBusquedas;
-		}
+                }
+		
 	}
 	
 	private List<Entrada> infoReporte = new ArrayList<Entrada>();
@@ -22,8 +24,16 @@ public class ReportePorFecha{
 		return infoReporte;
 	}
 
-	public void agregarEntrada(LocalDate fecha, int cantBusquedas){
+	public void agregarEntrada(DateTime fecha, int cantBusquedas){
 		infoReporte.add(new Entrada(fecha,cantBusquedas));
 	}
+        
+        public DateTime getFecha(Entrada entrada){
+            return entrada.fecha;
+        
+        }
+}    
+        
 	
-}
+
+

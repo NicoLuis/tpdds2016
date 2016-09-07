@@ -3,108 +3,9 @@
 {{/partial}}
 		
 {{# partial "contenido" }}	
-<script>
 
-
-
-
-function doModal(heading, formContent) {
-    html =  '<div id="dynamicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirm-modal" aria-hidden="true">';
-    html += '<div class="modal-dialog">';
-    html += '<div class="modal-content">';
-    html += '<div class="modal-header">';
-    html += '<a class="close" data-dismiss="modal">×</a>';
-    html += '<h4>'+heading+'</h4>'
-    html += '</div>';
-    html += '<div class="modal-body">';
-    html += '<p>';
-    html += formContent;
-    html += '</div>';
-    html += '<div class="modal-footer">';
-    html += '<span class="btn btn-primary" data-dismiss="modal">Close</span>';
-    html += '</div>';  // content
-    html += '</div>';  // dialog
-    html += '</div>';  // footer
-    html += '</div>';  // modalWindow
-    $('body').append(html);
-    $("#dynamicModal").modal();
-    $("#dynamicModal").modal('show');
-
-    $('#dynamicModal').on('hidden.bs.modal', function (e) {
-        $(this).remove();
-    });
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function genera_tabla() {
-  var parameters = location.search.substring(1).split("&");
-  var temp = parameters[0].split("=");
-  var cantidadFilas = unescape(temp[1]);
-    
-  var body = document.getElementsByTagName("body")[0];
-  var tabla   = document.createElement("table");
-  var tblHead = document.createElement("thead");
-  var tblBody = document.createElement("tbody");
-  
-  var numeroParametro = 1;
- 
-  for (var i = 0; i <= cantidadFilas; i++) {
-    var hilera = document.createElement("tr");
-    
-    for (var j = 0; j < 2; j++) {
-  
-    if(i==0){
-      if(j==0) var parametro = "Nombre";      //Setteo titulos columnas
-      if(j==1) var parametro = "Direccion";
-      var celda = document.createElement("th");
-    }else{
-      var temp = parameters[numeroParametro].split("=");
-      if(temp[0]=="Icono"){
-        generar_detalles();
-      }
-      var parametro = unescape(temp[1]);
-      var celda = document.createElement("td");
-      numeroParametro++;
-    }
-
-    var textoCelda = document.createTextNode(parametro);
-    celda.appendChild(textoCelda);
-    hilera.appendChild(celda);
-  }
-  if(i==0){
-    detalle= document.createElement("th");
-    texto= document.createTextNode("");
-    detalle.appendChild(texto);
-  }
-  else{
-    detalle=crear_boton_detalles(parameters);
-  }
-  hilera.appendChild(detalle);
-  if(i==0){  tblHead.appendChild(hilera) }
-    else{ tblBody.appendChild(hilera); }
-  }
-  tabla.appendChild(tblHead);
-  tabla.appendChild(tblBody);
-  body.appendChild(tabla);
-  tabla.setAttribute("class", "table");
-}
-
-</script>
 <form action="/busquedaPOI" class="form-inline" method="get">
+
 <input type="hidden" id="cantidad" name="cantidad" value="1">
 
   <div class="row">
@@ -133,7 +34,56 @@ function genera_tabla() {
 </div>
 
 <script>
+function hilera(coso1,coso2,coso3){
+   var tr = '<tr>' ;
+    tr += '<td>' + decodeURIComponent(coso1)  + '</td>';
+    tr += '<td>' + decodeURIComponent(coso2) + '</td>';  
+     tr += '<td>' + coso3 + '</td>';  
+    tr +='</tr>';
+    
+return tr;
+}
+
+
+function crearTabla(){
+
+var parameters = location.search.substring(1).split("&");
+
+tabla = "<table class='table'>";
+
+   
+  for(i=0;i<=(parameters.length-1)/2;i++){
+  	if(i==0){
+  		tabla+=hilera("Nombre","Direccion","");
+  	}else{
+  			if((parameters[i+1].split("="))[0]=="Icono"){
+         		generar_detalles();
+       		}
+       		
+       		
+  	formulario = '<form action="/generarDetalles" method="post"><input name="nombre" value="'+decodeURIComponent((parameters[i*2-1].split("="))[1])+'" style="display: none;"><input name="direccion" value="'+decodeURIComponent((parameters[2*i].split("="))[1])+'" style="display: none;"><input class="btn btn-primary" type="submit" value="Ver Detalles"></form>'
+  		
+  		tabla+=hilera((parameters[i*2-1].split("="))[1],(parameters[i*2].split("="))[1],formulario);//crear_boton_detalles(parameters).value);
+  		
+  		
+  	}
+  }
+
+
+	tabla+="</table>";
+	
+	$("#tabla").html(tabla);
+	
+	
+	
+
+
+}
+
+
+
 $(document).ready(function() {
+crearTabla();
     var max_fields      = 10; //maximum input boxes allowed
     var wrapper         = $("#conenedorlineas"); //Fields wrapper
     var add_button      = $("#agregarCampo"); //Add button ID
@@ -154,84 +104,48 @@ $(document).ready(function() {
     })
     
 });
-function crear_boton_detalles(params){
-  var form= document.createElement('form');
-  form.setAttribute('action',"/generarDetalles");
-  form.setAttribute('method',"post");
-  
-  boton_detalle= document.createElement('input');
-  boton_detalle.setAttribute('class',"btn btn-primary");
-  boton_detalle.setAttribute('type',"submit");
-  
-  
-  //boton_detalle.setAttribute('onclick',"doModal('titulo del modal', 'aca va el texto  del detalle   <button type=\"button\" class=\"btn btn-primary\">estoes un boton</button>');");
-  
-  
-  //    \" con esto generas comilla dentro de comilla 
-  
-  
-  
-  boton_detalle.setAttribute('value',"Ver Detalles");
-  console.log("ACA");
-  params.shift();
-  params.forEach(function(param,i){
-    param=param.split("=");
-    key=param[0];
-    value=param[1];
-    while(value.indexOf("%20")>0){
-      value=value.replace("%20"," ");
-    }
-    input_name=document.createElement('input');
-    input_name.style.display="none";
-    input_name.setAttribute('name',key);
-    input_name.setAttribute('value',value);
-    form.appendChild(input_name);
-  });
-  
-  
-  form.appendChild(boton_detalle);
-  return form;
-}
-function generar_detalles(){
-console.log("gn");
-  var ths=[];
-  var tds=[];
-  var parameters = location.search.substring(1).split("&");
-  console.log(parameters);
-  parameters.shift();
-  console.log(parameters);
-  parameters.forEach(function(param,i){
-    param=param.split("=");
-    key=param[0];
-    value=param[1];
-    while(value.indexOf("%20")>0){
-      value=value.replace("%20"," ");
-    }
-    ths.push(key);
-    tds.push(value);
-  });
-  thead=document.createElement("tr");
-  ths.forEach(function(nombre_th){
-    th=document.createElement("th");
-    texto=document.createTextNode(nombre_th);
-    th.appendChild(texto);
-    thead.appendChild(th);
-  })
-  tbody=document.createElement("tr");
-  tds.forEach(function(value_td){
-    td=document.createElement("td");
-    texto=document.createTextNode(value_td);
-    td.appendChild(texto);
-    tbody.appendChild(td);
-  })
-  //console.log($("#detalles_head"));
-  $("#detalles_head")[0].appendChild(thead);
-  $("#detalles_body")[0].appendChild(tbody);
-  $("#detalle_resultado_busqueda").modal();
-  $("#detalle_resultado_busqueda").modal("show");
-  console.log("kevergatepasa");
-}
+
+ function generar_detalles(){
+   var ths=[];
+   var tds=[];
+   var parameters = location.search.substring(1).split("&");
+   console.log(parameters);
+   parameters.shift();
+   console.log(parameters);
+   parameters.forEach(function(param,i){
+     param=param.split("=");
+     key=param[0];
+     value=param[1];
+     while(value.indexOf("%20")>0){
+       value=value.replace("%20"," ");
+     }
+     ths.push(key);
+     tds.push(value);
+   });
+   thead=document.createElement("tr");
+   ths.forEach(function(nombre_th){
+     th=document.createElement("th");
+     texto=document.createTextNode(nombre_th);
+     th.appendChild(texto);
+     thead.appendChild(th);
+   })
+   tbody=document.createElement("tr");
+   tds.forEach(function(value_td){
+     td=document.createElement("td");
+     texto=document.createTextNode(value_td);
+     td.appendChild(texto);
+     tbody.appendChild(td);
+   })
+   //console.log($("#detalles_head"));
+   $("#detalles_head")[0].appendChild(thead);
+   $("#detalles_body")[0].appendChild(tbody);
+   $("#detalle_resultado_busqueda").modal();
+   $("#detalle_resultado_busqueda").modal("show");
+   console.log("kevergatepasa");
+ }
 </script>
+
+
 <div class="modal fade" id="detalle_resultado_busqueda">
 <div class="modal-dialog">
       <div class="modal-content">
@@ -245,16 +159,24 @@ console.log("gn");
             <thead id="detalles_head"></thead>
             <tbody id= "detalles_body"></tbody>
           </table>
-        
+          
+		</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save Changes</button>
+        </div>
+				
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-	<div class="m-x-auto" style: "width: 200px;">
-		<script> genera_tabla(); </script>
-	</div>
-  </div>
-</form>
-
+  
+  <div class="m-x-auto" style: "width: 200px;">
+ 		<script> //genera_tabla();
+ 		 </script>
+ 	</div>
+   </div>
+ </form>
+<div id="tabla"></div>
 
 {{/partial}}
 				

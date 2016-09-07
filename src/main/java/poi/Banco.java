@@ -68,14 +68,13 @@ public class Banco extends POI{
 	public Polygon getComuna(){
 		return comuna;
 	}
-	@Override
+	
 	public void setIcono(){
 		icono= "glyphicons glyphicons-bank";
 	}
 	
-	@Override
-	public void setDetalles(){
-		String direccion= this.getDireccion().getCalle() + this.getDireccion().getNumero();
+	 public void setDetalles(){
+	 String direccion= this.getDireccion().getCalle() + this.getDireccion().getNumero();
 		String servicios="";
 		for(String servicio : this.getListaServicios()){
 			servicios+=servicio;

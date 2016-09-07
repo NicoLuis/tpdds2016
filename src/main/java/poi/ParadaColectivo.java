@@ -45,11 +45,9 @@ public class ParadaColectivo extends POI {
 	public String tipo(){
 		return "Parada de Colectivo";
 	}
-	@Override
 	public void setIcono(){
 		icono= "glyphicons glyphicons-bus";
 	}
-	@Override
 	public void setDetalles(){
 		detalles.put("Nombre",this.getNombre());
 		detalles.put("Icono",this.getIcono());

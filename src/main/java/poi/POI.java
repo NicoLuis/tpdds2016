@@ -1,11 +1,11 @@
 package poi;
 import java.time.LocalDateTime;
+import java.util.*;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.lang.String;
-import java.util.*;
 
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
@@ -92,7 +92,7 @@ public abstract class POI {
 		return numeroPOI;
 	}
 	public Map<String,String> get_detalles(){
-		return detalles;
+	return detalles;
 	}
 	public Point getCoordenadas() {
 		return coordenadas;
@@ -152,12 +152,11 @@ public abstract class POI {
 	public String getIcono(){
 		System.out.println(icono + " " +this.icono);
 		return this.icono;
-	}
-	public void setDetalles(){
+		}
+		public void setDetalles(){
 		detalles.put("nombre",this.getNombre());
-	}
-	
-	public void setIcono(){
+		}
+		public void setIcono(){
 		icono="Lpm";
 	}
 	

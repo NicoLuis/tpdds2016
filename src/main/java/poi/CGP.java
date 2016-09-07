@@ -88,11 +88,9 @@ public class CGP extends POI{
 	public Polygon getArea() {
 		return comuna;
 	}
-	@Override
 	public void setIcono(){
 		icono= "glyphicons glyphicons-family";
 	}
-	@Override
 	public void setDetalles(){
 		String direccion= this.getDireccion().getCalle() + this.getDireccion().getNumero();
 		String servicios="";

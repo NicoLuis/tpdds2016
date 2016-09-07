@@ -251,7 +251,8 @@ public class HomePois{
 	
 	public ParadaColectivo crear_paradaDel47() {
 		Direccion dir = new Direccion();
-		paradaDel107.setDireccion(new Direccion("Triunvirato", 4566));
+		paradaDel47 = new ParadaColectivo();
+		paradaDel47.setDireccion(new Direccion("Triunvirato", 4566));
 		paradaDel47.setNombre("Parada del 47");
 		paradaDel47.setDireccion(dir);
 		paradaDel47.setUbicacion(new Point(-34.6715, -58.4676));

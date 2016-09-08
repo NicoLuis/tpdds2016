@@ -34,7 +34,13 @@
 				<br></br>
 		<table class="table" style="width:100%" id="listaDesordenada">
 		</table>
-				
+<div>
+                       <input type="button" class="btn btn-primary btn-lg" value="Confirmar Acciones" onclick="armarArray()">
+                       <div>
+                       <input type="button" class="btn btn-primary btn-lg" value="Borrar Acciones" onclick="eliminarTodo('listaDesordenada')">
+                       
+<p id="array"></p>
+			
   </div>
 
 <script>
@@ -102,6 +108,24 @@ function eliminar(elemento){
 	node = document.getElementById(id);
 	node.parentNode.removeChild(node);
 }
+
+function eliminarTodo(id){
+var tabla=document.getElementById(id);
+if(tabla) tabla.parentNode.removeChild(tabla);
+}
+
+function armarArray()
+{
+var tabla=document.getElementById("listaDesordenada");
+var arrayL= new Array();
+for (var i=0; i<tabla.length; i++){
+arrayL.push(tabla[i]);
+}
+document.getElementById("array")= arrayL;
+}
+
+
+</script>
 </script>
 
 

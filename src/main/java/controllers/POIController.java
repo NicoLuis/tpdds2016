@@ -98,6 +98,8 @@ public class POIController {
 	}
 	
 	public ModelAndView valido(Request request, Response response) {
+		@SuppressWarnings("unused")
+		Conexion miconex = new Conexion();
 		try{
 			ArrayList<Terminal> lista = RepoTerminales.GetInstancia().getListaTerminales();
 			String usuario = request.queryParams("usuario");

@@ -17,7 +17,7 @@ public class ReportHandler {
 		busquedas.add(busqueda);
 	}
 
-	public ReportePorFecha generarReportePorFecha() {
+	/*public ReportePorFecha generarReportePorFecha() {
 
 		ReportePorFecha reporte = new ReportePorFecha();
 
@@ -43,7 +43,7 @@ public class ReportHandler {
 
 		return reporte;
 	}
-
+*/
 	public ReportePorTerminal generarReportePorTerminal() {
 
 		ReportePorTerminal reporte = new ReportePorTerminal();
@@ -61,13 +61,13 @@ public class ReportHandler {
 			if (actual.mismaTerminal(busquedaAnterior.getTerminal())) {
 				cantResultados = cantResultados + actual.getResultadoBusqueda().size();
 			} else {
-				reporte.agregarEntrada(busquedaAnterior.getTerminal(), cantResultados);
+				//reporte.agregarEntrada(busquedaAnterior.getTerminal(), cantResultados);
 				cantResultados = actual.getResultadoBusqueda().size();
 				busquedaAnterior = actual;
 			}
 		}
 
-		reporte.agregarEntrada(busquedaAnterior.getTerminal(), cantResultados);
+		//reporte.agregarEntrada(busquedaAnterior.getTerminal(), cantResultados);
 
 		return reporte;
 	}

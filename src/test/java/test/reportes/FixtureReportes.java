@@ -82,7 +82,7 @@ public class FixtureReportes {
 		manejadorReportes.guardarInformacion(busqueda4);
 		manejadorReportes.guardarInformacion(busqueda5);
 
-		reporteFecha = manejadorReportes.generarReportePorFecha();
+		//reporteFecha = manejadorReportes.generarReportePorFecha();
 
 		reporteTerminal = manejadorReportes.generarReportePorTerminal();
 

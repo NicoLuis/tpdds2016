@@ -1,0 +1,39 @@
+{{# partial "titulo" }}	
+	<title>POIs - Registro Usuario</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+
+<form action="/registro" method="post">
+  <div class="row">
+
+	<div class="panel panel-info">
+	
+		<div class="panel-heading">
+		    <h3 class="panel-title">Datos Personales</h3>
+		 </div>
+		<div class="panel-body">
+		    <div class="col-xs-12">
+		  		<td>Nombre Usuario</td>
+				<input type="text" class="form-control" name="nombreusuario">
+				<td>Nombre</td>
+				<input type="text"  class="form-control" name="nombre">
+				<td>Apellido</td>
+				<input type="text"  class="form-control" name="apellido">		
+				<td>Contraseña</td>
+				<input type="password"  class="form-control" name="password">
+				<td>Verifique Contraseña</td>
+				<input type="password"  class="form-control" name="password2">	
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-5">
+		<input type="submit" class="btn btn-primary" value="Registrar Usuario">
+	</div>
+	
+  </div>
+</form>
+{{/partial}}
+				
+{{> layoutError.hbs }}

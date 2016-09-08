@@ -52,6 +52,12 @@ public static void main(String[] args) {
     post("/POIs/calcularDistancia", poi::calcularDistanciaEntre2PoisDados , engine);
     post("/POIs/calcularDistanciaAPOI", poi::calculoDeDistanciaAPOI , engine);
     //post("/Valido", poi::valido, engine);
+    //registrar usuario
+    get("/registroUsuario", poi::registroUsuario, engine);
+    post("/registro", poi::registro, engine);
+    get("/modificarUser", poi::modificarUser, engine);
+    get("/modificarUsuario", poi::modificarUsuario, engine);
+    post("/actualizarUsuario", poi::actualizarUsuario, engine);
     get("/InvalidoSesion", poi::invalidaSesion, engine);
     //get("/Invalido", poi::invalido , engine);
     get("/POIs/resultadoDistancia", poi::resultadoDistancia, engine);

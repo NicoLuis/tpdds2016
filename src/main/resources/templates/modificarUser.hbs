@@ -1,0 +1,41 @@
+{{# partial "titulo" }}	
+	<title>POIs - Modificar Usuario</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+<script type="text/javascript"> 
+		var parameters = location.search.substring(1).split("&");
+		var temp = parameters[0].split("=");
+		var nombre = unescape(temp[1]);
+	    document.getElementById("nombre").innerHTML = nombre;
+</script>
+
+<form action="/actualizarUsuario" method="post">
+  <div class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+		    <h3 class="panel-title">Datos Personales</h3>
+		 </div>
+		<div class="panel-body">
+		    <div class="col-xs-12">
+		  		<td>Nombre Usuario</td>
+				<input type="text" class="form-control" id="usuario" name="usuario">
+				<td>Nombre</td>
+				<input type="text"  class="form-control" id="nombre" name="nombre">
+				<td>Apellido</td>
+				<input type="text"  class="form-control" name="apellido">		
+				<td>Contraseña Nueva</td>
+				<input type="password"  class="form-control" name="password">
+				<td>Verifique Contraseña Nueva</td>
+				<input type="password"  class="form-control" name="password2">	
+			</div>
+		</div>
+	</div>
+	<div class="col-md-5">
+		<input type="submit" class="btn btn-primary" value="Modificar Usuario">
+	</div>
+  </div>
+</form>
+{{/partial}}
+				
+{{> layoutSesion.hbs }}

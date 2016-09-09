@@ -120,11 +120,13 @@ function armarArray()
 var tabla=document.getElementById("listaDesordenada").getElementsByTagName("th");
 var arrayL= new Array();
 for (var i=0; i<tabla.length; i++){
-arrayL.push(tabla[i].innerHTML);
+if(esImpar(i)) arrayL.push(tabla[i].innerHTML);
 }
 document.getElementById("array").innerHTML= arrayL;
 }
-
+function esImpar(n){
+return n % 2 == 0;
+}
 
 
 </script>

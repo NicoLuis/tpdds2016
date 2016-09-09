@@ -308,21 +308,25 @@ public class POIController {
 		chequearUsuario(response);
 		return new ModelAndView(null, "busquedaPOI.hbs");
 	}
+	
+	
+
 	public ModelAndView buscar(Request request, Response response) {
 		String usuarioLogueado = UsuarioController.GetInstancia().getUsuarioLogueado();
 		chequearUsuario(response);
-		//System.out.println(request.queryParams("cantidad") + "cantidad");	
 		ArrayList<String> listaNombres = new ArrayList<String>();
-		
-		String query = request.queryString();
-		int ultimoIgual = query.lastIndexOf("=");
-		String ultimoNumero = query.substring(ultimoIgual - 1, ultimoIgual);
-		
-		int cantidadMax = Integer.parseInt(ultimoNumero);
 		
 		
 		/*	--	Busqueda en SQL --  */
+		String query = request.queryString();
+		int ultimoIgual = query.lastIndexOf("=");
+		String ultimoNumero = query.substring(ultimoIgual - 1, ultimoIgual);
+		int cantidadMax = Integer.parseInt(ultimoNumero);
 		ArrayList<POI> listaFiltrada = new ArrayList<POI>();
+		for(int j = 1; j<=cantidadMax; j++){
+			String nom = request.queryParams("nombre" + j);
+			listaNombres.add(nom);
+		}
 		try{
 			String queryNombresIngresados =  "SELECT * FROM poi";
 				
@@ -343,8 +347,9 @@ public class POIController {
 			    	
 			    	for(int i=1; i<=cantidadMax; i++){
 			    		String nombre = request.queryParams("nombre" + i); // Nombre POI de Busqueda
+			    		
 			    		System.out.println("Busco: " + nombre);
-			    		if(poiABuscar.getNombre().contains(nombre) && !listaFiltrada.contains(poiABuscar)){
+			    		if(nombre!=null && poiABuscar.getNombre().contains(nombre) && !listaFiltrada.contains(poiABuscar)){
 					    	System.out.println("Agregue: " + poiABuscar.getNombre());
 				    		listaFiltrada.add(poiABuscar);
 			    		}
@@ -374,7 +379,7 @@ public class POIController {
 					Statement st;
 					String fecha = DateTime.now().getYear() + "-" + DateTime.now().getMonthOfYear() + "-" +DateTime.now().getDayOfMonth() + " "+ DateTime.now().getHourOfDay() + ":" +DateTime.now().getMinuteOfHour();
 				    st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
-				    String queryagre = "INSERT INTO dbo.usuario VALUES ('"+ usuarioLogueado +"nombre: ', '"+ listaNombres  +"', '"+ listaFiltrada.size() +"', '"+fecha +"', '" + listaPois + ")"; 
+				    String queryagre = "INSERT INTO dbo.busquedas VALUES ('"+ usuarioLogueado +"', 'nombre: "+ listaNombres  +"', '"+ listaFiltrada.size() +"', '"+fecha +"', '" + listaPois + "');"; 
 				    st.executeUpdate(queryagre);
 				    st.close();
 				}
@@ -382,6 +387,8 @@ public class POIController {
 				catch(SQLException e){
 					e.printStackTrace();
 				}
+				response.redirect(str);
+				return null;
 			}
 			else{
 				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, "nombre: " + listaNombres, 0, "");
@@ -395,5 +402,17 @@ public class POIController {
 	public ModelAndView nuevaAccion(Request request, Response response) {
 		return new ModelAndView(null, "configurarAcciones.hbs");
 	}
+	/*
+	 * 
+	 * 
+	 * 
+	 * -----		ABM		------
+	 * 
+	 * 
+	 * 
+	 */
 	
+	public ModelAndView modificarPOI(Request request, Response response) {
+		return new ModelAndView(null, "modificarPOI.hbs");
+	}
 }

@@ -36,13 +36,12 @@
 		</table>
 <div>
                        <input type="button" class="btn btn-primary btn-lg" value="Confirmar Acciones" onclick="armarArray()">
-                       <div>
+                       <div></br>
                        <input type="button" class="btn btn-primary btn-lg" value="Borrar Acciones" onclick="eliminarTodo('listaDesordenada')">
                        
 <p id="array"></p>
-			
+   
   </div>
-
 <script>
 /**
  * Funcion que añade un <li> dentro del <ul>
@@ -112,17 +111,20 @@ function eliminar(elemento){
 function eliminarTodo(id){
 var tabla=document.getElementById(id);
 if(tabla) tabla.parentNode.removeChild(tabla);
+
+document.getElementById("array")=[];
 }
 
 function armarArray()
 {
-var tabla=document.getElementById("listaDesordenada");
+var tabla=document.getElementById("listaDesordenada").getElementsByTagName("th");
 var arrayL= new Array();
 for (var i=0; i<tabla.length; i++){
-arrayL.push(tabla[i]);
+arrayL.push(tabla[i].innerHTML);
 }
-document.getElementById("array")= arrayL;
+document.getElementById("array").innerHTML= arrayL;
 }
+
 
 
 </script>

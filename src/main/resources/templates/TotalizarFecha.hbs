@@ -1,5 +1,5 @@
 {{# partial "titulo" }}	
-	<title>Reporte por fecha</title>
+	<title>Reporte por Fecha</title>
 {{/partial}}
 
 {{# partial "contenido" }}
@@ -34,7 +34,7 @@ function genera_tabla() {
   for (var i = 0; i <= cantidadFilas; i++) {
     var hilera = document.createElement("tr");
     
-    for (var j = 0; j <= 2; j++) {
+    for (var j = 0; j <= 1; j++) {
 	
 		if(i==0){
 			if(j==0) var parametro = "Fecha";			//Setteo titulos columnas
@@ -54,7 +54,8 @@ function genera_tabla() {
 				celda.appendChild(textoCelda);
 				hilera.appendChild(celda);
 			}
-		}
+
+		
 
 	}
 	if(i==0){  tblHead.appendChild(hilera) }
@@ -68,6 +69,7 @@ function genera_tabla() {
   tabla.style.maxWidth="90%"
   tabla.style.alignContent="center"
   body.appendChild(tabla);
+
 }
 </script>
 

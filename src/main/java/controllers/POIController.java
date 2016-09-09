@@ -411,6 +411,64 @@ public class POIController {
 		return new ModelAndView(null, "modificarPOI.hbs");
 	}
 	
+	public ModelAndView seleccionarPOI(Request request, Response response) {
+		return new ModelAndView(null, "seleccionarPoiAModificar.hbs");
+	}
+	
+	public ModelAndView tomarDatoPoi(Request request, Response response) {
+		
+		try{
+		String queryn = request.queryParams("nombreAMandar");
+			
+		String queryNombresIngresados =  "SELECT nombrepoi, direccion, coordenada_x, coordenada_y, tipo FROM poi WHERE nombrepoi='" + queryn +"'";
+		String str = "";
+		
+		Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+		ResultSet rs = st.executeQuery( queryNombresIngresados );
+
+		if(!rs.equals(null)){
+			while(rs.next()){
+		    	str = str + "nombre=" + rs.getString("nombrepoi") + "&";
+		    	str = str + "direccion=" + rs.getString("direccion") + "&";
+		    	str = str + "coordenada_x=" + rs.getString("coordenada_x") + "&";
+		    	str = str + "coordenada_y=" + rs.getString("coordenada_y") + "&";
+		    	str = str + "tipo=" + rs.getString("tipo");
+		    }
+			str = "/modificarPOI?" + str;
+			response.redirect(str);
+		}
+		            
+		}
+		catch(SQLException e){ e.printStackTrace(); }
+		
+		return null;
+	}
+	
+	public ModelAndView generarListaDesplegable(Request request, Response response) {
+		
+		try{
+		String queryNombresIngresados =  "SELECT * FROM poi";
+		String str = "";
+		
+		Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+		ResultSet rs = st.executeQuery( queryNombresIngresados );
+
+		if(!rs.equals(null)){
+		    int i=0;
+			while(rs.next()){
+		    	i++;
+		    	str = str + "nombre" + i + "=" + rs.getString("nombrepoi") + "&";
+		    }
+			str = "/seleccionarPOI?cantidadFilas=" + i + "&" + str;
+			response.redirect(str);
+		}
+		            
+		}
+		catch(SQLException e){ e.printStackTrace(); }
+		
+		return null;
+	}
+	
 	
 	
 	

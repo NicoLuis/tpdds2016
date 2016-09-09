@@ -72,6 +72,9 @@ public static void main(String[] args) {
     
     
     //ABM POIs
+    get("/generar", poi::generarListaDesplegable , engine);
     get("/modificarPOI", poi::modificarPOI , engine);
+    get("/seleccionarPOI", poi::seleccionarPOI , engine);
+    get("/tomarDatoPoi", poi::tomarDatoPoi , engine);
   }
 }

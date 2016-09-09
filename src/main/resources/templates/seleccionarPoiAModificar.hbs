@@ -1,0 +1,71 @@
+{{# partial "titulo" }}	
+	<title>POIs - Seleccionar POI</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+
+
+
+
+<script>					
+function genera_lista() {
+  var parameters = location.search.substring(1).split("&");
+  
+  var temp = parameters[0].split("=");
+  var cantidadFilas = unescape(temp[1]);
+  var body = document.getElementsByTagName("body")[0];
+  
+  var select = document.createElement("select");
+  
+  var numeroParametro = 1;
+ 
+  for (var i = 0; i <= cantidadFilas; i++) {
+	    
+		var temp = parameters[numeroParametro].split("=");
+		var parametro = unescape(temp[1]);
+		var option = document.createElement("option");
+		numeroParametro++;
+		var textoCelda = document.createTextNode(parametro);
+		option.appendChild(textoCelda);
+		select.appendChild(option);
+		
+
+  }
+  
+  select.id = "poiAModificar";
+  select.setAttribute("class", "form-control");
+  select.style.marginLeft="5%";
+  select.style.maxWidth="90%"
+  select.style.alignContent="center"
+  body.appendChild(select);
+}
+</script>
+
+
+
+
+
+<h3> Selecciona el POI que desea modificar </h3>
+
+<script> genera_lista() </script>
+
+
+<button type="hidden" onclick="boton_cambio()" class="form-control" > </input> 
+
+<form action="/tomarDatoPoi" method="get">
+	<input type="hidden" id="nombreAMandar" name="nombreAMandar">
+	<input type="submit" class="btn btn-primary" value="Buscar">
+</form>
+
+</button>
+
+<script>
+function boton_cambio(){
+	var poi = document.getElementById("poiAModificar").value;
+	document.getElementById("nombreAMandar").value = poi;
+}
+</script>
+
+{{/partial}}
+				
+{{> layoutSesion.hbs }}

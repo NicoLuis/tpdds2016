@@ -109,4 +109,8 @@ public class CGP extends POI{
 		detalles.put("Servicios",servicios);
 		detalles.put("Horario",franjaHoraria);
 	}
+	public void setDireccion(String string, int i) {
+		this.direccion.setCalle(string);
+		this.direccion.setNumero(i);
+	}
 }

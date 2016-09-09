@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -15,15 +16,18 @@ import org.joda.time.DateTime;
 import org.uqbar.geodds.Point;
 
 import poi.*;
-import sistExternos.Encryptor;
 import bases.*;
 
 public class POIController {
-	 String key = "Bar12345Bar12345"; // 128 bit key
-     String initVector = "RandomInitVector"; // 16 bytes IV
-	String usuarioLogueado;
 	ArrayList<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
-	Conexion miconex = new Conexion();
+	
+			
+	public void chequearUsuario(Response response) {
+		String usuarioLogueado = UsuarioController.GetInstancia().getUsuarioLogueado();
+		if(usuarioLogueado == null) response.redirect("/");
+	}
+	
+	
 	public ModelAndView opciones(Request request, Response response) {
 		chequearUsuario(response);
 		if( RepoTerminales.GetInstancia().getBooleanAdmin() )
@@ -31,33 +35,16 @@ public class POIController {
 		return new ModelAndView(null, "MenuUser.hbs");
 	}
 	
-	public ModelAndView modificarUser(Request request, Response response) {
-		String nom = null;
-		String ap = null;
-		String user = null;
-		try{
-			Statement st;
-			ResultSet rs;
-			
-	        st = miconex.getConexion().createStatement();
-	        String query = "SELECT [nombreusuario], [contrasenia], [nombre], [apellido], [administrador] FROM dbo.usuario WHERE [nombreusuario] = '"+ usuarioLogueado +"'"; 
-	        rs = st.executeQuery(query);
-	        if(!rs.equals(null)){
-	            while(rs.next()){
-	            	nom = rs.getString("nombre");
-	            	ap = rs.getString("apellido");
-	            	user = rs.getString("nombreusuario");
-	            	//boolean admin = rs.getBoolean("admin");
-	            }   		
-	        }st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-			String str = "/modificarUsuario?nombre=" + nom + "&apellido=" + ap + "&usuario="+ user;
-			response.redirect(str);
-			return null;
-	}
-	
+
+	/*
+	 * 
+	 * 
+	 * 
+	 * -----		DETALLES		------
+	 * 
+	 * 
+	 * 
+	 */
 	
 	public ModelAndView generarDetalles(Request request, Response response) {
 		System.out.println(request);
@@ -90,12 +77,32 @@ public class POIController {
 	}
 		return str;
 }
+	
+	
+	
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * -----		DISTANCIA		------
+	 * 
+	 * 
+	 * 
+	 */
+	
 	public ModelAndView calcularDistancia(Request request, Response response) {
 		return new ModelAndView(null, "calcularDistancia.hbs");
 	}
 	public ModelAndView calcularDistanciaAPOI(Request request, Response response) {
 		return new ModelAndView(null, "calcularDistanciaAPOI.hbs");
 	}
+	
+	public ModelAndView resultadoDistancia(Request request, Response response) {
+		return new ModelAndView(null, "resultadoDistancia.hbs");
+	}
+	
 	public ModelAndView calcularDistanciaEntre2PoisDados(Request request, Response response) {
 		try {
 		
@@ -116,135 +123,6 @@ public class POIController {
 		response.redirect("/Invalido");
 		
 		return null;
-	}
-	public ModelAndView actualizarUsuario(Request request, Response response) {
-		try{
-			
-			String nombre = request.queryParams("nombre");
-			String apellido = request.queryParams("apellido");
-			String nombreusuario = request.queryParams("usuario");
-			String contraseña = request.queryParams("password");
-			String verif = request.queryParams("password2");
-			if(!nombre.equals("") && !apellido.equals("") && !nombreusuario.equals("") && !contraseña.equals("") && !verif.equals(""))
-			{	
-				//MessageDigest.getInstance(SHA)
-				//String encriptada = encrypt(contraseña);
-				String Encriptado = Encryptor.encrypt(key, initVector, contraseña);
-				System.out.println(Encriptado);
-				Statement st;
-		        st = miconex.getConexion().createStatement();
-		        String query = "UPDATE dbo.usuario SET nombreusuario='"+ nombreusuario +"', contrasenia='"+ Encriptado +"', nombre='"+ nombre +"', apellido='"+ apellido+"' WHERE nombreusuario='"+ usuarioLogueado+"'"; 
-		        st.executeUpdate(query);
-		        st.close();	
-		        usuarioLogueado = nombreusuario;
-			}else{
-				return new ModelAndView(null, "layoutSesion.hbs");
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return new ModelAndView(null, "layoutSesion.hbs");
-	}
-	
-	public ModelAndView resultadoDistancia(Request request, Response response) {
-		return new ModelAndView(null, "resultadoDistancia.hbs");
-	}
-	public ModelAndView modificarUsuario(Request request, Response response) {
-		return new ModelAndView(null, "modificarUser.hbs");
-	}
-	public ModelAndView invalido(Request request, Response response) {
-		System.out.println("DATOS NO VALIDOS");
-		return new ModelAndView(null, "error.hbs");
-	}
-	public ModelAndView invalidaSesion(Request request, Response response){
-		return new ModelAndView(null, "errorBusqueda.hbs");
-	}
-	public ModelAndView registroUsuario(Request request, Response response){
-		return new ModelAndView(null, "registroUser.hbs");
-	}
-	public ModelAndView registro(Request request, Response response){
-		try{
-			String nombre = request.queryParams("nombre");
-			String apellido = request.queryParams("apellido");
-			String nombreusuario = request.queryParams("nombreusuario");
-			String contraseña = request.queryParams("password");
-			String verif = request.queryParams("password2");
-			if(!nombre.equals("") && !apellido.equals("") && !nombreusuario.equals("") && !contraseña.equals("") && !verif.equals(""))
-			{	
-				if(!contraseña.equals(verif)){
-					return new ModelAndView(null, "errorRegistro.hbs");
-				}else{
-					//MessageDigest.getInstance(SHA)
-					//String encriptada = encrypt(contraseña);
-				    String Encriptado = Encryptor.encrypt(key, initVector, contraseña);
-				    System.out.println(Encriptado);
-					Statement st;
-		            st = miconex.getConexion().createStatement();
-		            String query = "INSERT INTO dbo.usuario VALUES ('"+ nombreusuario +"', '"+ Encriptado +"', '"+ nombre +"', '"+ apellido+"', 'false')"; 
-		            st.executeUpdate(query);
-		            st.close();
-				}
-				return new ModelAndView(null, "home.hbs");
-			}else{
-				return new ModelAndView(null, "errorRegistro.hbs");
-			}
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-			return new ModelAndView(null, "errorRegistro.hbs");
-		}
-		
-	}
-	public ModelAndView valido(Request request, Response response) {
-		String ing = "Ingresar";
-		String opcion = request.queryParams("boton");
-		
-		if(opcion.equals(ing)){
-			try{
-				String usuario = request.queryParams("usuario");
-				String pass = request.queryParams("contrasenia");
-				try{
-					String Encriptado = Encryptor.encrypt(key, initVector, pass);
-				    System.out.println(Encriptado);
-					
-					Statement st;
-					ResultSet rs;
-		            st = miconex.getConexion().createStatement();
-		            String query = "SELECT [nombreusuario], [contrasenia], [administrador] FROM dbo.usuario WHERE [nombreusuario] = '"+ usuario + "' and [contrasenia] = '"+ Encriptado+ "'"; 
-		            rs = st.executeQuery(query);
-		            if(!rs.equals(null)){
-			            while(rs.next()){
-			            	rs.getString("nombreusuario");
-			            	boolean admin = rs.getBoolean("administrador");
-			            	this.usuarioLogueado = usuario;
-							if(admin == true){
-								System.out.println("Ingreso Sesion VALIDO Administrador");
-								RepoTerminales.GetInstancia().setBooleanAdmin(true);
-								return new ModelAndView(null, "layoutSesion.hbs");
-							}else{
-								System.out.println("Ingreso Sesion Usuario");
-								RepoTerminales.GetInstancia().setBooleanAdmin(false);
-								return new ModelAndView(null, "layoutSesion.hbs");
-							}
-				
-			            }   		
-		            }st.close();
-		            
-				}catch(SQLException e){
-					e.getStackTrace();
-				}}catch (IllegalStateException e){
-				response.redirect("/InvalidoSesion");
-			}catch(NumberFormatException e){
-				response.redirect("/InvalidoSesion");
-			}
-			
-			response.redirect("/InvalidoSesion");
-			return null;
-		}else{
-			response.redirect("/registroUsuario");
-			return null;
-		}
-		
 	}
 	
 	public ModelAndView calculoDeDistanciaAPOI(Request request, Response response) {
@@ -269,8 +147,26 @@ public class POIController {
 		return null;
 	}
 	
+	public void dirigirAResultadoDistancia(BigDecimal distanciaRedondeada, POI poi_1, POI poi_2, boolean estaCerca, Response response){
+		String str = "/POIs/resultadoDistancia?distancia=" + distanciaRedondeada + 
+				"&nom=" + poi_1.getNombre() +
+				"&drc=" + poi_1.getDireccion().getCalle() +
+				"&nom2=" + poi_2.getNombre() +
+				"&drc2=" + poi_2.getDireccion() +
+				"&c=" + estaCerca;
+		if( poi_1.esPOIValido() && poi_2.esPOIValido() )	response.redirect(str);
 	
+	}	
 	
+	/*
+	 * 
+	 * 
+	 * 
+	 * -----		TOMAR DATOS (QUEDO DE LA ENTREGA 1/2)		------
+	 * 
+	 * 
+	 * 
+	 */
 	
 	public POI tomarDatosPoiNuevo(Request request, String nombre, String direcc, String ubicacionX, String ubicacionY, boolean tieneTipoDos){
 		String nom = request.queryParams(nombre);
@@ -341,22 +237,22 @@ public class POIController {
 		return bigDecimal.setScale(0, RoundingMode.HALF_UP);
 	}
 	
-	public void dirigirAResultadoDistancia(BigDecimal distanciaRedondeada, POI poi_1, POI poi_2, boolean estaCerca, Response response){
-		String str = "/POIs/resultadoDistancia?distancia=" + distanciaRedondeada + 
-				"&nom=" + poi_1.getNombre() +
-				"&drc=" + poi_1.getDireccion().getCalle() +
-				"&nom2=" + poi_2.getNombre() +
-				"&drc2=" + poi_2.getDireccion() +
-				"&c=" + estaCerca;
-		if( poi_1.esPOIValido() && poi_2.esPOIValido() )	response.redirect(str);
+
+	/*
+	 * 
+	 * 
+	 * 
+	 * -----		DISPONIBILIDAD		------
+	 * 
+	 * 
+	 * 
+	 */
 	
-	}	
-	public void dirigirAResultadoDisponibilidad(POI poi, boolean disponible, Response response){
-		String str = "/POIs/resultadoDisponibilidad?disp=" + disponible +
-				"&nom2=" + poi.getNombre() +
-				"&drc2=" + poi.getDireccion().getCalle();
-		if( poi.esPOIValido() )	response.redirect(str);
+	
+	public ModelAndView disponible(Request request, Response response) {
+		return new ModelAndView(null, "disponible.hbs");
 	}
+	
 	public ModelAndView calcularDisponibilidad(Request request, Response response) {
 		try {
 			
@@ -384,14 +280,35 @@ public class POIController {
 		return null;
 	}
 	
-	public ModelAndView disponible(Request request, Response response) {
-		return new ModelAndView(null, "disponible.hbs");
+	
+	public void dirigirAResultadoDisponibilidad(POI poi, boolean disponible, Response response){
+		String str = "/POIs/resultadoDisponibilidad?disp=" + disponible +
+				"&nom2=" + poi.getNombre() +
+				"&drc2=" + poi.getDireccion().getCalle();
+		if( poi.esPOIValido() )	response.redirect(str);
 	}
+
+	public ModelAndView resultadoDisponibilidad(Request request, Response response) {
+		return new ModelAndView(null, "resultadoDisponibilidad.hbs");
+	}
+
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * -----		BUSQUEDA		------
+	 * 
+	 * 
+	 * 
+	 */
+	
 	public ModelAndView busqueda(Request request, Response response) {
 		chequearUsuario(response);
 		return new ModelAndView(null, "busquedaPOI.hbs");
 	}
 	public ModelAndView buscar(Request request, Response response) {
+		String usuarioLogueado = UsuarioController.GetInstancia().getUsuarioLogueado();
 		chequearUsuario(response);
 		//System.out.println(request.queryParams("cantidad") + "cantidad");
 	
@@ -428,25 +345,41 @@ public class POIController {
 		int cantidadMax = Integer.parseInt(ultimoNumero);
 		
 		
-		for(int i = 1; i <= cantidadMax; i++){
-			String nombre = request.queryParams("nombre" + i);
-			if(nombre != null) listaNombres.add(nombre);
-		}
-		
-		
-			ArrayList<POI> listaFiltrada = new ArrayList<POI>();
-			HomePois basepoi = HomePois.GetInstancia();
-			basepoi.crear_arrayPOIs();
-			ArrayList<POI> lista = basepoi.getListaPois();
-			
-			for(int j = 0; j < listaNombres.size(); j++){
-				String str = listaNombres.get(j);
-				for(int i = 0; i < lista.size(); i++){
-					POI nuevo = lista.get(i);
-					if(nuevo.resultadosDeBusquedaLibre(str) != null && !listaFiltrada.contains(nuevo))
-						listaFiltrada.add(nuevo);
-				}
+		/*	--	Busqueda en SQL --  */
+		ArrayList<POI> listaFiltrada = new ArrayList<POI>();
+		try{
+			String queryNombresIngresados =  "SELECT * FROM poi";
+				
+			Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+			ResultSet rs = st.executeQuery( queryNombresIngresados );
+
+			POI poiABuscar = new CGP();		//Solo para esta Busqueda
+			if(!rs.equals(null)){
+			    while(rs.next()){
+			    		
+			    	
+			    	poiABuscar = new CGP();
+			    	poiABuscar.setNombre( rs.getString("nombrepoi") );		// Nombre POI de DB
+		    		poiABuscar.setDireccion( new Direccion( rs.getString("direccion") ) );
+		    		poiABuscar.setUbicacion( new Point( Double.parseDouble(rs.getString("coordenada_x")), Double.parseDouble(rs.getString("coordenada_x") )) );
+		    		
+			    	System.out.println("Busco_POI: " + poiABuscar.getNombre());
+			    	
+			    	for(int i=1; i<=cantidadMax; i++){
+			    		String nombre = request.queryParams("nombre" + i); // Nombre POI de Busqueda
+			    		System.out.println("Busco: " + nombre);
+			    		if(poiABuscar.getNombre().contains(nombre) && !listaFiltrada.contains(poiABuscar)){
+					    	System.out.println("Agregue: " + poiABuscar.getNombre());
+				    		listaFiltrada.add(poiABuscar);
+			    		}
+			    	}
+			    	
+			    }
 			}
+			            
+		}
+		catch(SQLException e){ e.printStackTrace(); }
+		/*	--	Fin Busqueda en SQL --  */
 			
 			if(listaFiltrada.size()> 0){
 				String str = "/paginaBusqueda?cantidadFilas=" + listaFiltrada.size();
@@ -475,11 +408,5 @@ public class POIController {
 	public ModelAndView nuevaAccion(Request request, Response response) {
 		return new ModelAndView(null, "configurarAcciones.hbs");
 	}
-	public ModelAndView resultadoDisponibilidad(Request request, Response response) {
-		return new ModelAndView(null, "resultadoDisponibilidad.hbs");
-	}
 	
-	public void chequearUsuario(Response response) {
-		if(usuarioLogueado == null) response.redirect("/");
-	}
 }

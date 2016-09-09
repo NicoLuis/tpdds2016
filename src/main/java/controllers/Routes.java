@@ -10,6 +10,7 @@ public static void main(String[] args) {
 
     POIController poi = new POIController();
     HomeController home = new HomeController();
+    UsuarioController usuario = UsuarioController.GetInstancia();
     HistorialController historial = new HistorialController();
     HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
     ReporteFechaController reportef = new ReporteFechaController();
@@ -24,8 +25,8 @@ public static void main(String[] args) {
     });
 
     get("/Acciones", poi::opciones, engine);
-    post("/Valido", poi::valido, engine);
-    get("/Invalido", poi::invalido , engine);
+    post("/Valido", usuario::valido, engine);
+    get("/Invalido", usuario::invalido , engine);
     
     //Busqueda
     post("/getDetalles", poi::generarDetalles, engine);
@@ -53,12 +54,12 @@ public static void main(String[] args) {
     post("/POIs/calcularDistanciaAPOI", poi::calculoDeDistanciaAPOI , engine);
     //post("/Valido", poi::valido, engine);
     //registrar usuario
-    get("/registroUsuario", poi::registroUsuario, engine);
-    post("/registro", poi::registro, engine);
-    get("/modificarUser", poi::modificarUser, engine);
-    get("/modificarUsuario", poi::modificarUsuario, engine);
-    post("/actualizarUsuario", poi::actualizarUsuario, engine);
-    get("/InvalidoSesion", poi::invalidaSesion, engine);
+    get("/registroUsuario", usuario::registroUsuario, engine);
+    post("/registro", usuario::registro, engine);
+    get("/modificarUser", usuario::modificarUser, engine);
+    get("/modificarUsuario", usuario::modificarUsuario, engine);
+    post("/actualizarUsuario", usuario::actualizarUsuario, engine);
+    get("/InvalidoSesion", usuario::invalidaSesion, engine);
     //get("/Invalido", poi::invalido , engine);
     get("/POIs/resultadoDistancia", poi::resultadoDistancia, engine);
     //Disponibilidad

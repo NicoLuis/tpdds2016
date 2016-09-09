@@ -234,6 +234,7 @@ public class HomePois{
 		cgp_1 = new CGP();
 		cgp_1.setNombre("CGP_1");
 		cgp_1.setUbicacion(new Point(-34.6672, -58.4669));
+		cgp_1.setDireccion("Av. Escalada", 3112);
 		cgp_1.setComuna(zonaComuna8);
 		cgp_1.addServicio(rentas);
 		return cgp_1;

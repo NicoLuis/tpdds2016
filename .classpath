@@ -56,6 +56,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/Microsoft JDBC Driver 6.0 for SQL Server/sqljdbc_6.0/esn/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="D:/Descargas/Microsoft JDBC Driver 6.0 for SQL Server/sqljdbc_6.0/esn/sqljdbc4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

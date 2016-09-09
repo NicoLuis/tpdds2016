@@ -1,9 +1,15 @@
 package controllers;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import spark.ModelAndView;
 import spark.Request;
@@ -18,13 +24,41 @@ public class HistorialController {
 		return new ModelAndView(null, "resultadoHistorial.hbs");
 	}
 	
+	@SuppressWarnings("null")
 	public ModelAndView buscarEnHistorial(Request request, Response response) {
-		
+		ResultSet rs;
+		ArrayList<Busqueda> listaBusquedas = new ArrayList<Busqueda>();
+		List<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
+		RepoBusquedas.GetInstancia().setListaBusqueda("vacia");
+		try{
+			String queryBusquedas =  "SELECT * FROM busquedas";
+			Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+			rs = st.executeQuery( queryBusquedas );
+				if(!rs.equals(null)){
+				    int i=0;
+					while(rs.next()){
+						String fecha = rs.getString("fechayhora");
+						org.joda.time.format.DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.S");
+						DateTime time = format.parseDateTime(fecha);
+						String usuario = rs.getString("usuario");
+						String parametros = rs.getString("parametros");
+						int cantresultados = rs.getInt("cantresultados");
+						String poisresultados = rs.getString("poisresultado");
+						Busqueda bus = new Busqueda(time, usuario, parametros, cantresultados, poisresultados);
+						RepoBusquedas.GetInstancia().addBusqueda(bus);
+						lista = RepoBusquedas.GetInstancia().getListaBusqueda();
+						}
+					}     
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+
 		String usuario = request.queryParams("usuario");
 		String fecha1String = request.queryParams("fecha1");
 		String fecha2String = request.queryParams("fecha2");
 		
-		List<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
+		
 		lista = lista.stream().filter(busq -> busq.getUsuario().contains(usuario)).collect(Collectors.toList());
 		
 		lista = lista.stream().filter(busq -> busq.getFechaYhora().isBeforeNow()).collect(Collectors.toList());

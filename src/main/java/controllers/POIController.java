@@ -395,6 +395,19 @@ public class POIController {
 				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 				this.lista.add(busque);
 				System.out.println("No se encontro ningun poi");
+				try{
+					Statement st;
+					String fecha = DateTime.now().getYear() + "-" + DateTime.now().getMonthOfYear() + "-" +DateTime.now().getDayOfMonth() + " "+ DateTime.now().getHourOfDay() + ":" +DateTime.now().getMinuteOfHour();
+				    st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+				    String queryagre = "INSERT INTO dbo.busquedas VALUES ('"+ usuarioLogueado +"', 'nombre: "+ listaNombres  +"', '"+ 0 +"', '"+fecha +"', '" + " "+  "');"; 
+				    st.executeUpdate(queryagre);
+				    st.close();
+				}
+				
+				catch(SQLException e){
+					e.printStackTrace();
+				}
+				
 				response.redirect("/paginaBusqueda?cantidadFilas=0");
 				return null;
 			}

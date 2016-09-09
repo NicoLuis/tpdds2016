@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.uqbar.geodds.Point;
 
 import poi.*;
+import sistExternos.Encryptor;
 import bases.*;
 
 public class POIController {
@@ -310,32 +311,7 @@ public class POIController {
 	public ModelAndView buscar(Request request, Response response) {
 		String usuarioLogueado = UsuarioController.GetInstancia().getUsuarioLogueado();
 		chequearUsuario(response);
-		//System.out.println(request.queryParams("cantidad") + "cantidad");
-	
-		
-		
-		/*
-		 Recibis parametro cantidad que minimo es 1 y maximo es la cantidad de campoos que puede haber
-		 
-		 siendo 
-		 cantiadad = 3
-		 
-		 nombre1 = parada 21
-		 nombre2 = cgp coso
-		 nombre3 = lalala
-		 
-		 
-		 Ojo que puede darse el caso de que cantidad sea 5 pero el item 4 no exista porque se elimino,
-		 verificar con un null o que no sea ""
-		 
-		 No va mas nombre solo como esa ahora. 
-		 ahora arranca con nombre1 el item1 de busqueda y va creciendo sucesivamente.
-		 
-		 no me funciono request.querymap o reques.paramvalues que podrian haber resuelto esto mas facil.
-		 
-		 
-		 */
-		
+		//System.out.println(request.queryParams("cantidad") + "cantidad");	
 		ArrayList<String> listaNombres = new ArrayList<String>();
 		
 		String query = request.queryString();
@@ -390,11 +366,22 @@ public class POIController {
 						if(i!=0) listaPois = listaPois + ", ";
 						listaPois = listaPois + listaFiltrada.get(i).getNombre();
 				}
+				
 				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, "nombre: " + listaNombres, listaFiltrada.size(), listaPois);
 				this.lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 				this.lista.add(busque);
-				response.redirect(str);
-				return null;
+				try{
+					Statement st;
+					String fecha = DateTime.now().getYear() + "-" + DateTime.now().getMonthOfYear() + "-" +DateTime.now().getDayOfMonth() + " "+ DateTime.now().getHourOfDay() + ":" +DateTime.now().getMinuteOfHour();
+				    st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+				    String queryagre = "INSERT INTO dbo.usuario VALUES ('"+ usuarioLogueado +"nombre: ', '"+ listaNombres  +"', '"+ listaFiltrada.size() +"', '"+fecha +"', '" + listaPois + ")"; 
+				    st.executeUpdate(queryagre);
+				    st.close();
+				}
+				
+				catch(SQLException e){
+					e.printStackTrace();
+				}
 			}
 			else{
 				Busqueda busque = new Busqueda(DateTime.now(), usuarioLogueado, "nombre: " + listaNombres, 0, "");

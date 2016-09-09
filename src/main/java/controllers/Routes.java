@@ -68,7 +68,10 @@ public static void main(String[] args) {
     get("/POIs/resultadoDisponibilidad", poi::resultadoDisponibilidad , engine);
     
     //detalles
-    
     post("/generarDetalles",poi::generarDetalles,engine);
+    
+    
+    //ABM POIs
+    get("/modificarPOI", poi::modificarPOI , engine);
   }
 }

@@ -307,45 +307,21 @@ public class POIController {
 		chequearUsuario(response);
 		return new ModelAndView(null, "busquedaPOI.hbs");
 	}
+	
+	
+
 	public ModelAndView buscar(Request request, Response response) {
 		String usuarioLogueado = UsuarioController.GetInstancia().getUsuarioLogueado();
 		chequearUsuario(response);
-		//System.out.println(request.queryParams("cantidad") + "cantidad");
-	
-		
-		
-		/*
-		 Recibis parametro cantidad que minimo es 1 y maximo es la cantidad de campoos que puede haber
-		 
-		 siendo 
-		 cantiadad = 3
-		 
-		 nombre1 = parada 21
-		 nombre2 = cgp coso
-		 nombre3 = lalala
-		 
-		 
-		 Ojo que puede darse el caso de que cantidad sea 5 pero el item 4 no exista porque se elimino,
-		 verificar con un null o que no sea ""
-		 
-		 No va mas nombre solo como esa ahora. 
-		 ahora arranca con nombre1 el item1 de busqueda y va creciendo sucesivamente.
-		 
-		 no me funciono request.querymap o reques.paramvalues que podrian haber resuelto esto mas facil.
-		 
-		 
-		 */
 		
 		ArrayList<String> listaNombres = new ArrayList<String>();
 		
+		
+		/*	--	Busqueda en SQL --  */
 		String query = request.queryString();
 		int ultimoIgual = query.lastIndexOf("=");
 		String ultimoNumero = query.substring(ultimoIgual - 1, ultimoIgual);
-		
 		int cantidadMax = Integer.parseInt(ultimoNumero);
-		
-		
-		/*	--	Busqueda en SQL --  */
 		ArrayList<POI> listaFiltrada = new ArrayList<POI>();
 		try{
 			String queryNombresIngresados =  "SELECT * FROM poi";
@@ -368,7 +344,7 @@ public class POIController {
 			    	for(int i=1; i<=cantidadMax; i++){
 			    		String nombre = request.queryParams("nombre" + i); // Nombre POI de Busqueda
 			    		System.out.println("Busco: " + nombre);
-			    		if(poiABuscar.getNombre().contains(nombre) && !listaFiltrada.contains(poiABuscar)){
+			    		if(nombre!=null && poiABuscar.getNombre().contains(nombre) && !listaFiltrada.contains(poiABuscar)){
 					    	System.out.println("Agregue: " + poiABuscar.getNombre());
 				    		listaFiltrada.add(poiABuscar);
 			    		}
@@ -408,5 +384,47 @@ public class POIController {
 	public ModelAndView nuevaAccion(Request request, Response response) {
 		return new ModelAndView(null, "configurarAcciones.hbs");
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * -----		ABM		------
+	 * 
+	 * 
+	 * 
+	 */
+	
+	public ModelAndView modificarPOI(Request request, Response response) {
+		return new ModelAndView(null, "modificarPOI.hbs");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

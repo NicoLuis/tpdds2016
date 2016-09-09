@@ -7,12 +7,15 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 
 
 import org.joda.time.DateTime;
-
+import org.joda.time.format.DateTimeFormat;
 
 import spark.ModelAndView;
 import spark.Request;
@@ -31,10 +34,36 @@ public class ReporteFechaController {
 	}
 	
 	public ModelAndView buscarEnHistorialFechas(Request request, Response response) {
+		ResultSet rs;
 		List<Busqueda> listaF = RepoBusquedas.GetInstancia().getListaBusqueda();
-                ReportePorFecha reporte = new ReportePorFecha();
+		RepoBusquedas.GetInstancia().setListaBusqueda("vacia");
+		try{
+			String queryBusquedas =  "SELECT * FROM busquedas";
+			Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+			rs = st.executeQuery( queryBusquedas );
+				if(!rs.equals(null)){
+				    int i=0;
+					while(rs.next()){
+						String fecha = rs.getString("fechayhora");
+						org.joda.time.format.DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.S");
+						DateTime time = format.parseDateTime(fecha);
+						String usuario = rs.getString("usuario");
+						String parametros = rs.getString("parametros");
+						int cantresultados = rs.getInt("cantresultados");
+						String poisresultados = rs.getString("poisresultado");
+						Busqueda bus = new Busqueda(time, usuario, parametros, cantresultados, poisresultados);
+						RepoBusquedas.GetInstancia().addBusqueda(bus);
+						listaF = RepoBusquedas.GetInstancia().getListaBusqueda();
+						}
+					}     
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+
+        ReportePorFecha reporte = new ReportePorFecha();
                 
-                DateTime fechaAnterior = listaF.get(0).getFechaYhora();
+        DateTime fechaAnterior = listaF.get(0).getFechaYhora();
 		int cantBusquedas = 0;
 		Iterator<Busqueda> iterator = listaF.listIterator();
 		while (iterator.hasNext()) {

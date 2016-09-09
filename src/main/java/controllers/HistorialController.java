@@ -27,7 +27,6 @@ public class HistorialController {
 	@SuppressWarnings("null")
 	public ModelAndView buscarEnHistorial(Request request, Response response) {
 		ResultSet rs;
-		ArrayList<Busqueda> listaBusquedas = new ArrayList<Busqueda>();
 		List<Busqueda> lista = RepoBusquedas.GetInstancia().getListaBusqueda();
 		RepoBusquedas.GetInstancia().setListaBusqueda("vacia");
 		try{

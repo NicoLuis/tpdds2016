@@ -21,7 +21,7 @@ public class RepoBusquedas {
 
 		if (instancia == null) {
 			instancia = new RepoBusquedas();
-			//RepoBusquedas.GetInstancia().crearBusquedas();
+		//	RepoBusquedas.GetInstancia().crearBusquedas();
 		}
 		return instancia;
 	}
@@ -57,6 +57,6 @@ public class RepoBusquedas {
 		addBusqueda(new Busqueda(new DateTime().withDate(2016, 1, 20).withHourOfDay(12).withMinuteOfHour(6), " mBrandes ", " nombre: McDonalds", 4, "McDonalds_1, McDonalds_2, McDonalds_3, McDonalds_4"));
 		addBusqueda(new Busqueda(new DateTime().withDate(2015, 2, 9).withHourOfDay(12).withMinuteOfHour(38), " fNagelkop ", " nombre: Fravega ", 3, "Fravega Abasto, Fravega Villa del Parque, Fravega Palermo"));
 		addBusqueda(new Busqueda(new DateTime().withDate(2016, 5, 25).withHourOfDay(20).withMinuteOfHour(5), " mHuayta ", " nombre: CGP_7, 18 ", 2, "CGP_7, Parada del 18"));
-	*/}
+*/	}
 	
 }

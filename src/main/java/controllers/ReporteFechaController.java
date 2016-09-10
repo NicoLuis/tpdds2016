@@ -38,7 +38,7 @@ public class ReporteFechaController {
 		List<Busqueda> listaF = RepoBusquedas.GetInstancia().getListaBusqueda();
 		RepoBusquedas.GetInstancia().setListaBusqueda("vacia");
 		try{
-			String queryBusquedas =  "SELECT * FROM busquedas";
+			String queryBusquedas =  "SELECT * FROM busquedas ORDER BY fechayhora";
 			Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
 			rs = st.executeQuery( queryBusquedas );
 				if(!rs.equals(null)){

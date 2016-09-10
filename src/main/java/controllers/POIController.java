@@ -55,7 +55,7 @@ public class POIController {
 		ArrayList<POI> lista_coincidencias= new ArrayList<POI>();
 		for (POI poi: lista){
 			if(poi.getNombre().contains(nombre_poi)){
-				System.out.println("HOLAAAAAAAAAAAAAAAAAAAA");
+				//System.out.println("HOLAAAAAAAAAAAAAAAAAAAA");
 				lista_coincidencias.add(poi);
 			}
 		}
@@ -72,12 +72,12 @@ public class POIController {
 			detalles = poi.get_detalles();
 		}
 
-	 for (Map.Entry<String, String> detalle : detalles.entrySet()) {
-	 str =str + "&"+ detalle.getKey() +"=" +detalle.getValue();
-	 System.out.println("Key : " + detalle.getKey() + " Value : " + detalle.getValue());
-	}
+		for (Map.Entry<String, String> detalle : detalles.entrySet()) {
+			str =str + "&"+ detalle.getKey() +"=" +detalle.getValue();
+			System.out.println("Key : " + detalle.getKey() + " Value : " + detalle.getValue());
+		}
 		return str;
-}
+	}
 	
 	
 	

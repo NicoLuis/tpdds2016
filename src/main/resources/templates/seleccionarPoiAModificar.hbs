@@ -4,8 +4,14 @@
 		
 {{# partial "contenido" }}	
 
-
-
+<style>
+.loQuieroALoAnchoPapu {
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-size: 15px;
+}
+</style>
 
 <script>					
 function genera_lista() {
@@ -13,13 +19,12 @@ function genera_lista() {
   
   var temp = parameters[0].split("=");
   var cantidadFilas = unescape(temp[1]);
-  var body = document.getElementsByTagName("body")[0];
   
-  var select = document.createElement("select");
+  var select = document.getElementById("poiAModificar");
   
   var numeroParametro = 1;
  
-  for (var i = 0; i <= cantidadFilas; i++) {
+  for (var i = 0; i < cantidadFilas; i++) {
 	    
 		var temp = parameters[numeroParametro].split("=");
 		var parametro = unescape(temp[1]);
@@ -32,12 +37,9 @@ function genera_lista() {
 
   }
   
-  select.id = "poiAModificar";
-  select.setAttribute("class", "form-control");
-  select.style.marginLeft="5%";
-  select.style.maxWidth="90%"
-  select.style.alignContent="center"
-  body.appendChild(select);
+  //select.style.marginLeft="5%";
+  //select.style.maxWidth="90%"
+  //select.style.alignContent="center"
 }
 </script>
 
@@ -47,17 +49,28 @@ function genera_lista() {
 
 <h3> Selecciona el POI que desea modificar </h3>
 
+<div class="loQuieroALoAnchoPapu">
+Seleccionar POI 
+<br/><br/>
+<form action="/nuevoPoi" method="get" class="loQuieroALoAnchoPapu">
+	<input type="submit" class="btn btn-primary loQuieroALoAnchoPapu" value="Nuevo">
+</form>
+<br/><br/>
+
+<div onclick="boton_cambio()" class="loQuieroALoAnchoPapu">
+Existente
+<select class="form-control loQuieroALoAnchoPapu" id="poiAModificar"></select>
 <script> genera_lista() </script>
 
-
-<button type="hidden" onclick="boton_cambio()" class="form-control" > </input> 
-
-<form action="/tomarDatoPoi" method="get">
+<br/>
+<form action="/tomarDatoPoi" method="get" class="loQuieroALoAnchoPapu">
 	<input type="hidden" id="nombreAMandar" name="nombreAMandar">
-	<input type="submit" class="btn btn-primary" value="Buscar">
+	<input type="submit" class="btn btn-primary loQuieroALoAnchoPapu" value="Seleccionar">
 </form>
+</div> 
 
-</button>
+
+
 
 <script>
 function boton_cambio(){

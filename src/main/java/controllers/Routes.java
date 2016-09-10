@@ -76,5 +76,6 @@ public static void main(String[] args) {
     get("/modificarPOI", poi::modificarPOI , engine);
     get("/seleccionarPOI", poi::seleccionarPOI , engine);
     get("/tomarDatoPoi", poi::tomarDatoPoi , engine);
+    get("/actualizarPOI", poi::actualizarPOI , engine);
   }
 }

@@ -486,4 +486,25 @@ public class POIController {
 		
 		return null;
 	}
+	
+	public ModelAndView actualizarPOI(Request request, Response response) {
+		try{
+			
+			String nombrepoi = request.queryParams("nombre");
+			String direccion = request.queryParams("direccion");
+			String coordenada_x = request.queryParams("coordenada_x");
+			String coordenada_y = request.queryParams("coordenada_y");
+			if(!nombrepoi.equals("") && !direccion.equals("") && !coordenada_x.equals("") && !coordenada_y.equals("")){
+				Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+		        String query = "UPDATE dbo.poi SET direccion='"+ direccion +"', coordenada_x='"+ coordenada_x +"', coordenada_y='"+ coordenada_y+"' WHERE nombrepoi='"+ nombrepoi+"'"; 
+		        st.executeUpdate(query);
+		        st.close();	
+			}else{
+				return new ModelAndView(null, "layoutError.hbs");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return new ModelAndView(null, "layoutSesion.hbs");
+	}
 }

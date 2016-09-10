@@ -114,11 +114,22 @@ public class UsuarioController {
 	}
 	public ModelAndView registro(Request request, Response response){
 		try{
+			
 			String nombre = request.queryParams("nombre");
 			String apellido = request.queryParams("apellido");
 			String nombreusuario = request.queryParams("nombreusuario");
 			String contraseña = request.queryParams("password");
 			String verif = request.queryParams("password2");
+			Statement state = miconex.getConexion().createStatement();
+			String querySeleccionar = "SELECT * FROM dbo.usuario";
+			ResultSet rs = state.executeQuery(querySeleccionar);
+			if(!rs.equals(null)){
+				while(rs.next()){
+					if(nombreusuario.equals(rs.getString("nombreusuario"))){
+						return new ModelAndView(null, "errorRegistro.hbs");
+					}
+				}
+			}
 			if(!nombre.equals("") && !apellido.equals("") && !nombreusuario.equals("") && !contraseña.equals("") && !verif.equals(""))
 			{	
 				if(!contraseña.equals(verif)){

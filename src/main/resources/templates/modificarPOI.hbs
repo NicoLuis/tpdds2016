@@ -10,7 +10,6 @@ function tomar_datos(){
 	
 	var temp = parameters[0].split("=");
 	var parametro = unescape(temp[1]);
-	document.getElementById("nombreEliminar").value = parametro;
 	document.getElementById("nombreAMostrar").value = parametro;
 	document.getElementById("nombre").value = parametro;
 	
@@ -37,7 +36,7 @@ function tomar_datos(){
 <form action="/actualizarPOI" method="get">
 
   <div class="row">
-	<div class="panel panel-info">
+	<div class="panel panel-primary">
 		<div class="panel-heading">
 		    <h3 class="panel-title">Datos POI</h3>
 		 </div>

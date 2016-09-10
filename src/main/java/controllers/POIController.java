@@ -433,6 +433,10 @@ public class POIController {
 		return new ModelAndView(null, "seleccionarPoiAModificar.hbs");
 	}
 	
+	public ModelAndView agregarPOI(Request request, Response response) {
+		return new ModelAndView(null, "agregarPOI.hbs");
+	}
+	
 	public ModelAndView tomarDatoPoi(Request request, Response response) {
 		
 		try{
@@ -485,6 +489,28 @@ public class POIController {
 		catch(SQLException e){ e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");}
 		
 		return null;
+	}
+	
+	public ModelAndView crearPOI(Request request, Response response) {
+		try{	
+			String nombrepoi = request.queryParams("nombre");
+			String direccion = request.queryParams("direccion");
+			String coordenada_x = request.queryParams("coordenada_x");
+			String coordenada_y = request.queryParams("coordenada_y");
+			String tipo = request.queryParams("tipo");
+			if(!nombrepoi.equals("") && !direccion.equals("") && !coordenada_x.equals("") && !coordenada_y.equals("") && !tipo.equals("")){
+				Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+		        String query = "INSERT INTO dbo.poi VALUES( '"+ nombrepoi +"', '"+ direccion +"', '"+ coordenada_x +"', '"+ coordenada_y+"', '"+ tipo +"')"; 
+		        st.executeUpdate(query);
+		        st.close();
+			}else{
+				return new ModelAndView(null, "layoutError.hbs");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			return new ModelAndView(null, "layoutError.hbs");
+		}
+		return new ModelAndView(null, "layoutSesion.hbs");
 	}
 	
 	public ModelAndView actualizarPOI(Request request, Response response) {

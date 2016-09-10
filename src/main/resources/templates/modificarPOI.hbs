@@ -10,6 +10,7 @@ function tomar_datos(){
 	
 	var temp = parameters[0].split("=");
 	var parametro = unescape(temp[1]);
+	document.getElementById("nombreEliminar").value = parametro;
 	document.getElementById("nombreAMostrar").value = parametro;
 	document.getElementById("nombre").value = parametro;
 	
@@ -57,10 +58,9 @@ function tomar_datos(){
 			</div>
 		</div>
 	</div>
-	<div class="col-md-5">
+	<div class="col-md-8">
 		<input type="submit" class="btn btn-primary" value="Modificar POI">
-	</div>
-  </div>
+ 	 </div>
 </form>
 
 <script>tomar_datos()</script>

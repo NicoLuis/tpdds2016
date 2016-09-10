@@ -66,7 +66,12 @@ Existente
 <form action="/tomarDatoPoi" method="get" class="loQuieroALoAnchoPapu">
 	<input type="hidden" id="nombreAMandar" name="nombreAMandar">
 	<input type="submit" class="btn btn-primary loQuieroALoAnchoPapu" value="Seleccionar">
+</form>	
+<form action="/eliminarPOI" method="get"> 
+	<input type="hidden" class="form-control" id="nombreEliminar" name="nombreEliminar">
+	<input type="submit" class="btn btn-danger loQuieroALoAnchoPapu" value="Eliminar POI"> 
 </form>
+
 </div> 
 
 
@@ -76,6 +81,7 @@ Existente
 function boton_cambio(){
 	var poi = document.getElementById("poiAModificar").value;
 	document.getElementById("nombreAMandar").value = poi;
+	document.getElementById("nombreEliminar").value = poi;
 }
 </script>
 

@@ -359,7 +359,7 @@ public class POIController {
 			}
 			            
 		}
-		catch(SQLException e){ e.printStackTrace(); }
+		catch(SQLException e){ e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");}
 		/*	--	Fin Busqueda en SQL --  */
 			
 			if(listaFiltrada.size()> 0){
@@ -405,7 +405,7 @@ public class POIController {
 				}
 				
 				catch(SQLException e){
-					e.printStackTrace();
+					e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");
 				}
 				
 				response.redirect("/paginaBusqueda?cantidadFilas=0");
@@ -457,7 +457,7 @@ public class POIController {
 		}
 		            
 		}
-		catch(SQLException e){ e.printStackTrace(); }
+		catch(SQLException e){ e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");}
 		
 		return null;
 	}
@@ -482,7 +482,7 @@ public class POIController {
 		}
 		            
 		}
-		catch(SQLException e){ e.printStackTrace(); }
+		catch(SQLException e){ e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");}
 		
 		return null;
 	}
@@ -504,6 +504,32 @@ public class POIController {
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
+			return new ModelAndView(null, "layoutError.hbs");
+		}
+		return new ModelAndView(null, "layoutSesion.hbs");
+	}
+	
+	public ModelAndView eliminarPOI(Request request, Response response) {
+		try{
+			
+			String nombrepoi = request.queryParams("nombreEliminar");
+			if(!nombrepoi.equals("")){
+				Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+				String query = "delete dbo.servicioCGP WHERE nombreCGP='"+ nombrepoi+"'"; 
+		        st.executeUpdate(query);
+		        query = "delete dbo.cgp WHERE nombrecgp='"+ nombrepoi+"'"; 
+		        st.executeUpdate(query);
+		        query = "delete dbo.sucursalBanco WHERE nombrebanco='"+ nombrepoi+"'"; 
+		        st.executeUpdate(query);
+		        query = "delete dbo.poi WHERE nombrepoi='"+ nombrepoi+"'"; 
+		        st.executeUpdate(query);
+		        st.close();	
+			}else{
+				return new ModelAndView(null, "layoutError.hbs");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			return new ModelAndView(null, "layoutError.hbs");
 		}
 		return new ModelAndView(null, "layoutSesion.hbs");
 	}

@@ -37,7 +37,7 @@
     font-size: 20px;
 }
 </style>
-        
+    <div id="forms">
         <form action="/calcularDistancia" method="get">
         	<input type="submit" class="buttonsdds button1" value="Calcular Distancia">
         </form>
@@ -52,10 +52,6 @@
         
         <div class="exclusiva"> Acciones Exclusivas Administrador </div>
         
-        <form action="/generar" method="get">
-        	<input type="submit" class="buttonsdds button1" value="Modificar POI">
-        </form>
-        
         <form action="/configurarAcciones" method="get">
         	<input type="submit" class="buttonsdds button1" value="Configurar acciones">
         </form>
@@ -63,17 +59,19 @@
         <form action="/historialBusquedas" method="get">
         	<input type="submit" class="buttonsdds button1"  value="Historial de Búsquedas">
         </form>
-
-        <form action="/reportarFecha" method="get">
-        	<input type="submit" class="buttonsdds button1" value="Totalizar por Fecha">
-        </form>
-
-        <form action="/reportarUsuario" method="get">
-        	<input type="submit" class="buttonsdds button1" value="Totalizar por Usuario">
-        </form>
-         
+    </div>
         
-        
+<script>
+    $(document).ready(function() {
+        var params = location.search.substring(1).split("&");
+        var acciones = params[0].split("=")[1].split(",");
+        var forms = $("#forms");
+        acciones.forEach(function(a) {
+            forms.append("<input type='submit' class='buttonsdds button1' value=" + a + " /><br/>");
+        });
+    });
+</script>
+
 {{/partial}}
 				
 {{> layoutSesion.hbs }}

@@ -16,33 +16,41 @@
 </style>
 
 
-	<div class="row">
-		<div class="row centrado" >
-			<div class="col-sm-4 centrado">
-				<select class="btn btn-default btn-block btn-lg" id="select_id">
+<div class="row">
+		<div class="col-xs-4 centrado">
+				<select class="col-xs-12" style="height:40px" id="select_id">
 					<option value="0"> -- </option>
 					<option value="Generar Log"> Generar Log </option>
 					<option value="Totalizar por Fecha"> Totalizar por Fecha </option>
 					<option value="Totalizar por Usuario"> Totalizar por Usuario </option>
 				</select>
-		   </div>
-
-			<div class="col-md-5 centrado">
-				<input type="submit" class="btn btn-primary btn-lg" value="Agregar" name="agregar" onclick="add_li()" >
-			</div>
 		</div>
-				<br></br>
+	    <div class="col-xs-5 centrado">
+			<input type="button" class="btn btn-primary btn-lg" value="Agregar" name="agregar" onclick="add_li()">
+	    </div>
+</div>      
+<div class="row">
 		<table class="table" style="width:100%" id="listaDesordenada">
-		</table>
-<div>
-                       <input type="button" class="btn btn-primary btn-lg" value="Confirmar Acciones" onclick="armarArray()">
-                       <div></br>
-                       <input type="button" class="btn btn-primary btn-lg" value="Borrar Acciones" onclick="eliminarTodo('listaDesordenada')">
-                       
-<p id="array"></p>
-   
-  </div>
+		</table> 
+		<div>
+            <form action="/Acciones" method="get" onSubmit="armarArray()" id="formAcciones">
+                <input type="hidden" id="acciones" name="acciones">
+                <input type="submit" class="btn btn-primary btn-lg" value="Confirmar Acciones">
+            </form>
+            <input type="button" class="btn btn-primary btn-lg" value="Borrar Acciones" onclick="eliminarTodo('listaDesordenada')">
+        </div>      
+
 <script>
+
+$(document).ready(function() {
+    var formAcciones = $("#formAcciones");
+    formAcciones.submit(function() {
+        armarArray();
+        alert($("#acciones").val());
+        alert(formAcciones.attr('action'));
+    });
+});
+
 /**
  * Funcion que añade un <li> dentro del <ul>
  */
@@ -111,28 +119,22 @@ function eliminar(elemento){
 function eliminarTodo(id){
 var tabla=document.getElementById(id);
 if(tabla) tabla.parentNode.removeChild(tabla);
-
 document.getElementById("array")=[];
 }
 
-function armarArray()
-{
-var tabla=document.getElementById("listaDesordenada").getElementsByTagName("th");
-var arrayL= new Array();
-for (var i=0; i<tabla.length; i++){
-if(esImpar(i)) arrayL.push(tabla[i].innerHTML);
-}
-document.getElementById("array").innerHTML= arrayL;
-}
 function esImpar(n){
 return n % 2 == 0;
 }
 
-
+function armarArray() {
+			var tabla=document.getElementById("listaDesordenada").getElementsByTagName("th");
+			var arrayL= new Array();
+			for (var i=0; i<tabla.length; i++){
+					if(esImpar(i)) arrayL.push(tabla[i].innerHTML);
+			}
+			document.getElementById("acciones").value = arrayL;
+}
 </script>
-</script>
-
-
 
 {{/partial}}
 				

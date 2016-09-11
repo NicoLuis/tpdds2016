@@ -1,6 +1,7 @@
 package bases;
 
 import org.joda.time.DateTime;
+import java.util.Calendar;
 
 public class Busqueda {
 
@@ -47,15 +48,30 @@ public class Busqueda {
 	        return this.getUsuario().equals(busqueda.getUsuario());
 
 	}
-        public boolean mismaFecha(DateTime fecha) {
-		return fechaYhora.equals(fecha);
-	}
+      
 	public DateTime getFechaYhora() {
 		return fechaYhora;
 	}
 	public void setFechaYhora(DateTime fechaYhora) {
 		this.fechaYhora = fechaYhora;
 	}
+        
+        public boolean mismaFecha(DateTime fecha) {
+            
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+
+        c1.setTime(this.fechaYhora.toDate());
+        c2.setTime(fecha.toDate());
+
+        boolean sameDay = c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
+              c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR) && 
+                c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH);
+        		
+            return sameDay;
+            
+	}
+        
 	public String getNombrePoisResultado() {
 		return nombrePoisResultado;
 	}

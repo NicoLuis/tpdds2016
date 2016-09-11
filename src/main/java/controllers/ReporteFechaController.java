@@ -116,9 +116,7 @@ public class ReporteFechaController {
 	
 	public String construirStringFechaYHora(DateTime fechaYHora) {
 		String fechaString = fechaYHora.getDayOfMonth() + "/" + fechaYHora.getMonthOfYear() + "/" + fechaYHora.getYear();
-		String horaString = fechaYHora.getHourOfDay() + "";
-			if(fechaYHora.getMinuteOfHour() < 10) horaString = horaString + ":0" + fechaYHora.getMinuteOfHour();
-			else horaString = horaString + ":" + fechaYHora.getMinuteOfHour();
-		return fechaString + " " + horaString;
+		
+		return fechaString;
 	}
 }

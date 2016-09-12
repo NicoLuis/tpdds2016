@@ -14,5 +14,4 @@ public class HomeController {
 	 // Conexion miconex = new Conexion();
     return new ModelAndView(null, "home.hbs");
   }
-
 }

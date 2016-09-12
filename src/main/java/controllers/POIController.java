@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ import spark.Request;
 import spark.Response;
 
 import org.joda.time.DateTime;
+import org.mozilla.javascript.regexp.SubString;
 import org.uqbar.geodds.Point;
 
 import poi.*;
@@ -47,24 +49,143 @@ public class POIController {
 	 * 
 	 */
 	
+	@SuppressWarnings("deprecation")
 	public ModelAndView generarDetalles(Request request, Response response) {
 		System.out.println(request);
+		String tipoEncontrado = null;
 		String nombre_poi=request.queryParams("nombre");
 		String direccion_poi=request.queryParams("direccion");
 		ArrayList<POI> lista= HomePois.GetInstancia().getListaPois();
 		ArrayList<POI> lista_coincidencias= new ArrayList<POI>();
+		try{
+			String queryNombresIngresados =  "SELECT * FROM poi";
+				
+			Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+			ResultSet rs = st.executeQuery( queryNombresIngresados );
+			if(!rs.equals(null)){
+			    while(rs.next()){
+			    	String tipo = rs.getString("tipo");
+			    	String dir = rs.getString("direccion");
+			    	Direccion direc = new Direccion();
+			    	direc.setCalle(dir);
+			    	String nombre = rs.getString("nombrepoi");
+			    	int x = rs.getInt("coordenada_x");
+			    	int y = rs.getInt("coordenada_y");
+			    	
+			    	switch(tipo){
+			    	case "CGP":POI cgp = new CGP();
+			    		cgp.setCoordenadas(x, y);
+			    		cgp.setDireccion(direc);
+			    		cgp.setNombre(nombre);
+			    		
+			    		try{
+			    			Statement state = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+				    		ResultSet result = state.executeQuery("SELECT * FROM cgp WHERE nombrecgp='" + nombre + "'");
+				    		if(!result.equals(null)){
+				    			while(result.next()){
+				    				String inicio = result.getString("horainicio");
+						    		String fin = result.getString("horafin");
+						    		int horain = Integer.parseInt(inicio.substring(0,2));
+						    		int horafin = Integer.parseInt(fin.substring(0, 2)); 
+						    		Franja franja = new Franja(horain,horafin, 0, 0);
+						    		cgp.addFranjaHoraria(franja);
+						    		state.close();
+						    		HomePois.GetInstancia().agregarPoi(cgp);
+					    		
+				    			}
+				    		}
+				    	}
+			    		catch(SQLException e){
+			    			e.printStackTrace();
+			    		}
+			    		
+			    		break;
+			    	case "ParadaColectivo":
+			    		POI parada = new ParadaColectivo();
+			    		parada.setCoordenadas(x, y);
+			    		parada.setDireccion(direc);
+			    		parada.setNombre(nombre);
+			    		HomePois.GetInstancia().agregarPoi(parada);
+			    		break;
+			    	case "sucursalBanco":
+			    		POI banco = new Banco();
+			    		banco.setCoordenadas(x, y);
+			    		banco.setDireccion(direc);
+			    		banco.setNombre(nombre);
+			    		HomePois.GetInstancia().agregarPoi(banco);
+			    		break;
+			    	}
+			    	//HomePois.GetInstancia().agregarPoi(poi);
+			    }
+			}
+			st.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
 		for (POI poi: lista){
 			if(poi.getNombre().contains(nombre_poi)){
-				//System.out.println("HOLAAAAAAAAAAAAAAAAAAAA");
-				lista_coincidencias.add(poi);
+				String nombreclase = poi.getClass().getName().substring(4);
+				switch (nombreclase){
+				case "CGP":
+					CGP poiAgregar = (CGP) poi;
+					try{
+						String queryNombresIngresados =  "SELECT * FROM servicioCGP WHERE nombreCGP='" + poi.getNombre() + "'";
+						Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+						ResultSet rs = st.executeQuery( queryNombresIngresados );
+						
+						if(!rs.equals(null)){
+						    while(rs.next()){
+						    	//String nom = rs.getString("nombreCGP");
+						    	String serv = rs.getString("servicio");
+						    	Servicio nuevoSer = new Servicio();
+						    	nuevoSer.setNombre(serv);
+						       	poiAgregar.addServicio(nuevoSer);
+						    }
+						}
+						st.close();
+					}catch(SQLException e){
+						e.printStackTrace();
+					}
+					lista_coincidencias.add(poiAgregar);
+				
+					break;
+				case "Banco":
+					Banco poiAgregar1 = (Banco) poi;
+					try{
+						String queryNombresIngresados =  "SELECT * FROM serviciobanco WHERE banco='" + poi.getNombre() + "'";
+						Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
+						ResultSet rs = st.executeQuery( queryNombresIngresados );
+						
+						if(!rs.equals(null)){
+						    while(rs.next()){
+						    	//String nom = rs.getString("nombreCGP");
+						    	String serv = rs.getString("servicio");
+						    	//Servicio nuevoSer = new Servicio();
+						    	//nuevoSer.setNombre(serv);
+						       	poiAgregar1.addServicio(serv);
+						    }
+						}
+						st.close();
+					}catch(SQLException e){
+						e.printStackTrace();
+					}
+					lista_coincidencias.add(poiAgregar1);
+					break;
+				case "ParadaColectivo":
+					lista_coincidencias.add(poi);
+					break;
+				}
+				
 			}
+			
 		}
-		String str = construirListaDetalles(lista_coincidencias);
+		
+		String str = construirListaDetalles(lista_coincidencias, tipoEncontrado);
 		response.redirect(str);
 		return null;
 	}
 	
-	public String construirListaDetalles(ArrayList<POI> lista){
+	public String construirListaDetalles(ArrayList<POI> lista, String tipo){
 		String str= "paginaBusqueda?cantidadFilas="+lista.size();
 		Map<String,String> detalles= new HashMap <String,String>();
 		for(POI poi : lista){

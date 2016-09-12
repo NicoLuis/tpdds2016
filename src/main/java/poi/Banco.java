@@ -31,6 +31,9 @@ public class Banco extends POI{
 	public List<String> getListaServicios() {
 		return listaServicios;
 	}
+	public void addServicio(String serv){
+		this.listaServicios.add(serv);
+	}
 
 	public void setListaServicios(List<String> listaServicios) {
 		this.listaServicios = listaServicios;

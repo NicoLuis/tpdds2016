@@ -92,7 +92,7 @@ public class CGP extends POI{
 		icono= "glyphicons glyphicons-family";
 	}
 	public void setDetalles(){
-		String direccion= this.getDireccion().getCalle() + this.getDireccion().getNumero();
+		String direccion= this.getDireccion().getCalle();// + this.getDireccion().getNumero();
 		String servicios="";
 		String franjaHoraria="";
 		for(Servicio servicio : this.getServicios()){
@@ -100,8 +100,9 @@ public class CGP extends POI{
 		}
 		
 		for(Franja franja : this.getFranjaHoraria()){
-			franjaHoraria+= franja.getHorarioDeApertura().toString();
-			franjaHoraria+= franja.getHorarioDeCierre().toString();
+			franjaHoraria+= franja.getHorarioDeApertura().getHour();// + franja.getHorarioDeApertura().getMinute();
+			franjaHoraria+= " a:";
+			franjaHoraria+= franja.getHorarioDeCierre().getHour();// + franja.getHorarioDeCierre().getMinute();
 		}
 		detalles.put("Icono",this.getIcono());
 		detalles.put("Direccion",direccion);

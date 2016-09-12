@@ -28,7 +28,7 @@ public class HomePois{
 		
 		integraciones.add(IntegracionBancos.GetInstance());
 		integraciones.add(IntegracionCgp.GetInstance());
-		crearPOIs();
+		//crearPOIs();
 	}
 	
 	public static HomePois GetInstancia(){

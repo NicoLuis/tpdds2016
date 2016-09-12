@@ -57,11 +57,6 @@ public abstract class POI {
 	public boolean tieneNombre(){
 		return this.getNombre() != null && this.getNombre() != "";
 	}
-	
-	
-	
-	
-	
 	public boolean coincideConLaBusqueda(String textoBusqueda){
 		return this.getNombre().contains(textoBusqueda);
 	}

@@ -338,6 +338,7 @@ public class POIController {
 	
 	public POI tomarDatosDeHomePois(Request request){
 		HomePois basepoi = HomePois.GetInstancia();
+		basepoi.crearPOIs();
 		switch(request.queryParams("poi2")){
 			case "ubicacionCercana": return basepoi.crear_ubicacionCercana() ; 
 			case "ubicacionLejana": return basepoi.crear_ubicacionLejana() ; 

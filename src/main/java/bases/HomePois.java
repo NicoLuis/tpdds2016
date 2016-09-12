@@ -311,7 +311,7 @@ public class HomePois{
 		kioskoDeDiarios = new LocalComercial();
 		kioskoDeDiarios.setNombre("Kiosko de Diarios");
 		kioskoDeDiarios.setUbicacion(new Point(-34.6717, -58.4673));
-		libreriaEscolar.setDireccion(new Direccion("Corvalan", 3691));
+		kioskoDeDiarios.setDireccion(new Direccion("Corvalan", 3691));
 		kioskoDeDiarios.setRubro(rubroKioskoDeDiarios);
 		return kioskoDeDiarios;
 	}

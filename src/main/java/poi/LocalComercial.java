@@ -64,7 +64,7 @@ public class LocalComercial extends POI{
 		icono="glyphicons glyphicons-shopping-bag";
 	}
 	public void setDetalles(){
-		 String direccion= this.getDireccion().getCalle() + this.getDireccion().getNumero();
+		 String direccion= this.getDireccion().getCalle(); //+ this.getDireccion().getNumero();
 		 detalles.put("Icono",this.getIcono());
 		 detalles.put("Direccion",direccion);
 		 detalles.put("Nombre",this.getNombre());

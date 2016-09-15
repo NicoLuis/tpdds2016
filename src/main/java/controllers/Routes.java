@@ -23,8 +23,9 @@ public static void main(String[] args) {
       response.redirect("/");
       return null;
     });
-
-    get("/Acciones", poi::opciones, engine);
+    
+    get("/Acciones", poi::verificarAccionesDelUsuario, engine);
+    get("/accionesDelUsuario", poi::opciones, engine);
     post("/Valido", usuario::valido, engine);
     get("/Invalido", usuario::invalido , engine);
     

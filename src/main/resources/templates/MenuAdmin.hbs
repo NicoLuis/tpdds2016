@@ -11,8 +11,7 @@
     color: black;
     padding: 15px 32px;
     text-align: center;
-    text-decoration: none;
-    display: block;
+    alignContent: center;
     width: 100%;
     font-size: 16px;
     transition-duration: 0.4s;
@@ -37,6 +36,40 @@
     font-size: 20px;
 }
 </style>
+
+<script>					
+function genera_botones() {
+  var parameters = location.search.substring(1).split("&");
+  var body = document.getElementsByTagName("body")[0];
+  
+  var temp = parameters[0].split("=");
+  var cantidadFilas = unescape(temp[1]);
+  
+  var numeroParametro = 1;
+ 
+  for (var i = 0; i < cantidadFilas; i++) {
+	    
+		var temp = parameters[numeroParametro].split("=");
+		var parametro = unescape(temp[1]);
+		var button = document.createElement("button");
+		button.setAttribute("type", "submit");
+		button.setAttribute("class", "buttonsdds button1");
+		button.style.marginLeft="10%";
+ 		button.style.maxWidth="80%";
+  		button.style.alignContent="center";
+		numeroParametro++;
+		var textoCelda = document.createTextNode(parametro);
+		button.appendChild(textoCelda);
+		body.appendChild(button);
+		var br = document.createElement("br");
+		body.appendChild(br);
+		var br = document.createElement("br");
+		body.appendChild(br);
+  }
+  
+}
+</script>
+
     <div id="forms">
         <form action="/calcularDistancia" method="get">
         	<input type="submit" class="buttonsdds button1" value="Calcular Distancia">
@@ -52,25 +85,25 @@
         
         <div class="exclusiva"> Acciones Exclusivas Administrador </div>
         
+        <form action="/generar" method="get">
+        	<input type="submit" class="buttonsdds button1" value="Modificar un POI">
+        </form>
+        
         <form action="/configurarAcciones" method="get">
         	<input type="submit" class="buttonsdds button1" value="Configurar acciones">
         </form>
         
         <form action="/historialBusquedas" method="get">
         	<input type="submit" class="buttonsdds button1"  value="Historial de Búsquedas">
-        </form>
-    </div>
+        </form>   
         
-<script>
-    $(document).ready(function() {
-        var params = location.search.substring(1).split("&");
-        var acciones = params[0].split("=")[1].split(",");
-        var forms = $("#forms");
-        acciones.forEach(function(a) {
-            forms.append("<input type='submit' class='buttonsdds button1' value=" + a + " /><br/>");
-        });
-    });
-</script>
+        <div class="exclusiva"> Acciones Exclusivas del Usuario </div>
+        
+         <script> genera_botones() </script>
+        
+    </div>
+    
+
 
 {{/partial}}
 				

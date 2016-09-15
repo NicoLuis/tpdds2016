@@ -33,9 +33,36 @@ public class POIController {
 	
 	public ModelAndView opciones(Request request, Response response) {
 		chequearUsuario(response);
-		if( RepoTerminales.GetInstancia().getBooleanAdmin() )
-			return new ModelAndView(null, "MenuAdmin.hbs");
-		return new ModelAndView(null, "MenuUser.hbs");
+		return new ModelAndView(null, "MenuAdmin.hbs");
+	}
+	
+	public ModelAndView verificarAccionesDelUsuario(Request request, Response response) {
+		chequearUsuario(response);
+		Conexion conexion = new Conexion();
+		try{
+			String queryAcciones =  "SELECT * FROM accionXUsuario where nombreUsuario='" + UsuarioController.GetInstancia().usuarioLogueado + "'";
+			
+			Statement st = conexion.getConexion().createStatement();
+			ResultSet rs = st.executeQuery( queryAcciones );
+
+			int i = 0;
+			
+			String stringAEnviar = "";
+			
+			if(!rs.equals(null)){
+			    while(rs.next()){
+			    	stringAEnviar = stringAEnviar + "accion=" + rs.getString("accion") + "&";
+			    	i++;
+			    }
+			}
+			stringAEnviar.substring(0, stringAEnviar.length()-1);
+			stringAEnviar = "accionesDelUsuario?cantidadBotones=" + i +  "&" + stringAEnviar;
+			
+			response.redirect(stringAEnviar);
+		}
+		catch(SQLException e){ e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");}
+		
+		return null;
 	}
 	
 
@@ -489,7 +516,7 @@ public class POIController {
 				String listaPois = "";
 				for(int i = 0; i < listaFiltrada.size(); i++){
 						str = str + "&nombre=" + listaFiltrada.get(i).getNombre() +
-						"&direccion=" + listaFiltrada.get(i).getDireccion().getCalle() +" "+ listaFiltrada.get(i).getDireccion().getNumero();
+						"&direccion=" + listaFiltrada.get(i).getDireccion().getCalle();
 						if(i!=0) listaPois = listaPois + ", ";
 						listaPois = listaPois + listaFiltrada.get(i).getNombre();
 				}

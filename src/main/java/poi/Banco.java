@@ -77,7 +77,7 @@ public class Banco extends POI{
 	}
 	
 	 public void setDetalles(){
-	 String direccion= this.getDireccion().getCalle() + this.getDireccion().getNumero();
+	 String direccion= this.getDireccion().getCalle(); //+ this.getDireccion().getNumero();
 		String servicios="";
 		for(String servicio : this.getListaServicios()){
 			servicios+=servicio;

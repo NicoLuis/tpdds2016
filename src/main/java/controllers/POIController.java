@@ -33,7 +33,9 @@ public class POIController {
 	
 	public ModelAndView opciones(Request request, Response response) {
 		chequearUsuario(response);
-		return new ModelAndView(null, "MenuAdmin.hbs");
+		if( RepoTerminales.GetInstancia().getBooleanAdmin() )
+			return new ModelAndView(null, "MenuAdmin.hbs");
+		return new ModelAndView(null, "MenuUser.hbs");
 	}
 	
 	public ModelAndView verificarAccionesDelUsuario(Request request, Response response) {
@@ -55,7 +57,7 @@ public class POIController {
 			    	i++;
 			    }
 			}
-			stringAEnviar.substring(0, stringAEnviar.length()-1);
+			stringAEnviar.substring(0, stringAEnviar.length());
 			stringAEnviar = "accionesDelUsuario?cantidadBotones=" + i +  "&" + stringAEnviar;
 			
 			response.redirect(stringAEnviar);

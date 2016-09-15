@@ -45,26 +45,30 @@ function genera_botones() {
   var temp = parameters[0].split("=");
   var cantidadFilas = unescape(temp[1]);
   
-  var numeroParametro = 1;
+  var numeroParametro = 0;
  
   for (var i = 0; i < cantidadFilas; i++) {
-	    
+	    numeroParametro++;
 		var temp = parameters[numeroParametro].split("=");
 		var parametro = unescape(temp[1]);
-		var button = document.createElement("button");
+		var button = document.createElement("input");
 		button.setAttribute("type", "submit");
 		button.setAttribute("class", "buttonsdds button1");
+		button.value = parametro;
 		button.style.marginLeft="10%";
  		button.style.maxWidth="80%";
   		button.style.alignContent="center";
 		numeroParametro++;
-		var textoCelda = document.createTextNode(parametro);
-		button.appendChild(textoCelda);
-		body.appendChild(button);
-		var br = document.createElement("br");
-		body.appendChild(br);
-		var br = document.createElement("br");
-		body.appendChild(br);
+
+		var temp = parameters[numeroParametro].split("=");
+		var parametro = unescape(temp[1]);
+		var form = document.createElement("form");
+		var action = "/" + parametro;
+		form.setAttribute("action", action);
+		form.setAttribute("method", "get");
+
+		form.appendChild(button);
+		body.appendChild(form);
   }
   
 }

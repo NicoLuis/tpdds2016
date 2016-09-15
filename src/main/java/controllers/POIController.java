@@ -54,6 +54,9 @@ public class POIController {
 			if(!rs.equals(null)){
 			    while(rs.next()){
 			    	stringAEnviar = stringAEnviar + "accion=" + rs.getString("accion") + "&";
+			    	if(rs.getString("accion").equals("Totalizar Por Fecha")) stringAEnviar = stringAEnviar + "direccion=reportarFecha" + "&"; else
+			    	if(rs.getString("accion").equals("Totalizar Por Usuario")) stringAEnviar = stringAEnviar + "direccion=reportarUsuario" + "&"; 
+			    	else stringAEnviar = stringAEnviar + "direccion=generameElLog&";
 			    	i++;
 			    }
 			}

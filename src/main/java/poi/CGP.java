@@ -101,7 +101,7 @@ public class CGP extends POI{
 		
 		for(Franja franja : this.getFranjaHoraria()){
 			franjaHoraria+= franja.getHorarioDeApertura().getHour();// + franja.getHorarioDeApertura().getMinute();
-			franjaHoraria+= " a:";
+			franjaHoraria+= " a ";
 			franjaHoraria+= franja.getHorarioDeCierre().getHour();// + franja.getHorarioDeCierre().getMinute();
 		}
 		detalles.put("Icono",this.getIcono());

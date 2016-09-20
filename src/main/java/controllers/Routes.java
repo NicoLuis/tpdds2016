@@ -35,6 +35,7 @@ public static void main(String[] args) {
     get("/paginaBusqueda", poi::busqueda, engine);
     //Acciones
     get("/configurarAcciones", poi::nuevaAccion, engine);
+    get("/configAcciones", poi::configAccion, engine);
     //Historial
     get("/historialBusquedas", historial::historial, engine);
     post("/buscarEnHistorial", historial::buscarEnHistorial, engine);

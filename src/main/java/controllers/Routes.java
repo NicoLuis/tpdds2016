@@ -40,7 +40,6 @@ public static void main(String[] args) {
     //Acciones
     get("/configurarAcciones", poi::nuevaAccion, engine);
     get("/configurarAcciones", acciones::cargarAccionesEnBase, engine);
-    
     //Historial
     get("/historialBusquedas", historial::historial, engine);
     post("/buscarEnHistorial", historial::buscarEnHistorial, engine);

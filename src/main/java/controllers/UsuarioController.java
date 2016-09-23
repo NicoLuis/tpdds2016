@@ -74,7 +74,7 @@ public class UsuarioController {
 			
 			String nombre = request.queryParams("nombre");
 			String apellido = request.queryParams("apellido");
-			String nombreusuario = request.queryParams("usuario");
+			String nombreusuario = request.queryParams("usuarioAMostrar");
 			String contraseña = request.queryParams("password");
 			String verif = request.queryParams("password2");
 			if(!nombre.equals("") && !apellido.equals("") && !nombreusuario.equals("") && !contraseña.equals("") && !verif.equals(""))
@@ -85,7 +85,9 @@ public class UsuarioController {
 				System.out.println(Encriptado);
 				Statement st;
 		        st = miconex.getConexion().createStatement();
-		        String query = "UPDATE dbo.usuario SET nombreusuario='"+ nombreusuario +"', contrasenia='"+ Encriptado +"', nombre='"+ nombre +"', apellido='"+ apellido+"' WHERE nombreusuario='"+ usuarioLogueado+"'"; 
+		        String query = "UPDATE dbo.accionXusuario SET nombreUsuario='"+ nombreusuario + "' WHERE nombreUsuario='" + usuarioLogueado+ "'";
+		        st.executeUpdate(query);
+		        query = "UPDATE dbo.usuario SET nombreusuario='"+ nombreusuario +"', contrasenia='"+ Encriptado +"', nombre='"+ nombre +"', apellido='"+ apellido+"' WHERE nombreusuario='"+ usuarioLogueado+"'"; 
 		        st.executeUpdate(query);
 		        st.close();	
 		        usuarioLogueado = nombreusuario;

@@ -28,28 +28,23 @@
 	    <div class="col-xs-5 centrado">
 			<input type="button" class="btn btn-primary btn-lg" value="Agregar" name="agregar" onclick="add_li()">
 	    </div>
-</div>      
+</div>      
 <div class="row">
 		<table class="table" style="width:100%" id="listaDesordenada">
 		</table> 
 		<div>
-            <form action="/Acciones" method="get" onSubmit="armarArray()" id="formAcciones">
+            <form action="/configurarAcciones" method="get" onSubmit="armarArray()" id="formAcciones">
                 <input type="hidden" id="acciones" name="acciones">
                 <input type="submit" class="btn btn-primary btn-lg" value="Confirmar Acciones">
             </form>
             <input type="button" class="btn btn-primary btn-lg" value="Borrar Acciones" onclick="eliminarTodo('listaDesordenada')">
-        </div>      
+        	<form>
+        	
 
+ 
 <script>
 
-$(document).ready(function() {
-    var formAcciones = $("#formAcciones");
-    formAcciones.submit(function() {
-        armarArray();
-        alert($("#acciones").val());
-        alert(formAcciones.attr('action'));
-    });
-});
+
 
 /**
  * Funcion que añade un <li> dentro del <ul>

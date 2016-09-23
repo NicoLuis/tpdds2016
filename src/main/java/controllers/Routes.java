@@ -1,6 +1,8 @@
 package controllers;
 
 import static spark.Spark.*;
+
+import controllers.AccionesController;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Routes {
@@ -15,6 +17,8 @@ public static void main(String[] args) {
     HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
     ReporteFechaController reportef = new ReporteFechaController();
     ReporteUsuarioController reporteu = new ReporteUsuarioController();
+    AccionesController acciones = new AccionesController();
+    
     port(8081);
     staticFileLocation("/public");
     
@@ -35,6 +39,8 @@ public static void main(String[] args) {
     get("/paginaBusqueda", poi::busqueda, engine);
     //Acciones
     get("/configurarAcciones", poi::nuevaAccion, engine);
+    get("/configurarAcciones", acciones::cargarAccionesEnBase, engine);
+    
     //Historial
     get("/historialBusquedas", historial::historial, engine);
     post("/buscarEnHistorial", historial::buscarEnHistorial, engine);

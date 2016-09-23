@@ -592,7 +592,7 @@ public class POIController {
 			    }
 			}
 			stringAEnviar.substring(0, stringAEnviar.length());
-			stringAEnviar = "configAcciones?cantidadBotones=" + i +  "&" + stringAEnviar;
+			stringAEnviar = "configurarAcciones2?cantidadBotones=" + i +  "&" + stringAEnviar;
 			response.redirect(stringAEnviar);
 		}
 		catch(SQLException e){ e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");}

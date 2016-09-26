@@ -1,17 +1,10 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -24,72 +17,78 @@ public class AccionesController {
 		String acciones= accionesURL.toString();		
 		List<String> accionesAr = Arrays.asList(acciones.replaceAll("%2C", ",").replaceAll("acciones=","").replaceAll("\\+"," ").split(","));
 		Conexion myconex2= new Conexion();
-		Statement st2 =null;
-			
-				try{
+		Statement st2 = null;		
+				
+			try{
 				st2= myconex2.getConexion().createStatement();
+					
+				String query= "delete from accionXusuario where nombreUsuario='" + UsuarioController.GetInstancia().usuarioLogueado + "'";
+				st2.execute(query);
+				
 				String query2="";
 				if(busqueda("Totalizar por Fecha", accionesAr)){
-				query2= query2 + "insert into accionXusuario" + "(nombreUsuario,accion)" + "values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Totalizar por Fecha')";
+					query2 = "insert into accionXusuario values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Totalizar por Fecha')";
+					st2.execute(query2);
 				}
 				if(busqueda("Generar Log", accionesAr)){
-					query2= query2 + "insert into accionXusuario" + "(nombreUsuario,accion)" + "values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Generar Log')";
-					}
+					query2 = "insert into accionXusuario values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Generar Log')";
+					st2.execute(query2);
+				}
 				if(busqueda("Totalizar por Usuario", accionesAr)){
-					query2= query2 + "insert into accionXusuario" + "(nombreUsuario,accion)" + "values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Totalizar por Usuario')";
-					}
-				st2.executeUpdate(query2);
+					query2 = "insert into accionXusuario values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Totalizar por Usuario')";
+					st2.execute(query2);
+				}
 				System.out.println("Se agregaron las acciones a la base");	
-					if (st2 != null) {
-				st2.close();
-						if (myconex2 != null) {
-					myconex2.getConexion().close();
-						}	
+				if (st2 != null) {
+					st2.close();
+					if (myconex2 != null) {
+						myconex2.getConexion().close();
 					}
 				}
+			}
 			catch(SQLException e2){ 
 				e2.printStackTrace();
-				return new ModelAndView(null, "layoutError.hbs");}
-			
-	return new ModelAndView(null, "configurarAcciones.hbs");	
+				return new ModelAndView(null, "layoutError.hbs");
+			}
+				
+		return new ModelAndView(null, "configurarAcciones.hbs");	
 	}
-
+	
 	public int obtenerCantAcciones(String unString){
 		return Integer.parseInt(unString.substring(16, 17));
 	}
-public boolean busqueda(String str2, List<String> myList){
 	
-	for(String str: myList) {
-	    if(str.trim().contains(str2))
-	       return true;
-	}
-	return false;
-}
-
-	public ModelAndView borrarAcciones(Request request, Response response){
-			
-			try{
-		Conexion myconex= new Conexion();	
-		Statement st;
-		st= myconex.getConexion().createStatement();
-		String query= "delete from accionXusuario where nombreUsuario='" + UsuarioController.GetInstancia().usuarioLogueado + "'";
-		st.executeQuery(query);
-		System.out.println("Se eliminaron las acciones de la base");	
-		if (st != null) {
-				st.close();
-			if (myconex != null) {
-		myconex.getConexion().close();
-			}	
-		}
-	}catch(SQLException e){ e.printStackTrace(); 
-	return new ModelAndView(null, "layoutError.hbs");
-	}
-	return new ModelAndView(null, "configurarAcciones.hbs");		
-
+	public boolean busqueda(String str2, List<String> myList){
 		
-			
-}
+		for(String str: myList) {
+		    if(str.contains(str2))
+		       return true;
+		}
+		return false;
+	}
 	
+	public ModelAndView borrarAcciones(Request request, Response response){
+				
+		try{
+			Conexion myconex= new Conexion();	
+			Statement st;
+			st = myconex.getConexion().createStatement();
+			String query= "delete from accionXusuario where nombreUsuario='" + UsuarioController.GetInstancia().usuarioLogueado + "'";
+			st.execute(query);
+			System.out.println("Se eliminaron las acciones de la base");	
+			if (st != null) {
+					st.close();
+				if (myconex != null) {
+			myconex.getConexion().close();
+				}	
+			}
+		}catch(SQLException e){ e.printStackTrace(); 
+			return new ModelAndView(null, "layoutError.hbs");
+		}
+		return new ModelAndView(null, "configurarAcciones.hbs");	
+				
+	}
+		
 //	public List<String> FiltrarAcciones(String string)
 //    {
 //		String[] array = string.split(",");

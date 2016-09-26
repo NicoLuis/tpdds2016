@@ -1,10 +1,17 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -12,40 +19,89 @@ import spark.Response;
 public class AccionesController {
 	
 	public ModelAndView cargarAccionesEnBase(Request request, Response response){
-		String accionesURL= request.queryString();	//	Pedia un string literal "acciones" inexistente, solo se le pasan varios "accion"
-
-		List<String> acciones = FiltrarAcciones(accionesURL);
-		System.out.println(acciones);
-
-		
-		return new ModelAndView(null, "MenuAdmin.hbs");
-	//	response.redirect("/configurarAcciones");
-			/*try{
-			Conexion con = new Conexion();
-			Statement stmt = con.getConexion().createStatement();
-			for(int i=0;i<acciones.length;i++){
-			String agregandoAcciones = " insert ignore into accionesXusuario "
-						 				+ "(nombreUsuario, accion) "
-										+ "(UsuarioController.GetInstancia().usuarioLogueado, acciones[i])";
-			}
-		*/
+		String accionesURL= request.queryString();	
+		//List<String> acciones =FiltrarAcciones(accionesURL);
+		String acciones= accionesURL.toString();		
+		List<String> accionesAr = Arrays.asList(acciones.replaceAll("%2C", ",").replaceAll("acciones=","").replaceAll("\\+"," ").split(","));
+		Conexion myconex2= new Conexion();
+		Statement st2 =null;
 			
+				try{
+				st2= myconex2.getConexion().createStatement();
+				String query2="";
+				if(busqueda("Totalizar por Fecha", accionesAr)){
+				query2= query2 + "insert into accionXusuario" + "(nombreUsuario,accion)" + "values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Totalizar por Fecha')";
+				}
+				if(busqueda("Generar Log", accionesAr)){
+					query2= query2 + "insert into accionXusuario" + "(nombreUsuario,accion)" + "values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Generar Log')";
+					}
+				if(busqueda("Totalizar por Usuario", accionesAr)){
+					query2= query2 + "insert into accionXusuario" + "(nombreUsuario,accion)" + "values ('" + UsuarioController.GetInstancia().usuarioLogueado + "','Totalizar por Usuario')";
+					}
+				st2.executeUpdate(query2);
+				System.out.println("Se agregaron las acciones a la base");	
+					if (st2 != null) {
+				st2.close();
+						if (myconex2 != null) {
+					myconex2.getConexion().close();
+						}	
+					}
+				}
+			catch(SQLException e2){ 
+				e2.printStackTrace();
+				return new ModelAndView(null, "layoutError.hbs");}
+			
+	return new ModelAndView(null, "configurarAcciones.hbs");	
 	}
 
 	public int obtenerCantAcciones(String unString){
 		return Integer.parseInt(unString.substring(16, 17));
 	}
+public boolean busqueda(String str2, List<String> myList){
 	
-	public List<String> FiltrarAcciones(String string)
-    {
-		String[] array = string.split("&");
-		List<String> acciones = new ArrayList<String>();
-		
-		for (String value : array) {
-			if(value.substring(0, 6).equals("accion"))
-				acciones.add(value.substring(7).replaceAll("%20", " "));
-		}
-		return acciones;
-    }
+	for(String str: myList) {
+	    if(str.trim().contains(str2))
+	       return true;
+	}
+	return false;
+}
 
+	public ModelAndView borrarAcciones(Request request, Response response){
+			
+			try{
+		Conexion myconex= new Conexion();	
+		Statement st;
+		st= myconex.getConexion().createStatement();
+		String query= "delete from accionXusuario where nombreUsuario='" + UsuarioController.GetInstancia().usuarioLogueado + "'";
+		st.executeQuery(query);
+		System.out.println("Se eliminaron las acciones de la base");	
+		if (st != null) {
+				st.close();
+			if (myconex != null) {
+		myconex.getConexion().close();
+			}	
+		}
+	}catch(SQLException e){ e.printStackTrace(); 
+	return new ModelAndView(null, "layoutError.hbs");
+	}
+	return new ModelAndView(null, "configurarAcciones.hbs");		
+
+		
+			
+}
+	
+//	public List<String> FiltrarAcciones(String string)
+//    {
+//		String[] array = string.split(",");
+//		ArrayList<String> acciones = new ArrayList<String>();
+//		
+//		for (String value : array) {
+//			if(value.substring(0, 6).equals("accion"))
+//				acciones.add(value.substring(7).replaceAll("%2C", ",").replaceAll("s=","").replaceAll("\\+"," "));
+//				value.split(",");
+//				
+//		}
+//		return acciones;
+//    }
+	
 }

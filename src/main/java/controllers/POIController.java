@@ -56,8 +56,8 @@ public class POIController {
 			if(!rs.equals(null)){
 			    while(rs.next()){
 			    	stringAEnviar = stringAEnviar + "accion=" + rs.getString("accion") + "&";
-			    	if(rs.getString("accion").equals("Totalizar Por Fecha")) stringAEnviar = stringAEnviar + "direccion=reportarFecha" + "&"; else
-			    	if(rs.getString("accion").equals("Totalizar Por Usuario")) stringAEnviar = stringAEnviar + "direccion=reportarUsuario" + "&"; 
+			    	if(rs.getString("accion").equals("Totalizar por Fecha")) stringAEnviar = stringAEnviar + "direccion=reportarFecha" + "&"; else
+			    	if(rs.getString("accion").equals("Totalizar por Usuario")) stringAEnviar = stringAEnviar + "direccion=reportarUsuario" + "&"; 
 			    	else stringAEnviar = stringAEnviar + "direccion=generameElLog&";
 			    	i++;
 			    }
@@ -568,12 +568,12 @@ public class POIController {
 				return null;
 			}
 	}
-	public ModelAndView configAccion(Request request, Response response) {
+	public ModelAndView nuevaAccion(Request request, Response response) {
 		chequearUsuario(response);
 		return new ModelAndView(null, "configurarAcciones.hbs");
 	}
 	
-	public ModelAndView nuevaAccion(Request request, Response response) {
+	public ModelAndView configAccion(Request request, Response response) {
 		chequearUsuario(response);
 		Conexion conexion = new Conexion();
 		try{
@@ -585,8 +585,8 @@ public class POIController {
 			if(!rs.equals(null)){
 			    while(rs.next()){
 			    	stringAEnviar = stringAEnviar + "accion=" + rs.getString("accion") + "&";
-			    	if(rs.getString("accion").equals("Totalizar Por Fecha")) stringAEnviar = stringAEnviar + "direccion=reportarFecha" + "&"; else
-			    	if(rs.getString("accion").equals("Totalizar Por Usuario")) stringAEnviar = stringAEnviar + "direccion=reportarUsuario" + "&"; 
+			    	if(rs.getString("accion").equals("Totalizar por Fecha")) stringAEnviar = stringAEnviar + "direccion=reportarFecha" + "&"; else
+			    	if(rs.getString("accion").equals("Totalizar por Usuario")) stringAEnviar = stringAEnviar + "direccion=reportarUsuario" + "&"; 
 			    	else stringAEnviar = stringAEnviar + "direccion=generameElLog&";
 			    	i++;
 			    }

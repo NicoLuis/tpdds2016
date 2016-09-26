@@ -38,7 +38,8 @@ public static void main(String[] args) {
     get("/busquedaPOI", poi::buscar, engine);
     get("/paginaBusqueda", poi::busqueda, engine);
     //Acciones
-    get("/configurarAcciones", poi::nuevaAccion, engine);
+    get("/configurarAcciones", acciones::nuevaAccion, engine);
+    get("/confAcciones", acciones::configAccion, engine);
     get("/configurarAcciones2", acciones::cargarAccionesEnBase, engine);
     get("/borrarAcciones",acciones::borrarAcciones,engine);
     

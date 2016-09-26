@@ -568,37 +568,7 @@ public class POIController {
 				return null;
 			}
 	}
-	public ModelAndView nuevaAccion(Request request, Response response) {
-		chequearUsuario(response);
-		return new ModelAndView(null, "configurarAcciones.hbs");
-	}
 	
-	public ModelAndView configAccion(Request request, Response response) {
-		chequearUsuario(response);
-		Conexion conexion = new Conexion();
-		try{
-			String queryAcciones =  "SELECT * FROM accionXUsuario where nombreUsuario='" + UsuarioController.GetInstancia().usuarioLogueado + "'";
-			Statement st = conexion.getConexion().createStatement();
-			ResultSet rs = st.executeQuery( queryAcciones );
-			int i = 0;
-			String stringAEnviar = "";
-			if(!rs.equals(null)){
-			    while(rs.next()){
-			    	stringAEnviar = stringAEnviar + "accion=" + rs.getString("accion") + "&";
-			    	if(rs.getString("accion").equals("Totalizar por Fecha")) stringAEnviar = stringAEnviar + "direccion=reportarFecha" + "&"; else
-			    	if(rs.getString("accion").equals("Totalizar por Usuario")) stringAEnviar = stringAEnviar + "direccion=reportarUsuario" + "&"; 
-			    	else stringAEnviar = stringAEnviar + "direccion=generameElLog&";
-			    	i++;
-			    }
-			}
-			stringAEnviar.substring(0, stringAEnviar.length());
-			stringAEnviar = "configurarAcciones2?cantidadBotones=" + i +  "&" + stringAEnviar;
-			response.redirect(stringAEnviar);
-		}
-		catch(SQLException e){ e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");}
-		return null;
-		//return new ModelAndView(null, "configurarAcciones.hbs");
-	}
 	/*
 	 * 
 	 * 

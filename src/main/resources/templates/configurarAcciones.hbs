@@ -16,11 +16,74 @@
 </style>
 
 
+<script>		
+function find_li(contenido){
+	var el = document.getElementById("listaDesordenada").getElementsByTagName("li");
+	for (var i=0; i<el.length; i++){
+		if(el[i].id==contenido) return false;
+	}
+	return true;
+}
+			
+function genera_botones() {
+  var parameters = location.search.substring(1).split("&");
+  var body = document.getElementsByTagName("body")[0];
+  
+  var temp = parameters[0].split("=");
+  var cantidadFilas = unescape(temp[1]);
+  
+  var numeroParametro = 0;
+ 
+  for (var i = 0; i < cantidadFilas; i++) {
+	    numeroParametro++;
+		var temp = parameters[numeroParametro].split("=");
+		var parametro = unescape(temp[1]);
+		
+		
+		var nuevoLi = document.getElementById("select_id").value;
+			var fila = document.createElement("tr");
+			fila.setAttribute("id", nuevoLi);
+			fila.setAttribute("style", "padding-bottom: 1em;");
+		
+			var parteIzq = document.createElement("th");
+			parteIzq.innerHTML = parametro;
+			
+			var parteDer = document.createElement("th");
+			var boton = document.createElement("button");
+			var texto = document.createTextNode("Eliminar");
+			boton.appendChild(texto);
+			boton.setAttribute("class", "btn btn-danger glyphicon glyphicon-trash botonEliminar");
+			boton.setAttribute("aria-label", "Left Align");
+			boton.setAttribute("aria-hidden", "true");
+	
+			boton.onclick = (
+				function() {
+					var id_eliminar = fila.getAttribute("id");	
+					return function() {
+						node = document.getElementById(id_eliminar);
+						node.parentNode.removeChild(node);
+					}
+				}
+			)();
+			
+			
+			parteDer.appendChild(boton);
+			
+			fila.appendChild(parteIzq);
+			fila.appendChild(parteDer);
+			
+			if(find_li(nuevoLi))
+				document.getElementById("listaDesordenada").appendChild(fila);
+  }
+  
+}
+</script>
+
 <div class="row">
 		<div class="col-xs-4 centrado">
 				<select class="col-xs-12" style="height:40px" id="select_id">
 					<option value="0"> -- </option>
-<!--					<option value="Generar Log"> Generar Log </option>  					-->
+					<option value="Generar Log"> Generar Log </option>
 					<option value="Totalizar por Fecha"> Totalizar por Fecha </option>
 					<option value="Totalizar por Usuario"> Totalizar por Usuario </option>
 				</select>
@@ -37,99 +100,92 @@
                 <input type="hidden" id="acciones" name="acciones">
                 <input type="submit" class="btn btn-primary btn-lg" value="Confirmar Acciones">
             </form>
-            <form action="/borrarAcciones" method="get" id="eliminarAcciones">
-            <input type="submit" class="btn btn-primary btn-lg" value="Borrar Acciones" >
-        	</form>
-        	
-
+            <input type="button" class="btn btn-primary btn-lg" value="Borrar Acciones" onclick="eliminarTodo('listaDesordenada')">
+         </div>	         
+        	         
+        <script> genera_botones() </script>
+</div>
+ 
  
 <script>
-
-
-
-/**
- * Funcion que añade un <li> dentro del <ul>
- */
-function add_li(){
-	var nuevoLi = document.getElementById("select_id").value;
-	if(nuevoLi.length > 0 && nuevoLi != "0"){
-		var fila = document.createElement("tr");
-		fila.setAttribute("id", nuevoLi);
-		fila.setAttribute("style", "padding-bottom: 1em;");
 	
-		var parteIzq = document.createElement("th");
-		parteIzq.innerHTML = nuevoLi;
+	/**
+	 * Funcion que añade un <li> dentro del <ul>
+	 */
+	function add_li(){
+		var nuevoLi = document.getElementById("select_id").value;
+		if(nuevoLi.length > 0 && nuevoLi != "0"){
+			var fila = document.createElement("tr");
+			fila.setAttribute("id", nuevoLi);
+			fila.setAttribute("style", "padding-bottom: 1em;");
 		
-		var parteDer = document.createElement("th");
-		var boton = document.createElement("button");
-		var texto = document.createTextNode("Eliminar");
-		boton.appendChild(texto);
-		boton.setAttribute("class", "btn btn-danger glyphicon glyphicon-trash botonEliminar");
-		boton.setAttribute("aria-label", "Left Align");
-		boton.setAttribute("aria-hidden", "true");
-
-		boton.onclick = (
-			function() {
-				var id_eliminar = fila.getAttribute("id");	
-				return function() {
-					node = document.getElementById(id_eliminar);
-					node.parentNode.removeChild(node);
+			var parteIzq = document.createElement("th");
+			parteIzq.innerHTML = nuevoLi;
+			
+			var parteDer = document.createElement("th");
+			var boton = document.createElement("button");
+			var texto = document.createTextNode("Eliminar");
+			boton.appendChild(texto);
+			boton.setAttribute("class", "btn btn-danger glyphicon glyphicon-trash botonEliminar");
+			boton.setAttribute("aria-label", "Left Align");
+			boton.setAttribute("aria-hidden", "true");
+	
+			boton.onclick = (
+				function() {
+					var id_eliminar = fila.getAttribute("id");	
+					return function() {
+						node = document.getElementById(id_eliminar);
+						node.parentNode.removeChild(node);
+					}
 				}
-			}
-		)();
-		
-		
-		parteDer.appendChild(boton);
-		
-		fila.appendChild(parteIzq);
-		fila.appendChild(parteDer);
-		
-		if(find_li(nuevoLi))
-			document.getElementById("listaDesordenada").appendChild(fila);
+			)();
+			
+			
+			parteDer.appendChild(boton);
+			
+			fila.appendChild(parteIzq);
+			fila.appendChild(parteDer);
+			
+			if(find_li(nuevoLi))
+				document.getElementById("listaDesordenada").appendChild(fila);
+		}
+		return false;
 	}
-	return false;
-}
- 
-/**
- * Funcion que busca si existe ya el <li> dentrol del <ul>
- * Devuelve true si no existe.
- */
-function find_li(contenido){
-	var el = document.getElementById("listaDesordenada").getElementsByTagName("li");
-	for (var i=0; i<el.length; i++){
-		if(el[i].id==contenido) return false;
+	 
+	/**
+	 * Funcion que busca si existe ya el <li> dentrol del <ul>
+	 * Devuelve true si no existe.
+	 */
+	
+	 
+	/**
+	 * Funcion para eliminar los elementos
+	 * Tiene que recibir el elemento pulsado
+	 */
+	function eliminar(elemento){
+		var id = elemento.parentNode.getAttribute("id");
+		node = document.getElementById(id);
+		node.parentNode.removeChild(node);
 	}
-	return true;
-}
- 
-/**
- * Funcion para eliminar los elementos
- * Tiene que recibir el elemento pulsado
- */
-function eliminar(elemento){
-	var id = elemento.parentNode.getAttribute("id");
-	node = document.getElementById(id);
-	node.parentNode.removeChild(node);
-}
-
-function eliminarTodo(id){
-var tabla=document.getElementById(id);
-if(tabla) tabla.parentNode.removeChild(tabla);
-document.getElementById("array")=[];
-}
-
-function esImpar(n){
-return n % 2 == 0;
-}
-
-function armarArray() {
-			var tabla=document.getElementById("listaDesordenada").getElementsByTagName("th");
-			var arrayL= new Array();
-			for (var i=0; i<tabla.length; i++){
-					if(esImpar(i)) arrayL.push(tabla[i].innerHTML);
-			}
-			document.getElementById("acciones").value = arrayL;
-}
+	
+	function eliminarTodo(id){
+	var tabla=document.getElementById(id);
+	if(tabla) tabla.parentNode.removeChild(tabla);
+	document.getElementById("array")=[];
+	}
+	
+	function esImpar(n){
+	return n % 2 == 0;
+	}
+	
+	function armarArray() {
+				var tabla=document.getElementById("listaDesordenada").getElementsByTagName("th");
+				var arrayL= new Array();
+				for (var i=0; i<tabla.length; i++){
+						if(esImpar(i)) arrayL.push(tabla[i].innerHTML);
+				}
+				document.getElementById("acciones").value = arrayL;
+	}
 </script>
 
 {{/partial}}

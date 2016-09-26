@@ -2,14 +2,48 @@ package controllers;
 
 import java.util.Arrays;
 import java.util.List;
-
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
 public class AccionesController {
+	
+	public void chequearUsuario(Response response) {
+		String usuarioLogueado = UsuarioController.GetInstancia().getUsuarioLogueado();
+		if(usuarioLogueado == null) response.redirect("/");
+	}
+	
+	public ModelAndView nuevaAccion(Request request, Response response) {
+		chequearUsuario(response);
+		return new ModelAndView(null, "configurarAcciones.hbs");
+	}
+	
+	public ModelAndView configAccion(Request request, Response response) {
+		chequearUsuario(response);
+		Conexion conexion = new Conexion();
+		try{
+			String queryAcciones =  "SELECT * FROM accionXUsuario where nombreUsuario='" + UsuarioController.GetInstancia().usuarioLogueado + "'";
+			Statement st = conexion.getConexion().createStatement();
+			ResultSet rs = st.executeQuery( queryAcciones );
+			int i = 0;
+			String stringAEnviar = "";
+			if(!rs.equals(null)){
+			    while(rs.next()){
+			    	stringAEnviar = stringAEnviar + "accion=" + rs.getString("accion") + "&";
+			    	i++;
+			    }
+			}
+			stringAEnviar.substring(0, stringAEnviar.length());
+			stringAEnviar = "configurarAcciones?cantidadBotones=" + i +  "&" + stringAEnviar;
+			response.redirect(stringAEnviar);
+		}
+		catch(SQLException e){ e.printStackTrace(); return new ModelAndView(null, "layoutError.hbs");}
+		return null;
+	}
 	
 	public ModelAndView cargarAccionesEnBase(Request request, Response response){
 		String accionesURL= request.queryString();	
@@ -51,7 +85,8 @@ public class AccionesController {
 				return new ModelAndView(null, "layoutError.hbs");
 			}
 				
-		return new ModelAndView(null, "configurarAcciones.hbs");	
+		response.redirect("/confAcciones");
+		return null;
 	}
 	
 	public int obtenerCantAcciones(String unString){

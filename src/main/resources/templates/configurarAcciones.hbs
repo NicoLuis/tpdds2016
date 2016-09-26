@@ -18,9 +18,9 @@
 
 <script>		
 function find_li(contenido){
-	var el = document.getElementById("listaDesordenada").getElementsByTagName("li");
-	for (var i=0; i<el.length; i++){
-		if(el[i].id==contenido) return false;
+	var th = document.getElementById("listaDesordenada").getElementsByTagName("tr");
+	for (var i=0; i < th.length; i++){
+		if(th[i].id==contenido) return false;
 	}
 	return true;
 }
@@ -39,10 +39,8 @@ function genera_botones() {
 		var temp = parameters[numeroParametro].split("=");
 		var parametro = unescape(temp[1]);
 		
-		
-		var nuevoLi = document.getElementById("select_id").value;
 			var fila = document.createElement("tr");
-			fila.setAttribute("id", nuevoLi);
+			fila.setAttribute("id", parametro);
 			fila.setAttribute("style", "padding-bottom: 1em;");
 		
 			var parteIzq = document.createElement("th");
@@ -72,7 +70,7 @@ function genera_botones() {
 			fila.appendChild(parteIzq);
 			fila.appendChild(parteDer);
 			
-			if(find_li(nuevoLi))
+			if(find_li(parametro))
 				document.getElementById("listaDesordenada").appendChild(fila);
   }
   

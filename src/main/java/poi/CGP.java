@@ -89,7 +89,7 @@ public class CGP extends POI{
 		return comuna;
 	}
 	public void setIcono(){
-		icono= "glyphicons glyphicons-family";
+		icono= "glyphicon glyphicon-home";
 	}
 	public void setDetalles(){
 		String direccion= this.getDireccion().getCalle();// + this.getDireccion().getNumero();

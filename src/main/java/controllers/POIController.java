@@ -110,6 +110,7 @@ public class POIController {
 			    	case "CGP":POI cgp = new CGP();
 			    		cgp.setCoordenadas(x, y);
 			    		cgp.setDireccion(direc);
+					cgp.setIcono();
 			    		cgp.setNombre(nombre);
 			    		
 			    		try{
@@ -139,13 +140,15 @@ public class POIController {
 			    		parada.setCoordenadas(x, y);
 			    		parada.setDireccion(direc);
 			    		parada.setNombre(nombre);
+					parada.setIcono();
 			    		HomePois.GetInstancia().agregarPoi(parada);
 			    		break;
 			    	case "sucursalBanco":
 			    		POI banco = new Banco();
 			    		banco.setCoordenadas(x, y);
 			    		banco.setDireccion(direc);
-			    		banco.setNombre(nombre);
+			    		banco.setIcono();
+					banco.setNombre(nombre);
 			    		HomePois.GetInstancia().agregarPoi(banco);
 			    		break;
 			    	}

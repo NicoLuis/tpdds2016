@@ -73,7 +73,7 @@ public class Banco extends POI{
 	}
 	
 	public void setIcono(){
-		icono= "glyphicons glyphicons-bank";
+		icono= "glyphicon glyphicon-usd";
 	}
 	
 	 public void setDetalles(){

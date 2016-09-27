@@ -138,10 +138,16 @@ crearTabla();
    tbody=document.createElement("tr");
    tds.forEach(function(value_td){
      td=document.createElement("td");
-     texto=document.createTextNode(value_td);
-     td.appendChild(texto);
-     tbody.appendChild(td);
-   })
+     if(value_td.includes("glyphicon")){
+	elemento=document.createElement("div");
+	elemento.setAttribute('class',value_td);
+     }
+     else{
+	elemento=document.createTextNode(value_td);
+     }
+    td.appendChild(elemento);
+    tbody.appendChild(td);
+  })
    //console.log($("#detalles_head"));
    $("#detalles_head")[0].appendChild(thead);
    $("#detalles_body")[0].appendChild(tbody);

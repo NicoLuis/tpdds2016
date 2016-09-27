@@ -46,7 +46,7 @@ public class ParadaColectivo extends POI {
 		return "Parada de Colectivo";
 	}
 	public void setIcono(){
-		icono= "glyphicons glyphicons-bus";
+		icono= "glyphicon glyphicon-road";
 	}
 	public void setDetalles(){
 		detalles.put("Nombre",this.getNombre());

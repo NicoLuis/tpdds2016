@@ -148,7 +148,7 @@ public class POIController {
 			    		banco.setCoordenadas(x, y);
 			    		banco.setDireccion(direc);
 			    		banco.setIcono();
-					banco.setNombre(nombre);
+			    		banco.setNombre(nombre);
 			    		HomePois.GetInstancia().agregarPoi(banco);
 			    		break;
 			    	}

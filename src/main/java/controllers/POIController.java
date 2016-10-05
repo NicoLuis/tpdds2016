@@ -657,7 +657,7 @@ public class POIController {
 			String tipo = request.queryParams("tipo");
 			if(!nombrepoi.equals("") && !direccion.equals("") && !coordenada_x.equals("") && !coordenada_y.equals("") && !tipo.equals("")){
 				Statement st = UsuarioController.GetInstancia().getConexion().getConexion().createStatement();
-		        String query = "INSERT INTO dbo.poi VALUES( '"+ nombrepoi +"', '"+ direccion +"', '"+ coordenada_x +"', '"+ coordenada_y+"', '"+ tipo +"')"; 
+		        String query = "INSERT INTO dbo.poi (nombrepoi, direccion, coordenada_x, coordenada_y, tipo) VALUES( '"+ nombrepoi +"', '"+ direccion +"', '"+ coordenada_x +"', '"+ coordenada_y+"', '"+ tipo +"')"; 
 		        st.executeUpdate(query);
 		        st.close();
 			}else{

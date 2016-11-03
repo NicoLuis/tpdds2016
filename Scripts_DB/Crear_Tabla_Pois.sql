@@ -45,6 +45,19 @@ INSERT INTO poi(nombrepoi, direccion, coordenada_x, coordenada_y, tipo)
 INSERT INTO sucursalBanco(nombreBanco, nombreGerente)
     VALUES('Sucursal Banco Patagonia', 'Jonatan Dorso')	
 
+
+INSERT INTO poi(nombrepoi, direccion, coordenada_x, coordenada_y, tipo)
+    VALUES('Sucursal Banco HSBC', 'Florida 201', -34.6056, -58.3750, 'sucursalBanco')
+INSERT INTO sucursalBanco(nombreBanco, nombreGerente)
+    VALUES('Sucursal Banco HSBC', 'Jorge Hernandez')
+
+
+INSERT INTO poi(nombrepoi, direccion, coordenada_x, coordenada_y, tipo)
+    VALUES('Sucursal Banco Ciudad', 'Av. Corrientes 2528', -34.6048,-58.4025, 'sucursalBanco')
+INSERT INTO sucursalBanco(nombreBanco, nombreGerente)
+    VALUES('Sucursal Banco Ciudad', 'Hernan Guidi')	
+
+
 	
 INSERT INTO poi
     VALUES('Parada del 114', 'Av. Lacarra 2254', -34.6715, -58.4676, 'ParadaColectivo')
@@ -69,6 +82,26 @@ INSERT INTO poi
 
 INSERT INTO poi
     VALUES('Parada del 7', 'Av. Escalada 2220', -34.6579, -58.4788, 'ParadaColectivo')	
+
+
+
+INSERT INTO poi
+    VALUES('Parada del 29', 'Av. Rivadavia 320', -34.6079, -58.3719, 'ParadaColectivo')
+
+INSERT INTO poi
+    VALUES('Parada del 101', 'Av. Paseo Colon 357', -34.6119, -58.3696, 'ParadaColectivo')
+
+INSERT INTO poi
+    VALUES('Parada del 92', 'Coronel Diaz 1910', -34.5889,-58.4099, 'ParadaColectivo')
+
+INSERT INTO poi
+    VALUES('Parada del 68', 'Av. Santa Fe 3258', -34.5887, -58.4108, 'ParadaColectivo')	
+
+
+
+
+
+
 	
 INSERT INTO poi
     VALUES('CGP_1', 'Av. Escalada 3112', -34.6672, -58.4669, 'CGP')
@@ -115,5 +148,46 @@ INSERT INTO cgp
     VALUES('CGP_6', 08009992727)
 INSERT INTO servicioCGP
     VALUES('CGP_6', 'Renovacion de DNI')
+
+
+
+INSERT INTO poi	
+    VALUES('CGP_7', 'Beruti 3325 ', -34.5874, -58.4093, 'CGP')
+INSERT INTO cgp
+    VALUES('CGP_7', 48894435)
+INSERT INTO servicioCGP
+    VALUES('CGP_7', 'Asesoramiento')
+INSERT INTO servicioCGP
+	VALUES('CGP_7', 'Atencion al cliente')
+
+INSERT INTO poi
+    VALUES('CGP_8', 'Carlos Calvo 3307 ', -34.6229,-58.4124, 'CGP')
+INSERT INTO cgp
+    VALUES('CGP_8', 45635594)
+INSERT INTO servicioCGP
+    VALUES('CGP_8', 'Renovacion de DNI')
+
+INSERT INTO poi
+    VALUES('CGP_9', 'Tacuari 101',-34.6095, -58.3791, 'CGP')
+INSERT INTO cgp
+    VALUES('CGP_9', 41334455)
+INSERT INTO servicioCGP
+    VALUES('CGP_9', 'Rentas')
+INSERT INTO servicioCGP
+    VALUES('CGP_9', 'Defensa al Consumidor')
+INSERT INTO servicioCGP
+    VALUES('CGP_9', 'Prevención del Delito')
+
+INSERT INTO poi	
+    VALUES('CGP_10', 'Uriburu 1022',-34.5966,-58.3991, 'CGP')
+INSERT INTO cgp
+    VALUES('CGP_10', 42318954)
+INSERT INTO servicioCGP
+    VALUES('CGP_10', 'Reclamos')
+
+
+
+
 	
+
 		

@@ -1,8 +1,41 @@
+
+
+
 {{# partial "titulo" }}	
 	<title>POIs - Agregar POI</title>
 {{/partial}}
 		
 {{# partial "contenido" }}	
+
+<script>					
+function generar_lista_tipos_poi() {
+  var parameters = location.search.substring(1).split("&");
+   parameters=["sucursalBanco=SucursalBanco","sucursalBanco=sucursalBanco","ParadaColectivo=ParadaColectivo","CGP=CGP", "localComercial=localComercial"]; 
+  var temp = parameters[0].split("=");
+  temp=["cantidadFilas=",4];
+  var cantidadFilas = unescape(temp[1]);
+  console.log(temp);
+  var select = document.getElementById("tipo_nuevo_poi");
+  console.log(select);
+  var numeroParametro = 1;
+  for (var i = 0; i < cantidadFilas; i++) {
+	    console.log(parameters);
+		var temp = parameters[numeroParametro].split("=");
+		var parametro = unescape(temp[1]);
+		var option = document.createElement("option");
+		numeroParametro++;
+		var textoCelda = document.createTextNode(parametro);
+		option.appendChild(textoCelda);
+		select.appendChild(option);
+		
+  }
+  
+  //select.style.marginLeft="5%";
+  //select.style.maxWidth="90%"
+  //select.style.alignContent="center"
+}
+</script>
+
 
 <form action="/crearPOI" method="get">
 
@@ -22,7 +55,8 @@
 				<td>Coordenada Y</td>
 				<input type="text" class="form-control" id="coordenada_y" name="coordenada_y">	
 		  		<td>Tipo POI</td>
-				<input type="text" class="form-control" id="tipo" name="tipo">
+				<select id="tipo_nuevo_poi" class="form-control" name="tipo"></select>
+				<script> generar_lista_tipos_poi()</script>
 			</div>
 		</div>
 	</div>
@@ -30,6 +64,7 @@
 		<input type="submit" class="btn btn-success" value="Agregar POI">
  	 </div>
 </form>
+
 
 {{/partial}}
 				

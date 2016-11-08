@@ -4,20 +4,22 @@
 		
 {{# partial "contenido" }}	
 
+
 <style>
-.loQuieroALoAnchoPapu {
-    text-align: center;
-    display: block;
-    width: 100%;
-    font-size: 15px;
-}
+  .3bo{
+        width:300px;
+        height:40;
+       }
 </style>
+
+
 
 <script>					
 function genera_lista() {
   var parameters = location.search.substring(1).split("&");
   
   var temp = parameters[0].split("=");
+  console.log(temp);
   var cantidadFilas = unescape(temp[1]);
   
   var select = document.getElementById("poiAModificar");
@@ -43,35 +45,42 @@ function genera_lista() {
 </script>
 
 
-
-
-
 <h3> Selecciona el POI que desea modificar </h3>
 
-<div class="loQuieroALoAnchoPapu">
-
 <br/><br/>
-
-<div onclick="boton_cambio()" class="loQuieroALoAnchoPapu">
-<select class="form-control loQuieroALoAnchoPapu" id="poiAModificar"></select>
+<div style="height:40">
+<div onclick="boton_cambio()" class="3bo">
+ 
+<select class="form-control" style="width:450px; height:40" id="poiAModificar"></select>
 <script> genera_lista() </script>
 
 <br/>
-<form action="/tomarDatoPoi" method="get" class="loQuieroALoAnchoPapu">
+
+<form action="/tomarDatoPoi" method="get" >
 	<input type="hidden" id="nombreAMandar" name="nombreAMandar">
-	<input type="submit" class="btn btn-primary loQuieroALoAnchoPapu" value="Seleccionar">
+	<input type="submit" class="btn btn-info btn-lg" style="width:300px; height:40" value="Seleccionar">
 </form>	
+
 <form action="/eliminarPOI" method="get"> 
 	<input type="hidden" class="form-control" id="nombreEliminar" name="nombreEliminar">
-	<input type="submit" class="btn btn-danger loQuieroALoAnchoPapu" value="Eliminar POI"> 
+	<input type="submit" class="btn btn-info btn-lg" style="width:300px; height:40"  value="Eliminar POI"> 
 </form>
 
-</div> 
-<form action="/agregarPOI" method="get" class="loQuieroALoAnchoPapu">
-	<input type="submit" class="btn btn-success loQuieroALoAnchoPapu " value="Nuevo">
+<form action="/agregarPOI" method="get" >
+<input type="submit" class="btn btn-info btn-lg" style="width:300px; height:40" value="Nuevo">
 </form>
-
-
+</div>
+</div>
+<br>
+</br>
+<br>
+</br>
+<br>
+</br>
+<br>
+</br>
+<br>
+</br>
 
 <script>
 function boton_cambio(){

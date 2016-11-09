@@ -1,3 +1,17 @@
+use dds2016
+
+/*
+drop table servicioCGP
+drop table sucursalBanco
+drop table CGP
+drop table accionXusuario
+drop table busquedas
+drop table poi
+drop table usuario
+*/
+
+
+
 create table poi (
 	nombrepoi varchar(50) primary key,
 	direccion varchar(50),
@@ -5,12 +19,6 @@ create table poi (
 	coordenada_y numeric(12,6),
 	tipo varchar(50) not null
 )
-
-/*Si nunca lo ejecutaste no ejecutes esto 
-ALTER TABLE poi ALTER COLUMN coordenada_x numeric(12,6)
-ALTER TABLE poi ALTER COLUMN coordenada_y numeric(12,6) 
-ALTER TABLE poi ADD  tipo varchar(50) not null
-/**/*/
 
 create table sucursalBanco (
 	nombreBanco varchar(50) primary key foreign key references poi(nombrepoi),
@@ -37,7 +45,7 @@ INSERT INTO sucursalBanco(nombreBanco, nombreGerente)
 	INSERT INTO poi(nombrepoi, direccion, coordenada_x, coordenada_y, tipo)
     VALUES('Sucursal BNA Plaza de Mayo', 'Av. Rivadavia 400', -34.6083, -58.3729, 'sucursalBanco')
 INSERT INTO sucursalBanco(nombreBanco, nombreGerente)
-    VALUES('Sucursal Banco BNA Plaza de Mayo', 'Raul Duzevic')
+    VALUES('Sucursal BNA Plaza de Mayo', 'Raul Duzevic')
 
 
 INSERT INTO poi(nombrepoi, direccion, coordenada_x, coordenada_y, tipo)
@@ -72,7 +80,7 @@ INSERT INTO poi
     VALUES('Parada del 302 a Moreno', 'Reconquista 100', -34.6080, -58.3727, 'ParadaColectivo')
 
 INSERT INTO poi
-    VALUES('Parada del 302 a Liniers', 'Av. Presidente Perón 7174', -34.6381, -58.6697, 'ParadaColectivo')
+    VALUES('Parada del 302 a Liniers', 'Av. Presidente Peron 7174', -34.6381, -58.6697, 'ParadaColectivo')
 
 INSERT INTO poi
     VALUES('Parada del 7', 'Av. Escalada 2214', -34.6578, -58.4787, 'ParadaColectivo')
@@ -81,7 +89,7 @@ INSERT INTO poi
     VALUES('Parada del 443', 'General Juan Lavalleja 800', -34.6411,-58.6705, 'ParadaColectivo')
 
 INSERT INTO poi
-    VALUES('Parada del 7', 'Av. Escalada 2220', -34.6579, -58.4788, 'ParadaColectivo')	
+    VALUES('Parada del 9', 'Av. Escalada 2220', -34.6579, -58.4788, 'ParadaColectivo')	
 
 
 
@@ -100,9 +108,6 @@ INSERT INTO poi
 
 
 
-
-
-	
 INSERT INTO poi
     VALUES('CGP_1', 'Av. Escalada 3112', -34.6672, -58.4669, 'CGP')
 INSERT INTO cgp
@@ -127,14 +132,14 @@ INSERT INTO servicioCGP
     VALUES('CGP_3', 'Gestion Comunal')
 
 INSERT INTO poi
-    VALUES('CGP_4', 'Coronel Díaz 2110 ', -34.5873,-58.4090, 'CGP')
+    VALUES('CGP_4', 'Coronel Diaz 2110 ', -34.5873,-58.4090, 'CGP')
 INSERT INTO cgp
     VALUES('CGP_4', 48275958)
 INSERT INTO servicioCGP
     VALUES('CGP_4', 'Participacion Comunal')
 
 INSERT INTO poi
-    VALUES('CGP_5', 'Uruguay 740 Piso 1º',-34.6001, -58.3868, 'CGP')
+    VALUES('CGP_5', 'Uruguay 740 Piso 1',-34.6001, -58.3868, 'CGP')
 INSERT INTO cgp
     VALUES('CGP_5', 43731896)
 INSERT INTO servicioCGP
